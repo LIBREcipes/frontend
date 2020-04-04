@@ -1,0 +1,25 @@
+<div class="dropdown" [class.is-active]="isActive" (click)="toggle()" (mouseleave)="toggle(false)">
+    <div class="dropdown-trigger">
+        <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+            <span class="icon is-small">
+                <i class="fa fa-user" aria-hidden="true"></i>
+            </span>
+            <span>{{ value }}</span>
+            <span class="icon is-small">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+            <a *ngFor="let option of options"
+                [routerLink]="option.link"
+                class="dropdown-item">
+                <span class="icon">
+                    <i class="{{ option.icon }}"></i>
+                </span>
+                <span>{{ option.value }}</span>
+            </a>
+        </div>
+    </div>
+</div>

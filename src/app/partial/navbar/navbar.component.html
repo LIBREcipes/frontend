@@ -1,0 +1,51 @@
+<nav class="navbar is-white topNav" style="z-index: 9999">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="/assets/img/logo.svg.png" width="112" height="28">
+            </a>
+            <div class="navbar-burger burger" data-target="topNav" aria-label="menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div id="topNav" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" routerLink="/recipes">Home</a>
+                <a class="navbar-item" routerLink="/recipes">Recipes</a>
+                <a class="navbar-item">Ingredients</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+
+                    <app-bulma-dropdown 
+                        [value]="user.username"
+                        [options]="userDropdownOptions"
+                    ></app-bulma-dropdown>
+
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button is-small">
+                                <span class="icon">
+                                    <i class="fa fa-user-plus"></i>
+                                </span>
+                                <span>
+                                    Register
+                                </span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="#" class="button is-small is-info is-outlined">
+                                <span class="icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <span>Login</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

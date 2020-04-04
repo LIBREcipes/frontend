@@ -1,0 +1,31 @@
+<app-hero [title]="title"></app-hero>
+
+<section class="container">
+	<div class="columns is-centered">
+		<div class="column is-8">
+			<div class="box content">
+				<article *ngFor="let recipe of recipes" class="media">
+					<div class="media-left">
+						<figure class="image is-64x64">
+							<img *ngIf="recipe.image" src="http://localhost:5000/{{ recipe.image.url }}" alt="Image" style="object-fit: cover;">
+							<img *ngIf="!recipe.image" src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+						</figure>
+					</div>
+
+					<div class="media-content">
+						<div class="content">
+							<p>
+								<strong><a [routerLink]="['/recipes', recipe.uuid]">{{ recipe.name }}</a></strong>
+								&nbsp;<small><a href="#">&#64;{{ recipe.chef.username }}</a></small>
+								<br>
+								{{ recipe.ingredients | pluck:'ingredient.name' | ellipsisJoin:', ':100}}
+							</p>
+						</div>
+
+						<span *ngIf="recipe.is_public" class="has-text-info">public</span>
+					</div>
+				</article>
+			</div>
+		</div>
+	</div>
+</section>
