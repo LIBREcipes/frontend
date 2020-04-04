@@ -13,6 +13,11 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { HeroComponent } from './partial/hero/hero.component';
 import { BulmaDropdownComponent } from './partial/bulma-dropdown/bulma-dropdown.component';
 import { ChefComponent } from './chefs/chef/chef.component';
+import { StoreModule } from '@ngrx/store';
+import { RecipeReducer } from './store/reducers/recipe.reducer';
+import { RecipeEffects } from './store/effects/recipe.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,7 +35,10 @@ import { ChefComponent } from './chefs/chef/chef.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    StoreModule.forRoot({ recipes: RecipeReducer}),
+    EffectsModule.forRoot([RecipeEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
