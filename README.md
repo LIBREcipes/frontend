@@ -1,3 +1,4 @@
+don't forget to move the angular/cli from to devDependencies again
 # Librecipes
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
