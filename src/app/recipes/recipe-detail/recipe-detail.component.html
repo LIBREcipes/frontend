@@ -1,1 +1,44 @@
 <app-hero [title]="recipe.name"></app-hero>
+
+<div class="container" style="margin-top: 10px">
+    <div class="columns">
+        <div class="column is-3">
+            <article class="panel is-primary">
+                <p class="panel-heading">Ingredients</p>
+                <a *ngFor="let ingredient of recipe.ingredients" class="panel-block">
+                    <strong>{{ ingredient.amount }} {{ ingredient.unit }}</strong>
+                    <span class="is-pulled-right">&nbsp;{{ ingredient.ingredient.name }}</span>
+                </a>
+            </article>
+
+            <article class="panel is-light">
+                <p class="panel-heading">Actions</p>
+                <a *ngIf="recipe.chef.uuid === 'YOU STILL HAVE TO DO THIS'" class="panel-block" >
+                    <span class="icon icon-small">
+                        <i class="fa fa-pencil"></i>
+                    </span>
+                    <span>Edit recipe</span>
+                </a>
+                <a class="panel-block" >
+                    <span class="icon icon-small">
+                        <i class="fa fa-share"></i>
+                    </span>
+                    <span>Share this recipe</span>
+                </a>
+            </article>
+        </div>
+
+        <div class="column is-9">
+            <figure *ngIf="recipe.image" class="image is-2by1" style="margin-bottom: 10px">
+                <img src="{{ recipe.image }}" style="object-fit: cover;">
+            </figure>
+            <article class="panel">
+                    <p class="panel-heading">Steps</p>
+                    <p *ngFor="let step of recipe.steps" class="panel-block">
+                        <strong>{{ step.step }}.</strong>&nbsp;
+                        {{ step.description }}
+                    </p>
+            </article>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,9 @@ const _recipeReducer = createReducer(initialState,
     on(action.CreateRecipeAction, (state: RecipeState, recipe: Recipe) => {
         return { ...state, recipes: [...state.recipes, recipe],}
     }),
+    on(action.SuccessGetRecipeAction, (state: RecipeState, recipe: Recipe) => {
+        return { ...state, recipes: [...state.recipes, recipe],}
+    }),
 )
 
 export function RecipeReducer(state: RecipeState | undefined, action: Action) {

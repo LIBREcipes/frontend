@@ -28,4 +28,21 @@ export class RecipeEffects {
             )
         )
     ))
+
+
+    GetRecipe$: Observable<Action> = createEffect(() => this.action$.pipe(
+        ofType(recipeActions.GetRecipeAction),
+        mergeMap( action =>
+            this.http.get(`${this.apiUrl}/${action.payload}`).pipe(
+                map((data: Recipe) => {
+                    console.log(data)
+                    return recipeActions.SuccessGetRecipeAction(data)
+                }),
+                catchError((error: Error) => {
+                    console.log(error)
+                    return of(recipeActions.ErrorRecipeAction(error))
+                })
+            )   
+        )
+    ))
 }
