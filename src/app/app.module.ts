@@ -17,7 +17,11 @@ import { StoreModule } from '@ngrx/store';
 import { RecipeReducer } from './store/reducers/recipe.reducer';
 import { RecipeEffects } from './store/effects/recipe.effects';
 import { EffectsModule } from '@ngrx/effects';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { ErrorInterceptor } from './interceptor/error.interceptor';
+import { LoginComponent } from './auth/login/login.component';
+import { MainComponent } from './partial/main/main.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeroComponent,
     BulmaDropdownComponent,
     ChefComponent,
+    LoginComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,11 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot({ recipes: RecipeReducer}),
     EffectsModule.forRoot([RecipeEffects]),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
