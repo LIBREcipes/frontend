@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { Observable, of } from 'rxjs'
-import { mergeMap, map, catchError } from 'rxjs/operators'
-import * as authActions from '../actions/auth.actions'
 import { Action } from '@ngrx/store'
-import { AuthenticationService } from 'src/app/services/authentication.service'
+import { Observable, of } from 'rxjs'
+import { catchError, map, mergeMap } from 'rxjs/operators'
 import User from 'src/app/models/user.model'
+import { AuthenticationService } from 'src/app/services/authentication.service'
+import * as authActions from '../actions/auth.actions'
+import { ApiService } from 'src/app/services/api.service'
 
 @Injectable()
 export class AuthEffects {
   constructor(
-    private http: HttpClient,
+    private apiService: ApiService,
     private action$: Actions,
     private authenticationService: AuthenticationService,
   ) {}
@@ -21,25 +23,21 @@ export class AuthEffects {
   GetToken$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(authActions.GetTokenAction),
-      mergeMap((action) =>
-        this.http
-          .post(`${this.apiUrl}/token`, {
-            username: action.username,
-            password: action.password,
-          })
-          .pipe(
-            map((data: { access: string; refresh: string }) => {
-              this.authenticationService.setTokens(data)
+      mergeMap(action =>
+        this.apiService.accessToken(action.username, action.password).pipe(
+          map((data: { access: string; refresh: string }) => {
+            this.authenticationService.setAccessToken(data.access)
+            this.authenticationService.setRefreshToken(data.refresh)
 
-              return authActions.GetMeAction({
-                accessToken: data.access,
-              })
-            }),
-            catchError((error: Error) => {
-              console.log(error)
-              return of(authActions.ErrorAuthAction(error))
-            }),
-          ),
+            return authActions.GetMeAction({
+              accessToken: data.access,
+            })
+          }),
+          catchError((error: Error) => {
+            console.log(error)
+            return of(authActions.ErrorAuthAction(error))
+          }),
+        ),
       ),
     ),
   )
@@ -47,11 +45,9 @@ export class AuthEffects {
   GetMe$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(authActions.GetMeAction),
-      mergeMap((action) =>
-        this.http.get(`${this.apiUrl}/users/me`).pipe(
+      mergeMap(action =>
+        this.apiService.getMe().pipe(
           map((data: User) => {
-            this.authenticationService.setUser(data)
-
             return authActions.LoginSuccessAction({
               accessToken: action.accessToken,
               user: data,
@@ -63,6 +59,17 @@ export class AuthEffects {
           }),
         ),
       ),
+    ),
+  )
+
+  Logout$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(authActions.LogoutAction),
+      map(_ => {
+        this.authenticationService.logout()
+
+        return authActions.LogoutSuccessAction()
+      }),
     ),
   )
 }

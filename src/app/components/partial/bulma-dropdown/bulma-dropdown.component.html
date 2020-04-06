@@ -13,7 +13,7 @@
     <div class="dropdown-menu" id="dropdown-menu" role="menu">
         <div class="dropdown-content">
             <a *ngFor="let option of options"
-                [routerLink]="option.link"
+                (click)="onDropdownSelected(option.key)"
                 class="dropdown-item">
                 <span class="icon">
                     <i class="{{ option.icon }}"></i>

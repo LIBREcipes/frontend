@@ -6,6 +6,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service'
 import AuthState from 'src/app/store/states/auth.state'
 import * as authActions from '../../../store/actions/auth.actions'
 import AppState from 'src/app/store/states/app.state'
+import { tap, takeUntil, map } from 'rxjs/operators'
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,7 @@ import AppState from 'src/app/store/states/app.state'
   styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private destroyed$ = new Subject<boolean>()
   auth$: Observable<AuthState>
 
   returnUrl: string
@@ -21,21 +24,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private router: Router,
+    private _location: Location,
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params) => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] ?? '/'
-
-      console.log('return url', this.returnUrl)
     })
 
-    this.authenticationService.isAuthenticatedSubject.subscribe((x) => {
-      if (x) {
-        this.router.navigate([this.returnUrl])
-      }
-    })
+    this.authenticationService.currentUser
+      .pipe(
+        takeUntil(this.destroyed$),
+        map(user => {
+          if (user) this._location.back()
+        }),
+      )
+      .subscribe()
   }
 
   onSubmitLoginForm(event: { username: string; password: string }) {
@@ -43,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authenticationService.isAuthenticatedSubject.unsubscribe()
+    this.destroyed$.next(true)
+    this.destroyed$.complete()
   }
 }

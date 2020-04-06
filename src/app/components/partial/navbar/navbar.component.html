@@ -19,31 +19,36 @@
             <div class="navbar-end">
                 <div class="navbar-item">
 
-                    <app-bulma-dropdown 
-                        [value]="user.username"
-                        [options]="userDropdownOptions"
-                    ></app-bulma-dropdown>
-
-                    <div class="field is-grouped">
-                        <p class="control">
-                            <a class="button is-small">
-                                <span class="icon">
-                                    <i class="fa fa-user-plus"></i>
-                                </span>
-                                <span>
-                                    Register
-                                </span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a href="#" class="button is-small is-info is-outlined">
-                                <span class="icon">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                                <span>Login</span>
-                            </a>
-                        </p>
+                    <div *ngIf="user; else loginField" class="field is-grouped">
+                        <app-bulma-dropdown 
+                            [value]="user.username"
+                            [options]="userDropdownOptions"
+                            (dropdownSelect)="onDropdownSelected($event)"
+                        ></app-bulma-dropdown>
                     </div>
+
+                    <ng-template #loginField>
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="button is-small">
+                                    <span class="icon">
+                                        <i class="fa fa-user-plus"></i>
+                                    </span>
+                                    <span>
+                                        Register
+                                    </span>
+                                </a>
+                            </p>
+                            <p class="control">
+                                <a routerLink="/login" class="button is-small is-info is-outlined">
+                                    <span class="icon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <span>Login</span>
+                                </a>
+                            </p>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
         </div>

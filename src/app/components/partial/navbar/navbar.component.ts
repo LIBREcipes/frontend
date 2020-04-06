@@ -1,34 +1,64 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Component, OnInit } from '@angular/core'
+import { select, Store } from '@ngrx/store'
+import { Subject } from 'rxjs'
+import { map, takeUntil, tap } from 'rxjs/operators'
+import User from 'src/app/models/user.model'
+import { LogoutAction } from 'src/app/store/actions/auth.actions'
+import AppState from 'src/app/store/states/app.state'
+import { AuthenticationService } from 'src/app/services/authentication.service'
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.sass']
+  styleUrls: ['./navbar.component.sass'],
 })
 export class NavbarComponent implements OnInit {
+  private destroyed$ = new Subject<boolean>()
 
-  user = {
-    uuid: '098908-323409-dfsadlfj',
-    username: 'mattydebie',
-  }
+  user: User
 
   userDropdownOptions = [
     {
+      key: 'myRecipes',
       icon: 'fa fa-book',
-      link: ['/chefs', this.user.uuid, 'recipes'],
       value: 'My Recipes',
     },
     {
+      key: 'signout',
       icon: 'fa fa-sign-out',
-      link: '/',
       value: 'Sign Out',
     },
   ]
 
-  constructor(private authenticationService: AuthenticationService) { }
-
-  ngOnInit(): void {
+  constructor(
+    private store: Store<AppState>,
+    authenticationService: AuthenticationService,
+  ) {
+    authenticationService.currentUser
+      .pipe(
+        takeUntil(this.destroyed$),
+        tap((user) => {
+          this.user = user
+        }),
+      )
+      .subscribe()
   }
 
+  ngOnInit(): void {}
+
+  onDropdownSelected(key) {
+    switch (key) {
+      case 'myRecipes':
+        console.log(key)
+        break
+      case 'signout':
+        this.store.dispatch(LogoutAction())
+        break
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true)
+    this.destroyed$.complete()
+  }
 }

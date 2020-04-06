@@ -26,19 +26,18 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let uuid = null
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe(params => {
       uuid = params['recipe_uuid']
     })
 
     this.recipesSubscription = this.recipes$
       .pipe(
-        map((x) => {
-          console.log(x)
-          this.recipe = x.recipes.find((recipe) => recipe.uuid === uuid)
+        map(x => {
+          this.recipe = x.recipes.find(recipe => recipe.uuid === uuid)
         }),
       )
       .subscribe()
-    this.store.dispatch(recipeActions.GetRecipeAction({ payload: uuid }))
+    this.store.dispatch(recipeActions.GetRecipeAction({ uuid: uuid }))
   }
 
   ngOnDestroy() {

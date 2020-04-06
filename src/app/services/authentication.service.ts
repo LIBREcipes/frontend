@@ -1,74 +1,91 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs'
+import { select, Store } from '@ngrx/store'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 import User from '../models/user.model'
-import { HttpClient } from '@angular/common/http'
-import { map, tap } from 'rxjs/operators'
 import AuthState from '../store/states/auth.state'
-import { Store, select } from '@ngrx/store'
+import AppState from '../store/states/app.state'
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private auth$: Observable<AuthState>
-  private authSubscription: Subscription
+  private currentUserSubject: BehaviorSubject<User>
+  public currentUser: Observable<User>
 
-  private currentUser: User
-  isAuthenticatedSubject = new Subject<boolean>()
+  static ITEM_USER = 'user'
+  static ITEM_ACCESS_TOKEN = 'access_token'
+  static ITEM_REFRESH_TOKEN = 'refresh_token'
 
-  constructor(store: Store<{ auth: AuthState }>) {
-    this.auth$ = store.pipe(select('auth'))
-    this.authSubscription = this.auth$
+  constructor(store: Store<AppState>) {
+    const user: User = JSON.parse(
+      localStorage.getItem(AuthenticationService.ITEM_USER),
+    )
+
+    this.currentUserSubject = new BehaviorSubject<User>(user)
+    this.currentUser = this.currentUserSubject.asObservable()
+
+    store
+      .pipe(select('auth'))
       .pipe(
-        tap((x) => {
-          this.currentUser = x.user
-          this.isAuthenticatedSubject.next(x.user !== null)
+        map(x => {
+          if (x.user) this.setUser(x.user)
         }),
       )
       .subscribe()
   }
 
-  setTokens(tokens: { access: string; refresh: string } | null) {
-    if (tokens === null) {
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
-      localStorage.removeItem('uuid')
+  setAccessToken(accessToken: string) {
+    if (accessToken === null) {
+      localStorage.removeItem(AuthenticationService.ITEM_ACCESS_TOKEN)
     } else {
-      localStorage.setItem('access_token', tokens.access)
-      localStorage.setItem('refresh_token', tokens.refresh)
-      this.setUuidFromAccessToken(tokens.access)
+      localStorage.setItem(AuthenticationService.ITEM_ACCESS_TOKEN, accessToken)
+    }
+  }
+
+  setRefreshToken(refreshToken: string) {
+    if (refreshToken === null) {
+      localStorage.removeItem(AuthenticationService.ITEM_REFRESH_TOKEN)
+    } else {
+      localStorage.setItem(
+        AuthenticationService.ITEM_REFRESH_TOKEN,
+        refreshToken,
+      )
+    }
+  }
+
+  private setUser(user: User | null): void {
+    this.currentUserSubject.next(user)
+    if (user) {
+      localStorage.setItem(
+        AuthenticationService.ITEM_USER,
+        JSON.stringify(user),
+      )
+    } else {
+      this.logout()
     }
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem('access_token')
+    return localStorage.getItem(AuthenticationService.ITEM_ACCESS_TOKEN)
   }
 
-  setUser(user: User) {
-    console.log(user)
+  getRefreshToken(): string | null {
+    return localStorage.getItem(AuthenticationService.ITEM_REFRESH_TOKEN)
   }
 
-  getUser(): User {
-    return this.currentUser
+  public get currentUserValue(): User {
+    return this.currentUserSubject.value
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser !== null && this.getAccessToken !== null
-  }
-
-  getUuid(): string | null {
-    return localStorage.getItem('uuid')
-  }
-
-  private setUuidFromAccessToken(token: string) {
-    const uuid: string = JSON.parse(atob(token.split('.')[1]))['uuid']
-    if (uuid) {
-      localStorage.setItem('uuid', uuid)
-    }
+    return this.currentUserSubject.value !== null
   }
 
   logout() {
-    this.setTokens(null)
-    this.isAuthenticatedSubject.next(false)
+    this.setAccessToken(null)
+    this.setRefreshToken(null)
+    localStorage.removeItem(AuthenticationService.ITEM_USER)
+    this.currentUserSubject.next(null)
   }
 }

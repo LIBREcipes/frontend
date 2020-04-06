@@ -21,3 +21,6 @@ export const LoginSuccessAction = createAction(
   'AUTH - login complete',
   props<{ accessToken: string; user: User }>(),
 )
+
+export const LogoutAction = createAction('AUTH - logout')
+export const LogoutSuccessAction = createAction('AUTH - logout successful')
