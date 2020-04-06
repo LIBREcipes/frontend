@@ -1,39 +1,74 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import User from '../models/user.model';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs'
+import User from '../models/user.model'
+import { HttpClient } from '@angular/common/http'
+import { map, tap } from 'rxjs/operators'
+import AuthState from '../store/states/auth.state'
+import { Store, select } from '@ngrx/store'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
+  private auth$: Observable<AuthState>
+  private authSubscription: Subscription
 
-  private currentUserSubject: BehaviorSubject<string>
-  public currentUser: Observable<string>
+  private currentUser: User
+  isAuthenticatedSubject = new Subject<boolean>()
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<string>(localStorage.getItem('currentUser'))
-    this.currentUser = this.currentUserSubject.asObservable()
+  constructor(store: Store<{ auth: AuthState }>) {
+    this.auth$ = store.pipe(select('auth'))
+    this.authSubscription = this.auth$
+      .pipe(
+        tap((x) => {
+          this.currentUser = x.user
+          this.isAuthenticatedSubject.next(x.user !== null)
+        }),
+      )
+      .subscribe()
   }
 
-   public get currentUserValue(): string {
-        return this.currentUserSubject.value
+  setTokens(tokens: { access: string; refresh: string } | null) {
+    if (tokens === null) {
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      localStorage.removeItem('uuid')
+    } else {
+      localStorage.setItem('access_token', tokens.access)
+      localStorage.setItem('refresh_token', tokens.refresh)
+      this.setUuidFromAccessToken(tokens.access)
     }
+  }
 
-    login(username: string, password: string) {
-        return this.http.post<{acces_token: string}>(`http://localhost:5000/api/token`, { username, password })
-            .pipe(map(res => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('wurrentUser', res.acces_token)
-                this.currentUserSubject.next(res.acces_token)
-                return res.acces_token
-            }));
-    }
+  getAccessToken(): string | null {
+    return localStorage.getItem('access_token')
+  }
 
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+  setUser(user: User) {
+    console.log(user)
+  }
+
+  getUser(): User {
+    return this.currentUser
+  }
+
+  isAuthenticated(): boolean {
+    return this.currentUser !== null && this.getAccessToken !== null
+  }
+
+  getUuid(): string | null {
+    return localStorage.getItem('uuid')
+  }
+
+  private setUuidFromAccessToken(token: string) {
+    const uuid: string = JSON.parse(atob(token.split('.')[1]))['uuid']
+    if (uuid) {
+      localStorage.setItem('uuid', uuid)
     }
+  }
+
+  logout() {
+    this.setTokens(null)
+    this.isAuthenticatedSubject.next(false)
+  }
 }
