@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs'
 import { AuthenticationService } from 'src/app/services/authentication.service'
 import AuthState from 'src/app/store/states/auth.state'
 import * as authActions from '../../../store/actions/auth.actions'
+import AppState from 'src/app/store/states/app.state'
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string
 
   constructor(
-    private store: Store<{ auth: AuthState }>,
+    private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private router: Router,

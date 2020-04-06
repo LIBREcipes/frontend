@@ -5,6 +5,7 @@ import Recipe from 'src/app/models/recipe.model'
 import { Observable, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import * as recipeActions from '../../../store/actions/recipe.actions'
+import AppState from 'src/app/store/states/app.state'
 
 @Component({
   selector: 'app-recipe-list',
@@ -18,7 +19,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   recipeSubscription: Subscription
   recipes: Recipe[] = []
 
-  constructor(private store: Store<{ recipes: RecipeState }>) {
+  constructor(private store: Store<AppState>) {
     this.recipes$ = store.pipe(select('recipes'))
   }
 
