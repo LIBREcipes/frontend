@@ -4,13 +4,15 @@
             <a class="navbar-item" href="/">
                 <img src="/assets/img/logo.svg.png" width="112" height="28">
             </a>
-            <div class="navbar-burger burger" data-target="topNav" aria-label="menu" aria-expanded="false">
+            <div class="navbar-burger burger" data-target="topNav" aria-label="menu" aria-expanded="false" 
+                 [class.is-active]="isActive"
+                 (click)="isActive = !isActive">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
         </div>
-        <div id="topNav" class="navbar-menu">
+        <div id="topNav" class="navbar-menu" [class.is-active]="isActive">
             <div class="navbar-start">
                 <a class="navbar-item" routerLink="/recipes">Home</a>
                 <a class="navbar-item" routerLink="/recipes">Recipes</a>

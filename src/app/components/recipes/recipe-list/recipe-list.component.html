@@ -2,8 +2,8 @@
 
 <section class="container" *ngIf="recipes && recipes.length; else errorBlock">
 	<div class="columns is-multiline">
-			<div *ngFor="let recipe of recipes" class="column is-one-quarter">
-				<div class="card" role="button" [routerLink]="['/recipes', recipe.uuid]">
+			<div *ngFor="let recipe of recipes" class="column is-one-quarter-fullhd is-one-third-desktop is-half">
+				<div class="card" >
 					<div class="card-image">
 						<figure class="image is-4by3">
 						<img [src]="recipe.image ? recipe.image : 'https://bulma.io/images/placeholders/1280x960.png'" alt="{{ recipe.name }} image">
@@ -17,7 +17,7 @@
 							</figure>
 						</div>
 						<div class="media-content">
-							<p class="title is-4">{{ recipe.name }}</p>
+							<p class="title is-4"><a [routerLink]="['/recipes', recipe.uuid]">{{ recipe.name }}</a></p>
 							<p class="subtitle is-6"><a [routerLink]="['/chefs', recipe.chef.uuid]">@{{ recipe.chef.username }}</a></p>
 						</div>
 						</div>

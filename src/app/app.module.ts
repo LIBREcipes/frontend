@@ -26,6 +26,8 @@ import { AuthReducer } from './store/reducers/auth.reducer'
 import { AuthEffects } from './store/effects/auth.effects'
 import { ErrorComponent } from './components/partial/error/error.component'
 import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.component'
+import { ChefReducer } from './store/reducers/chef.reducer'
+import { ChefEffects } from './store/effects/chef.effects'
 
 @NgModule({
   declarations: [
@@ -49,8 +51,12 @@ import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({ recipes: RecipeReducer, auth: AuthReducer }),
-    EffectsModule.forRoot([AuthEffects, RecipeEffects]),
+    StoreModule.forRoot({
+      recipes: RecipeReducer,
+      auth: AuthReducer,
+      chefs: ChefReducer,
+    }),
+    EffectsModule.forRoot([AuthEffects, ChefEffects, RecipeEffects]),
     ReactiveFormsModule,
   ],
   providers: [

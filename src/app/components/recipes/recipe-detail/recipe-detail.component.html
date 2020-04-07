@@ -1,5 +1,9 @@
 <div *ngIf="recipe; else emptyState">
-    <app-hero [title]="recipe.name"></app-hero>
+    <app-hero 
+        [title]="recipe.name"
+        subtitle="@{{ recipe.chef.username }}"
+        [subtitleAction]="['/chefs', recipe.chef.uuid]"
+    ></app-hero>
 
     <div class="container" style="margin-top: 10px">
         <div class="columns">

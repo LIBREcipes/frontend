@@ -6,6 +6,7 @@ import User from 'src/app/models/user.model'
 import { LogoutAction } from 'src/app/store/actions/auth.actions'
 import AppState from 'src/app/store/states/app.state'
 import { AuthenticationService } from 'src/app/services/authentication.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service'
 })
 export class NavbarComponent implements OnInit {
   private destroyed$ = new Subject<boolean>()
+  isActive = false
 
   user: User
 
@@ -33,11 +35,12 @@ export class NavbarComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     authenticationService: AuthenticationService,
+    private router: Router,
   ) {
     authenticationService.currentUser
       .pipe(
         takeUntil(this.destroyed$),
-        tap((user) => {
+        tap(user => {
           this.user = user
         }),
       )
@@ -49,10 +52,11 @@ export class NavbarComponent implements OnInit {
   onDropdownSelected(key) {
     switch (key) {
       case 'myRecipes':
-        console.log(key)
+        this.router.navigate(['/chefs', this.user.uuid, 'recipes'])
         break
       case 'signout':
         this.store.dispatch(LogoutAction())
+        location.reload()
         break
     }
   }

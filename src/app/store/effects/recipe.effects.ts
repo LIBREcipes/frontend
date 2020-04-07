@@ -43,4 +43,20 @@ export class RecipeEffects {
       ),
     ),
   )
+
+  GetForChef$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.GetForChefAction),
+      mergeMap(action =>
+        this.apiService.getRecipesForChef(action.chef_uuid).pipe(
+          map((data: Recipe[]) =>
+            recipeActions.GetForChefSuccessAction({ recipes: data }),
+          ),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
 }

@@ -18,6 +18,15 @@ export const SuccessGetRecipeAction = createAction(
   props<Recipe>(),
 )
 
+export const GetForChefAction = createAction(
+  'RECIPE - get for chef',
+  props<{ chef_uuid: string }>(),
+)
+export const GetForChefSuccessAction = createAction(
+  'RECIPE - get for chef succeeded',
+  props<{ recipes: Recipe[] }>(),
+)
+
 export const CreateRecipeAction = createAction(
   'RECIPE - create',
   props<Recipe>(),

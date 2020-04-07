@@ -18,8 +18,6 @@ export class AuthEffects {
     private authenticationService: AuthenticationService,
   ) {}
 
-  private apiUrl: string = 'http://localhost:5000/api'
-
   GetToken$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(authActions.GetTokenAction),

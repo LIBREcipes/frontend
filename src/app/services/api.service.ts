@@ -35,4 +35,13 @@ export class ApiService {
   public getRecipe(uuid: string): Observable<any> {
     return this.http.get(`${this.API_URL}/recipes/${uuid}`)
   }
+
+  public getRecipesForChef(chef_uuid: string): Observable<any> {
+    return this.http.get(`${this.API_URL}/users/${chef_uuid}/recipes`)
+  }
+
+  // ======== CHEFS ========
+  public getChef(uuid: string): Observable<any> {
+    return this.http.get(`${this.API_URL}/users/${uuid}`)
+  }
 }
