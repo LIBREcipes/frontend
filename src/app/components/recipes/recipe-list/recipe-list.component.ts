@@ -19,9 +19,9 @@ import {
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject<boolean>()
-  private type = 'chef'
   private chef_uuid: string
   title = 'Recipes'
+  showEmptyState: boolean = false
 
   recipes$: Observable<Recipe[]>
   recipeSubscription: Subscription
@@ -30,7 +30,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>, route: ActivatedRoute) {
     route.params.subscribe(x => {
       this.chef_uuid = x['chef_uuid']
-      this.type = x['chef_uuid'] ? 'chef' : 'all'
       this.title = x['chef_uuid'] ? 'My Recipes' : 'Recipes'
 
       if (this.chef_uuid) {
@@ -51,6 +50,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$),
         map(recipes => {
           this.recipes = recipes
+          this.showEmptyState = !recipes
         }),
       )
       .subscribe()

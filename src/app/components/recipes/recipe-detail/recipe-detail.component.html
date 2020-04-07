@@ -5,6 +5,10 @@
         [subtitleAction]="['/chefs', recipe.chef.uuid]"
     ></app-hero>
 
+    <figure *ngIf="recipe.image" class="image is-2by1 is-hidden-desktop" style="margin-bottom: 10px">
+        <img src="{{ recipe.image }}" style="object-fit: cover;">
+    </figure>
+
     <div class="container" style="margin-top: 10px">
         <div class="columns">
             <div class="column is-3">
@@ -34,7 +38,7 @@
             </div>
 
             <div class="column is-9">
-                <figure *ngIf="recipe.image" class="image is-2by1" style="margin-bottom: 10px">
+                <figure *ngIf="recipe.image" class="image is-2by1 is-hidden-touch" style="margin-bottom: 10px">
                     <img src="{{ recipe.image }}" style="object-fit: cover;">
                 </figure>
                 <article class="panel">

@@ -1,6 +1,6 @@
-<app-hero *ngIf="recipes && recipes.length" [title]="title"></app-hero>
+<app-hero *ngIf="!showEmptyState" [title]="title"></app-hero>
 
-<section class="container" *ngIf="recipes && recipes.length; else errorBlock">
+<section class="container" *ngIf="!showEmptyState; else errorBlock">
 	<div class="columns is-multiline">
 			<div *ngFor="let recipe of recipes" class="column is-one-quarter-fullhd is-one-third-desktop is-half">
 				<div class="card" >
@@ -13,7 +13,7 @@
 						<div class="media">
 						<div class="media-left">
 							<figure class="image is-48x48">
-							<img src="https://bulma.io/images/placeholders/96x96.png" [alt]="recipe.chef.username">
+							<img src="https://bulma.io/images/placeholders/96x96.png" class="is-rounded" [alt]="recipe.chef.username">
 							</figure>
 						</div>
 						<div class="media-content">
@@ -24,10 +24,13 @@
 
 						<div class="content">
 							{{ recipe.ingredients | pluck:'ingredient.name' | ellipsisJoin:', ':75}}
-						<br>
-						<time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
 						</div>
 					</div>
+					<footer class="card-footer">
+						<p class="card-footer-item">
+							<time>{{ recipe.created_date|date }}</time>
+						</p>
+					</footer>
 				</div>  
 			</div>  
 	</div>  
