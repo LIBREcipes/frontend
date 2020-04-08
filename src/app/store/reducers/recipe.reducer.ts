@@ -5,18 +5,24 @@ import Recipe from 'src/app/models/recipe.model'
 
 export const initialState = initializeState()
 
-const _recipeReducer = createReducer(initialState,
-    on(action.SuccessGetRecipesAction, (state: RecipeState, { payload }) => {
-        return {...state, recipes: payload}
-    }),
-    on(action.CreateRecipeAction, (state: RecipeState, recipe: Recipe) => {
-        return { ...state, recipes: [...state.recipes, recipe],}
-    }),
-    on(action.SuccessGetRecipeAction, (state: RecipeState, recipe: Recipe) => {
-        return { ...state, recipes: [...state.recipes, recipe],}
-    }),
+const _recipeReducer = createReducer(
+  initialState,
+  on(action.SuccessGetRecipesAction, (state: RecipeState, { payload }) => {
+    return { ...state, recipes: payload }
+  }),
+  on(action.CreateRecipeAction, (state: RecipeState, recipe: Recipe) => {
+    return { ...state, recipes: [...state.recipes, recipe] }
+  }),
+  on(action.SuccessGetRecipeAction, (state: RecipeState, recipe: Recipe) => {
+    return {
+      ...state,
+      recipes: state.recipes.find(x => x.uuid === recipe.uuid)
+        ? state.recipes.map(x => (x.uuid === recipe.uuid ? recipe : x))
+        : [...state.recipes, recipe],
+    }
+  }),
 )
 
 export function RecipeReducer(state: RecipeState | undefined, action: Action) {
-    return _recipeReducer(state, action)
+  return _recipeReducer(state, action)
 }

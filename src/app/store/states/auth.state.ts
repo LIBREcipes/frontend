@@ -1,7 +1,7 @@
 import Recipe from 'src/app/models/recipe.model'
 import User from 'src/app/models/user.model'
 
-export default class AuthState {
+export default interface AuthState {
   accesToken: string
   user: User
 }

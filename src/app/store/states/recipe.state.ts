@@ -1,11 +1,11 @@
-import Recipe from 'src/app/models/recipe.model';
+import Recipe from 'src/app/models/recipe.model'
 
-export default class RecipeState {
-    recipes: Recipe[]
+export default interface RecipeState {
+  recipes: Recipe[]
 }
 
 export const initializeState = (): RecipeState => {
-    return {
-        recipes: [],
-    }
+  return {
+    recipes: [],
+  }
 }

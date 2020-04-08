@@ -1,33 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { NgModule } from '@angular/core'
-
+import { ReactiveFormsModule } from '@angular/forms'
+import { BrowserModule } from '@angular/platform-browser'
+import { EffectsModule } from '@ngrx/effects'
+import { StoreRouterConnectingModule } from '@ngrx/router-store'
+import { StoreModule } from '@ngrx/store'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { NavbarComponent } from './components/partial/navbar/navbar.component'
-import { RecipeListComponent } from './components/recipes/recipe-list/recipe-list.component'
-import { PluckPipe } from './pipes/pluck.pipe'
-import { EllipsisPipe } from './pipes/ellipsis.pipe'
-import { EllipsisJoinPipe } from './pipes/ellipsis-join.pipe'
-import { CapFirstPipe } from './pipes/cap-first.pipe'
-import { RecipeDetailComponent } from './components/recipes/recipe-detail/recipe-detail.component'
-import { HeroComponent } from './components/partial/hero/hero.component'
-import { BulmaDropdownComponent } from './components/partial/bulma-dropdown/bulma-dropdown.component'
-import { StoreModule } from '@ngrx/store'
-import { RecipeReducer } from './store/reducers/recipe.reducer'
-import { RecipeEffects } from './store/effects/recipe.effects'
-import { EffectsModule } from '@ngrx/effects'
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { JwtInterceptor } from './interceptor/jwt.interceptor'
 import { LoginComponent } from './components/auth/login/login.component'
-import { MainComponent } from './components/partial/main/main.component'
-import { ReactiveFormsModule } from '@angular/forms'
-import { LoginFormComponent } from './forms/login-form/login-form.component'
-import { AuthReducer } from './store/reducers/auth.reducer'
-import { AuthEffects } from './store/effects/auth.effects'
-import { ErrorComponent } from './components/partial/error/error.component'
 import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.component'
-import { ChefReducer } from './store/reducers/chef.reducer'
+import { BulmaDropdownComponent } from './components/partial/bulma-dropdown/bulma-dropdown.component'
+import { ErrorComponent } from './components/partial/error/error.component'
+import { HeroComponent } from './components/partial/hero/hero.component'
+import { MainComponent } from './components/partial/main/main.component'
+import { NavbarComponent } from './components/partial/navbar/navbar.component'
+import { RecipeDetailComponent } from './components/recipes/recipe-detail/recipe-detail.component'
+import { RecipeListComponent } from './components/recipes/recipe-list/recipe-list.component'
+import { LoginFormComponent } from './forms/login-form/login-form.component'
+import { JwtInterceptor } from './interceptor/jwt.interceptor'
+import { CapFirstPipe } from './pipes/cap-first.pipe'
+import { EllipsisJoinPipe } from './pipes/ellipsis-join.pipe'
+import { EllipsisPipe } from './pipes/ellipsis.pipe'
+import { PluckPipe } from './pipes/pluck.pipe'
+import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
+import { RecipeEffects } from './store/effects/recipe.effects'
+import { reducers } from './store/reducers/app.reducer';
+import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.component'
 
 @NgModule({
   declarations: [
@@ -46,17 +46,17 @@ import { ChefEffects } from './store/effects/chef.effects'
     LoginFormComponent,
     ErrorComponent,
     ChefDetailComponent,
+    RecipeAddComponent,
   ],
   imports: [
     BrowserModule,
+    StoreModule.forRoot(reducers),
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({
-      recipes: RecipeReducer,
-      auth: AuthReducer,
-      chefs: ChefReducer,
-    }),
     EffectsModule.forRoot([AuthEffects, ChefEffects, RecipeEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+    }),
     ReactiveFormsModule,
   ],
   providers: [

@@ -19,11 +19,34 @@ export class NavbarComponent implements OnInit {
 
   user: User
 
+  navbarLinks = [
+    {
+      key: 'home',
+      value: 'Home',
+      link: '/',
+    },
+    {
+      key: 'recipes',
+      value: 'Recipes',
+      link: '/recipes',
+    },
+    // {
+    //   key: 'ingredients',
+    //   value: 'Ingredients',
+    //   link: '/ingredients'
+    // }
+  ]
+
   userDropdownOptions = [
     {
       key: 'myRecipes',
       icon: 'fa fa-book',
       value: 'My Recipes',
+    },
+    {
+      key: 'profile',
+      icon: 'fa fa-user',
+      value: 'Profile',
     },
     {
       key: 'signout',
@@ -53,6 +76,9 @@ export class NavbarComponent implements OnInit {
     switch (key) {
       case 'myRecipes':
         this.router.navigate(['/chefs', this.user.uuid, 'recipes'])
+        break
+      case 'profile':
+        this.router.navigate(['/chefs', this.user.uuid])
         break
       case 'signout':
         this.store.dispatch(LogoutAction())

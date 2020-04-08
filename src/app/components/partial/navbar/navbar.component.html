@@ -1,7 +1,7 @@
 <nav class="navbar is-white topNav" style="z-index: 9999">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item" href="/">
+            <a class="navbar-item" routerLink="/">
                 <img src="/assets/img/logo.svg.png" width="112" height="28">
             </a>
             <div class="navbar-burger burger" data-target="topNav" aria-label="menu" aria-expanded="false" 
@@ -14,13 +14,10 @@
         </div>
         <div id="topNav" class="navbar-menu" [class.is-active]="isActive">
             <div class="navbar-start">
-                <a class="navbar-item" routerLink="/recipes">Home</a>
-                <a class="navbar-item" routerLink="/recipes">Recipes</a>
-                <a class="navbar-item">Ingredients</a>
+                <a *ngFor="let item of navbarLinks" class="navbar-item" [routerLink]="item.link">{{ item.value }}</a>
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
-
                     <div *ngIf="user; else loginField" class="field is-grouped">
                         <app-bulma-dropdown 
                             [value]="user.username"

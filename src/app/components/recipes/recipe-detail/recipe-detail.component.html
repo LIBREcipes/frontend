@@ -10,12 +10,25 @@
     </figure>
 
     <div class="container" style="margin-top: 10px">
+        <article *ngIf="recipe.description" class="message">
+            <div class="message-body">
+                {{ recipe.description }}
+                <br >
+                <br >
+                ~ {{ recipe.chef.username }}
+            </div>
+        </article>
         <div class="columns">
             <div class="column is-3">
                 <article class="panel is-primary">
                     <p class="panel-heading">Ingredients</p>
+                    <div class="panel-block level">
+                        <a class="level-item" (click)="changePortionSize(-1)" ><i class="fa fa-minus-circle"></i></a>
+                        <p class="level-item">{{ displayPortionSize }} {{ recipe.portion_type }}</p>
+                        <a class="level-item" (click)="changePortionSize(1)"><i class="fa fa-plus-circle"></i></a>
+                    </div>
                     <a *ngFor="let ingredient of recipe.ingredients" class="panel-block">
-                        <strong>{{ ingredient.amount }} {{ ingredient.unit }}</strong>
+                        <strong>{{ ingredient.amount * (displayPortionSize / recipe.portion_size) }} {{ ingredient.unit }}</strong>
                         <span class="is-pulled-right">&nbsp;{{ ingredient.ingredient.name }}</span>
                     </a>
                 </article>

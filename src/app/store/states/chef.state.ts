@@ -1,6 +1,6 @@
 import User from 'src/app/models/user.model'
 
-export default class ChefState {
+export default interface ChefState {
   chefs: User[]
 }
 
