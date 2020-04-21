@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="box">
+        <h2 class="title">Steps</h2>
+
+        <app-recipe-steps-form 
+            *ngIf="recipe"
+            [initial]="recipe.steps"
+            (formSubmit)="onSubmit($event)"
+        ></app-recipe-steps-form>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="box">
+        <h2 class="title">Ingredients</h2>
+
+        <app-recipe-ingredient-form 
+            *ngIf="recipe != null"
+            [initial]="recipe.ingredients"
+            (formsubmit)="onSubmit($event)"
+        ></app-recipe-ingredient-form>
+    </div>
+</div>

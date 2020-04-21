@@ -19,6 +19,14 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div *ngIf="user; else loginField" class="field is-grouped">
+                        <p class="control">
+                            <a class="button is-small is-info is-outlined" routerLink="/recipes/create">
+                                <span class="icon">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span>Add Recipe</span>
+                            </a>
+                        </p>
                         <app-bulma-dropdown 
                             [value]="user.username"
                             [options]="userDropdownOptions"

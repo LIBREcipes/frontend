@@ -22,6 +22,12 @@
             <div class="column is-3">
                 <article class="panel is-primary">
                     <p class="panel-heading">Ingredients</p>
+                     <div *ngIf="isOwner()" class="panel-block">
+                        <button class="button is-link is-outlined is-fullwidth" [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']">
+                            <span class="icon"><i class="fa fa-pencil"></i></span>
+                            <span>Edit ingredients</span>
+                        </button>
+                    </div>
                     <div class="panel-block level">
                         <a class="level-item" (click)="changePortionSize(-1)" ><i class="fa fa-minus-circle"></i></a>
                         <p class="level-item">{{ displayPortionSize }} {{ recipe.portion_type }}</p>
@@ -35,17 +41,17 @@
 
                 <article class="panel is-light">
                     <p class="panel-heading">Actions</p>
-                    <a *ngIf="recipe.chef.uuid === 'YOU STILL HAVE TO DO THIS'" class="panel-block" >
-                        <span class="icon icon-small">
-                            <i class="fa fa-pencil"></i>
-                        </span>
-                        <span>Edit recipe</span>
-                    </a>
                     <a class="panel-block" >
                         <span class="icon icon-small">
                             <i class="fa fa-share"></i>
                         </span>
                         <span>Share this recipe</span>
+                    </a>
+                    <a *ngIf="isOwner()" class="panel-block has-text-danger" (click)="deleteRecipe()">
+                        <span class="icon icon-small">
+                            <i class="fa fa-trash"></i>
+                        </span>
+                        <span>Delete recipe</span>
                     </a>
                 </article>
             </div>
@@ -56,6 +62,14 @@
                 </figure>
                 <article class="panel">
                         <p class="panel-heading">Steps</p>
+                        <p class="panel-block">
+                            <button 
+                                class="button is-link is-outlined is-fullwidth"
+                                [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']">
+                                <span class="icon"><i class="fa fa-pencil"></i></span>
+                                <span>Edit Steps</span>
+                            </button>
+                        </p>
                         <p *ngFor="let step of recipe.steps" class="panel-block">
                             <strong>{{ step.step }}.</strong>&nbsp;
                             {{ step.description }}

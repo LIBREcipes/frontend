@@ -29,3 +29,9 @@ export const selectCurrentRecipe = createSelector(
   selectRecipes,
   (recipes, uuid: string) => recipes.find(r => r.uuid === uuid),
 )
+
+export const selectIngredient = createSelector(
+  appRecipes,
+  (s: RecipeState, props: { ingredient_uuid: string }) =>
+    s.ingredients.find(ing => ing.uuid === props.ingredient_uuid),
+)

@@ -28,9 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.returnUrl = params['returnUrl'] ?? '/'
-    })
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl']
 
     this.authenticationService.currentUser
       .pipe(

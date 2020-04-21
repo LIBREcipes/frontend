@@ -1,0 +1,141 @@
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <div class="field is-horizontal">
+        <div class="field-label">
+            <label class="label">Name *</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" formControlName="name" min-length="4" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Description -->
+    <div class="field is-horizontal">
+        <div class="field-label">
+            <label class="label">Description</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <textarea class="textarea" formControlName="description"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- portion -->
+    <div class="field is-horizontal is-grouped">
+        <div class="field-label">
+            <label class="label">Portion</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="number" formControlName="portion_size" >
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" formControlName="portion_type" > 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- is_public -->
+    <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" formControlName="is_public">
+                        Is public
+                    </label>
+                </div>
+            </div>
+    </div>
+
+
+<!--
+<div class="box" formArrayName="ingredients">
+<h2 class="title">Ingredients</h2>
+    <div class="message is-info" *ngFor="let control of ingredients.controls; let i=index">
+        <div class="message-header">
+            <p>Ingredient</p>
+            <button class="delete" aria-label="delete" (click)="removeIngredientForm(i)"></button>
+        </div>
+        <div class="message-body" [formGroupName]="i">
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label">Ingredient *</label>
+                </div>
+                <div class="field-body">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <app-autocomplete class="input" formControlName="ingredient" placeholder="Search for ingredients"></app-autocomplete>
+                        </div>
+                        <div class="control">
+                            <a class="button is-info is-outline">+</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label">Amount</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-expanded" type="number" formControlName="amount" placeholder="Amount">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-expanded" type="text" formControlName="unit" placeholder="Unit (g, dl, pieces,..)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="button is-small" (click)="addIngredientForm()"><i class="fa fa-plus"></i></a>
+</div>
+
+<div class="box" formArrayName="steps">
+<h2 class="title">Steps</h2>
+    <div class="message is-info" *ngFor="let control of steps.controls; let i = index">
+        <div class="message-header">
+            <p>Step {{ i+1}}</p>
+            <button class="delete" aria-label="delete" (click)="removeStepsForm(i)"></button>
+        </div>
+
+        <div class="message-body" [formGroupName]="i">
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label">Description</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" type="text" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="button is-small" (click)="addStepsForm()"><i class="fa fa-plus"></i></a>
+</div>
+-->
+    <div class="field is-grouped-right">
+        <div class="control">
+            <button class="button is-primary" type="submit" [disabled]="!recipeForm.valid">create</button>
+        </div>
+    </div>
+</form>

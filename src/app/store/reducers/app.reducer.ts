@@ -1,4 +1,3 @@
-import { routerReducer } from '@ngrx/router-store'
 import { ActionReducerMap } from '@ngrx/store'
 import AppState from '../states/app.state'
 import { AuthReducer } from './auth.reducer'

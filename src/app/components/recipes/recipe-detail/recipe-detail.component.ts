@@ -1,15 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, Params, ActivatedRouteSnapshot } from '@angular/router'
-import { Store, select } from '@ngrx/store'
+import { ActivatedRoute, Params } from '@angular/router'
+import { ofType } from '@ngrx/effects'
+import { ActionsSubject, select, Store } from '@ngrx/store'
 import { Observable, Subject } from 'rxjs'
+import { map, takeUntil } from 'rxjs/operators'
 import Recipe from 'src/app/models/recipe.model'
-import AppState from 'src/app/store/states/app.state'
+import { AuthenticationService } from 'src/app/services/authentication.service'
 import {
-  selectRecipe,
-  selectCurrentRecipe,
-} from 'src/app/store/selectors/recipe.selector'
-import { takeUntil, map } from 'rxjs/operators'
-import { GetRecipeAction } from 'src/app/store/actions/recipe.actions'
+  DeleteRecipeAction,
+  DeleteRecipeSuccessAction,
+  GetRecipeAction,
+} from 'src/app/store/actions/recipe.actions'
+import { selectCurrentRecipe } from 'src/app/store/selectors/recipe.selector'
+import AppState from 'src/app/store/states/app.state'
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-recipe-detail',
@@ -22,27 +26,55 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   recipe: Recipe = null
   displayPortionSize: number = 0
 
-  constructor(route: ActivatedRoute, store: Store<AppState>) {
+  constructor(
+    route: ActivatedRoute,
+    private store: Store<AppState>,
+    private authenticationService: AuthenticationService,
+    actionsSubject: ActionsSubject,
+    _location: Location,
+  ) {
     route.params.subscribe(params => {
       this.destroyed$.next(true)
-      store.dispatch(GetRecipeAction({ uuid: params['recipe_uuid'] }))
       store
         .pipe(select(selectCurrentRecipe, params['recipe_uuid']))
         .pipe(
           takeUntil(this.destroyed$),
           map(recipe => {
+            if (!recipe) {
+              store.dispatch(GetRecipeAction({ uuid: params['recipe_uuid'] }))
+              return
+            }
             this.recipe = recipe
             this.displayPortionSize = recipe?.portion_size
           }),
         )
         .subscribe()
     })
+
+    actionsSubject
+      .pipe(takeUntil(this.destroyed$), ofType(DeleteRecipeSuccessAction))
+      .subscribe(action => {
+        if (action.recipe_uuid === this.recipe.uuid) {
+          console.log('well this happened...')
+          _location.back()
+        }
+      })
   }
 
   ngOnInit(): void {}
 
+  isOwner(): boolean {
+    return (
+      this.recipe.chef.uuid === this.authenticationService.currentUserValue.uuid
+    )
+  }
+
   changePortionSize(amount) {
     this.displayPortionSize = Math.max(1, this.displayPortionSize + amount)
+  }
+
+  deleteRecipe(): void {
+    this.store.dispatch(DeleteRecipeAction({ recipe_uuid: this.recipe.uuid }))
   }
 
   ngOnDestroy() {

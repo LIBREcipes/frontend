@@ -1,4 +1,3 @@
-import { RouterReducerState } from '@ngrx/router-store'
 import { createFeatureSelector } from '@ngrx/store'
 import AuthState from '../states/auth.state'
 import ChefState from '../states/chef.state'

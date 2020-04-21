@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
 import { EffectsModule } from '@ngrx/effects'
-import { StoreRouterConnectingModule } from '@ngrx/router-store'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { AppRoutingModule } from './app-routing.module'
@@ -26,8 +25,16 @@ import { PluckPipe } from './pipes/pluck.pipe'
 import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
-import { reducers } from './store/reducers/app.reducer';
+import { reducers } from './store/reducers/app.reducer'
 import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.component'
+import { RecipeCreateFormComponent } from './forms/recipe-create-form/recipe-create-form.component'
+import { AutocompleteComponent } from './components/partial/autocomplete/autocomplete.component'
+import { RecipeIngredientFormComponent } from './forms/recipe-ingredient-form/recipe-ingredient-form.component'
+import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component'
+import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit-ingredients/recipe-edit-ingredients.component'
+import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps/recipe-edit-steps.component'
+import { AutocompleteIngredientComponent } from './components/partial/autocomplete/autocomplete-ingredient/autocomplete-ingredient.component';
+import { RecipeStepsFormComponent } from './forms/recipe-steps-form/recipe-steps-form.component'
 
 @NgModule({
   declarations: [
@@ -47,6 +54,14 @@ import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.c
     ErrorComponent,
     ChefDetailComponent,
     RecipeAddComponent,
+    RecipeCreateFormComponent,
+    AutocompleteComponent,
+    RecipeIngredientFormComponent,
+    ConfirmModalComponent,
+    RecipeEditIngredientsComponent,
+    RecipeEditStepsComponent,
+    AutocompleteIngredientComponent,
+    RecipeStepsFormComponent,
   ],
   imports: [
     BrowserModule,

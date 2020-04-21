@@ -1,0 +1,27 @@
+<div class="dropdown" [class.is-active]="isActive()">
+  <div class="dropdown-trigger">
+    <div class="field">
+        <div class="control">
+            <input 
+                class="input"
+                placeholder="Search ingredients..."
+                [formControl]="query"
+            >
+        </div>
+    </div>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+        <a class="dropdown-item">
+            <span class="icon"><i class="fa fa-plus"></i></span>
+            <span>Add {{ query.value }}</span>
+        </a>
+        <hr class="dropdown-divider" *ngIf="results.length">
+        <a 
+            class="dropdown-item"
+            *ngFor="let result of results"
+            (click)="selectAutocompleteObject(result)"
+        ><span>{{ result.value }}</span></a>
+    </div>
+  </div>
+</div>

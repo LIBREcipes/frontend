@@ -7,6 +7,7 @@ import * as recipeActions from '../actions/recipe.actions'
 import Recipe from 'src/app/models/recipe.model'
 import { Action } from '@ngrx/store'
 import { ApiService } from 'src/app/services/api.service'
+import Ingredient from 'src/app/models/ingredient.model'
 
 @Injectable()
 export class RecipeEffects {
@@ -51,6 +52,114 @@ export class RecipeEffects {
         this.apiService.getRecipesForChef(action.chef_uuid).pipe(
           map((data: Recipe[]) =>
             recipeActions.GetForChefSuccessAction({ recipes: data }),
+          ),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  CreateRecipe$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.CreateRecipeAction),
+      mergeMap(action =>
+        this.apiService.createRecipe(action.recipe).pipe(
+          map((data: Recipe) => recipeActions.CreateRecipeSuccessAction(data)),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  DeleteRecipe$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.DeleteRecipeAction),
+      mergeMap(action =>
+        this.apiService.deleteRecipe(action.recipe_uuid).pipe(
+          map(
+            () => recipeActions.DeleteRecipeSuccessAction(action),
+            catchError((error: Error) =>
+              of(recipeActions.ErrorRecipeAction(error)),
+            ),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  SearchRecipe$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.SearchIngredientAction),
+      mergeMap(action =>
+        this.apiService.searchIngredient(action.query).pipe(
+          map((ingredients: Ingredient[]) =>
+            recipeActions.SearchIngredientSuccessAction({
+              ingredients: ingredients,
+            }),
+          ),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  UpdateRecipeIngredients: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.UpdateRecipeIngredientsAction),
+      mergeMap(action =>
+        this.apiService
+          .updateRecipeIngredients(action.recipe_uuid, action.ingredients)
+          .pipe(
+            map((recipe: Recipe) =>
+              recipeActions.UpdateRecipeSuccessAction({
+                recipe: recipe,
+              }),
+            ),
+            catchError((error: Error) =>
+              of(recipeActions.ErrorRecipeAction(error)),
+            ),
+          ),
+      ),
+    ),
+  )
+
+  UpdateRecipeSteps: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.UpdateRecipeStepsAction),
+      mergeMap(action =>
+        this.apiService
+          .updateRecipeSteps(action.recipe_uuid, action.steps)
+          .pipe(
+            map((recipe: Recipe) =>
+              recipeActions.UpdateRecipeSuccessAction({
+                recipe: recipe,
+              }),
+            ),
+            catchError((error: Error) =>
+              of(recipeActions.ErrorRecipeAction(error)),
+            ),
+          ),
+      ),
+    ),
+  )
+
+  // INGREDIENTS
+
+  GetIngredient$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.GetIngredientAction),
+      mergeMap(action =>
+        this.apiService.getIngredient(action.ingredient_uuid).pipe(
+          map((ingredient: Ingredient) =>
+            recipeActions.GetIngredientSuccessAction({
+              ingredient: ingredient,
+            }),
           ),
           catchError((error: Error) =>
             of(recipeActions.ErrorRecipeAction(error)),
