@@ -5,7 +5,7 @@ import {
   FormControl,
 } from '@angular/forms'
 import { Subject } from 'rxjs'
-import { takeUntil, debounceTime, map } from 'rxjs/operators'
+import { takeUntil, debounceTime, map, take, filter } from 'rxjs/operators'
 import { Store, ActionsSubject, select } from '@ngrx/store'
 import AppState from 'src/app/store/states/app.state'
 import {
@@ -18,6 +18,8 @@ import { ofType } from '@ngrx/effects'
 import Ingredient from 'src/app/models/ingredient.model'
 import { AutocompleteObject } from 'src/app/models/autocompletable.model'
 import { selectIngredient } from 'src/app/store/selectors/recipe.selector'
+import { ModalService } from 'src/app/components/modals/modal.service'
+import { IngredientFormComponent } from 'src/app/forms/ingredient-form/ingredient-form.component'
 
 @Component({
   selector: 'app-autocomplete-ingredient',
@@ -43,6 +45,7 @@ export class AutocompleteIngredientComponent
   constructor(
     private store: Store<AppState>,
     private actionsSubject: ActionsSubject,
+    private modalService: ModalService,
   ) {}
   ngOnInit(): void {
     // listen for query changes
@@ -81,6 +84,8 @@ export class AutocompleteIngredientComponent
   }
 
   writeValue(ingredient_uuid: string): void {
+    if (!ingredient_uuid) return
+
     const ingredientfound = new Subject<boolean>()
     this.store
       .pipe(select(selectIngredient, { ingredient_uuid }))
@@ -101,6 +106,20 @@ export class AutocompleteIngredientComponent
   }
   registerOnTouched(fn: any): void {}
   setDisabledState?(isDisabled: boolean): void {}
+
+  createIngredient(query: string): void {
+    this.modalService
+      .showIngredientForm(query)
+      .pipe(
+        filter(data => data !== null),
+        take(1),
+      )
+      .subscribe(ingredient =>
+        this.selectAutocompleteObject(
+          new AutocompleteObject(ingredient.uuid, ingredient.name),
+        ),
+      )
+  }
 
   ngOnDestroy(): void {
     this.destroyed$.next(true)

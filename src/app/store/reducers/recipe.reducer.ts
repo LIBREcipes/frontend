@@ -53,6 +53,9 @@ const _recipeReducer = createReducer(
         : [...state.ingredients, ingredient],
     }
   }),
+  on(action.CreateIngredientSuccessAction, (state: RecipeState, props) => {
+    return { ...state, ingredients: [...state.ingredients, props.ingredient] }
+  }),
 )
 
 export function RecipeReducer(state: RecipeState | undefined, action: Action) {

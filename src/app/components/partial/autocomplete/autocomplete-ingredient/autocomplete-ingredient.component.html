@@ -12,7 +12,7 @@
   </div>
   <div class="dropdown-menu" id="dropdown-menu" role="menu">
     <div class="dropdown-content">
-        <a class="dropdown-item">
+        <a class="dropdown-item" (click)="createIngredient(query.value)">
             <span class="icon"><i class="fa fa-plus"></i></span>
             <span>Add {{ query.value }}</span>
         </a>

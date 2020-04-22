@@ -1,0 +1,22 @@
+<form [formGroup]="form" *ngIf="form">
+   <div class="field is-horizontal">
+        <div class="field-label">
+            <label class="label">Name</label>
+        </div>
+        <div class="field-body">
+            <div class="field">
+                <div class="control">
+                    <input class="input" formControlName="name">
+                </div>
+            </div>
+        </div>
+   </div> 
+   <div class="field is-grouped is-grouped-right">
+        <div class="control">
+            <button type="submit" class="button is-success" (click)="onSubmit()">Save</button>
+        </div>
+        <div class="control">
+            <button type="button" class="button" (click)="this.cancel.emit()">Cancel</button>
+        </div>
+   </div>
+</form>

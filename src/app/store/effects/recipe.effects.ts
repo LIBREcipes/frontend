@@ -168,4 +168,22 @@ export class RecipeEffects {
       ),
     ),
   )
+
+  CreateIngredient$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.CreateIngredientAction),
+      mergeMap(action =>
+        this.apiService.createIngredient(action.ingredient).pipe(
+          map((ingredient: Ingredient) =>
+            recipeActions.CreateIngredientSuccessAction({
+              ingredient: ingredient,
+            }),
+          ),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
 }

@@ -4,6 +4,7 @@ import RecipeCreateDto from 'src/app/models/DTO/recipe-create.model'
 import Ingredient from 'src/app/models/ingredient.model'
 import RecipeIngredientDto from 'src/app/models/DTO/recipe-ingredient.model'
 import RecipeStepDto from 'src/app/models/DTO/recipe-step.model'
+import IngredientCreateDto from 'src/app/models/DTO/ingredient-create.model'
 
 export const ErrorRecipeAction = createAction('RECIPE - error', props<Error>())
 
@@ -83,5 +84,14 @@ export const GetIngredientAction = createAction(
 
 export const GetIngredientSuccessAction = createAction(
   'INGREDIENT - get succeeded',
+  props<{ ingredient: Ingredient }>(),
+)
+
+export const CreateIngredientAction = createAction(
+  'INGREDIENT - create',
+  props<{ ingredient: IngredientCreateDto }>(),
+)
+export const CreateIngredientSuccessAction = createAction(
+  'INGREDIENT - create succeeded',
   props<{ ingredient: Ingredient }>(),
 )

@@ -5,6 +5,7 @@ import Recipe from '../models/recipe.model'
 import RecipeCreateDto from '../models/DTO/recipe-create.model'
 import RecipeIngredientDto from '../models/DTO/recipe-ingredient.model'
 import RecipeStepDto from '../models/DTO/recipe-step.model'
+import IngredientCreateDto from '../models/DTO/ingredient-create.model'
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +71,10 @@ export class ApiService {
 
   public getIngredient(uuid: string) {
     return this.http.get(`${this.API_URL}/ingredients/${uuid}`)
+  }
+
+  public createIngredient(ingredient: IngredientCreateDto) {
+    return this.http.post(`${this.API_URL}/ingredients`, ingredient)
   }
 
   // ======== CHEFS ========

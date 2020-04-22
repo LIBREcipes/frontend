@@ -9,14 +9,22 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { LoginComponent } from './components/auth/login/login.component'
 import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.component'
+import { AutocompleteIngredientComponent } from './components/partial/autocomplete/autocomplete-ingredient/autocomplete-ingredient.component'
+import { AutocompleteComponent } from './components/partial/autocomplete/autocomplete.component'
 import { BulmaDropdownComponent } from './components/partial/bulma-dropdown/bulma-dropdown.component'
 import { ErrorComponent } from './components/partial/error/error.component'
 import { HeroComponent } from './components/partial/hero/hero.component'
 import { MainComponent } from './components/partial/main/main.component'
 import { NavbarComponent } from './components/partial/navbar/navbar.component'
+import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.component'
 import { RecipeDetailComponent } from './components/recipes/recipe-detail/recipe-detail.component'
+import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit-ingredients/recipe-edit-ingredients.component'
+import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps/recipe-edit-steps.component'
 import { RecipeListComponent } from './components/recipes/recipe-list/recipe-list.component'
 import { LoginFormComponent } from './forms/login-form/login-form.component'
+import { RecipeCreateFormComponent } from './forms/recipe-create-form/recipe-create-form.component'
+import { RecipeIngredientFormComponent } from './forms/recipe-ingredient-form/recipe-ingredient-form.component'
+import { RecipeStepsFormComponent } from './forms/recipe-steps-form/recipe-steps-form.component'
 import { JwtInterceptor } from './interceptor/jwt.interceptor'
 import { CapFirstPipe } from './pipes/cap-first.pipe'
 import { EllipsisJoinPipe } from './pipes/ellipsis-join.pipe'
@@ -25,43 +33,41 @@ import { PluckPipe } from './pipes/pluck.pipe'
 import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
-import { reducers } from './store/reducers/app.reducer'
-import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.component'
-import { RecipeCreateFormComponent } from './forms/recipe-create-form/recipe-create-form.component'
-import { AutocompleteComponent } from './components/partial/autocomplete/autocomplete.component'
-import { RecipeIngredientFormComponent } from './forms/recipe-ingredient-form/recipe-ingredient-form.component'
-import { ConfirmModalComponent } from './components/modals/confirm-modal/confirm-modal.component'
-import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit-ingredients/recipe-edit-ingredients.component'
-import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps/recipe-edit-steps.component'
-import { AutocompleteIngredientComponent } from './components/partial/autocomplete/autocomplete-ingredient/autocomplete-ingredient.component';
-import { RecipeStepsFormComponent } from './forms/recipe-steps-form/recipe-steps-form.component'
+import { reducers } from './store/reducers/app.reducer';
+import { ModalDirective } from './components/modals/modal.directive';
+import { ModalComponent } from './components/modals/modal/modal.component';
+import { IngredientFormComponent } from './forms/ingredient-form/ingredient-form.component';
+import { IngredientModalComponent } from './components/modals/forms/ingredient-modal/ingredient-modal.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    RecipeListComponent,
-    PluckPipe,
-    EllipsisPipe,
-    EllipsisJoinPipe,
-    CapFirstPipe,
-    RecipeDetailComponent,
-    HeroComponent,
+    AutocompleteComponent,
+    AutocompleteIngredientComponent,
     BulmaDropdownComponent,
-    LoginComponent,
-    MainComponent,
-    LoginFormComponent,
-    ErrorComponent,
+    CapFirstPipe,
     ChefDetailComponent,
+    EllipsisJoinPipe,
+    EllipsisPipe,
+    ErrorComponent,
+    HeroComponent,
+    LoginComponent,
+    LoginFormComponent,
+    MainComponent,
+    NavbarComponent,
+    PluckPipe,
     RecipeAddComponent,
     RecipeCreateFormComponent,
-    AutocompleteComponent,
-    RecipeIngredientFormComponent,
-    ConfirmModalComponent,
+    RecipeDetailComponent,
     RecipeEditIngredientsComponent,
     RecipeEditStepsComponent,
-    AutocompleteIngredientComponent,
+    RecipeIngredientFormComponent,
+    RecipeListComponent,
     RecipeStepsFormComponent,
+    ModalDirective,
+    ModalComponent,
+    IngredientFormComponent,
+    IngredientModalComponent,
   ],
   imports: [
     BrowserModule,
