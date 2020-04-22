@@ -23,7 +23,7 @@ export default class Ingredient {
   carbs_sugar: number
   proteine: number
 
-  toAutocompleObject(): AutocompleteObject {
-    return new AutocompleteObject(this.uuid, this.name)
+  static toAutocomplete(ingredient: Ingredient): AutocompleteObject {
+    return new AutocompleteObject(ingredient.uuid, ingredient.name)
   }
 }

@@ -68,6 +68,10 @@ export class NavbarComponent implements OnInit {
         }),
       )
       .subscribe()
+
+    router.events
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(_ => (this.isActive = false))
   }
 
   ngOnInit(): void {}

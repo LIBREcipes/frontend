@@ -63,8 +63,8 @@ export class AutocompleteIngredientComponent
         ofType(SearchIngredientSuccessAction),
         map(props => props.ingredients),
         map(ingredients =>
-          ingredients.map<AutocompleteObject>(
-            i => new AutocompleteObject(i.uuid, i.name),
+          ingredients.map<AutocompleteObject>(i =>
+            Ingredient.toAutocomplete(i),
           ),
         ),
       )
@@ -92,9 +92,7 @@ export class AutocompleteIngredientComponent
       .pipe(takeUntil(ingredientfound))
       .subscribe(ingredient => {
         if (ingredient) {
-          this.selectAutocompleteObject(
-            new AutocompleteObject(ingredient.uuid, ingredient.name),
-          )
+          this.selectAutocompleteObject(Ingredient.toAutocomplete(ingredient))
           ingredientfound.next(true)
         } else {
           this.store.dispatch(GetIngredientAction({ ingredient_uuid }))
@@ -115,9 +113,7 @@ export class AutocompleteIngredientComponent
         take(1),
       )
       .subscribe(ingredient =>
-        this.selectAutocompleteObject(
-          new AutocompleteObject(ingredient.uuid, ingredient.name),
-        ),
+        this.selectAutocompleteObject(Ingredient.toAutocomplete(ingredient)),
       )
   }
 
