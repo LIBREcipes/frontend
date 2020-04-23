@@ -65,6 +65,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   isOwner(): boolean {
     return (
+      this.authenticationService.currentUserValue &&
       this.recipe.chef.uuid === this.authenticationService.currentUserValue.uuid
     )
   }
