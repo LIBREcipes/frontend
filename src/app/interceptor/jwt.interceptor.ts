@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject, throwError } from 'rxjs'
 import { AuthenticationService } from '../services/authentication.service'
 import { catchError, take, filter, switchMap } from 'rxjs/operators'
 import { ApiService } from '../services/api.service'
@@ -27,15 +27,15 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(this.addAccessToken(request)).pipe(
       catchError(error => {
         if (
-          request.url.includes('/login') ||
+          request.url.includes('/token') ||
           request.url.includes('/token/refresh')
         ) {
           if (request.url.includes('/token/refresh'))
             this.authenticationService.logout()
-          return Observable.throw(error)
+          return throwError(error)
         }
 
-        if (error.status !== 401) return Observable.throw(error)
+        if (error.status !== 401) return throwError(error)
 
         if (this.tokenRefreshInProgress) {
           return this.refreshTokenSubject.pipe(
@@ -58,7 +58,7 @@ export class JwtInterceptor implements HttpInterceptor {
             catchError(err => {
               this.tokenRefreshInProgress = false
               this.authenticationService.logout()
-              return Observable.throw(err)
+              return throwError(err)
             }),
           )
       }),

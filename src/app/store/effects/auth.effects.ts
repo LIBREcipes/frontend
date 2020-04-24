@@ -9,6 +9,7 @@ import User from 'src/app/models/user.model'
 import { AuthenticationService } from 'src/app/services/authentication.service'
 import * as authActions from '../actions/auth.actions'
 import { ApiService } from 'src/app/services/api.service'
+import DjangoError from 'src/app/models/django-error.model'
 
 @Injectable()
 export class AuthEffects {
@@ -32,8 +33,7 @@ export class AuthEffects {
             })
           }),
           catchError((error: Error) => {
-            console.log(error)
-            return of(authActions.ErrorAuthAction(error))
+            return of(authActions.LoginErrorAction(new DjangoError(error)))
           }),
         ),
       ),
@@ -52,7 +52,6 @@ export class AuthEffects {
             })
           }),
           catchError((error: Error) => {
-            console.log(error)
             return of(authActions.ErrorAuthAction(error))
           }),
         ),

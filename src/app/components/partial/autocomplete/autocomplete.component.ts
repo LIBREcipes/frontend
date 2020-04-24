@@ -70,12 +70,10 @@ export class AutocompleteComponent implements OnInit, ControlValueAccessor {
   }
 
   get value() {
-    console.log(this.selectedValue)
     return this.selectedValue.id
   }
 
   writeValue(obj: any): void {
-    console.log(obj)
     this.setObject(this.results.filter(r => r.id === obj)[0])
   }
   registerOnChange(fn: any): void {

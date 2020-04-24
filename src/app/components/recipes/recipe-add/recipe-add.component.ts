@@ -34,7 +34,6 @@ export class RecipeAddComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   onRecipeSubmit(recipe: RecipeCreateDto): void {
-    // console.log(recipe)
     this.store.dispatch(CreateRecipeAction({ recipe }))
   }
 

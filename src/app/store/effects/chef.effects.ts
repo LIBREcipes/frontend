@@ -20,7 +20,6 @@ export class ChefEffects {
             return chefActions.GetChefSuccessAction({ chef: data })
           }),
           catchError((error: Error) => {
-            console.log(error)
             return of(chefActions.ErrorAction(error))
           }),
         ),

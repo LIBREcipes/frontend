@@ -1,13 +1,20 @@
 <div class="hero is-fullheight is-primary">
-    <div class="hero-body">
-        <div class="container">
-            <div class="columns is-fullheight is-vcentered is-centered">
-                <div class="column is-one-third-desktop is-one-quarter-fullhd">
-                    <div class="box">
-                        <app-login-form (formSubmit)="onSubmitLoginForm($event)"></app-login-form>
-                    </div>
-                </div>
-            </div>
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns is-fullheight is-vcentered is-centered">
+        <div class="column is-one-third-desktop is-one-quarter-fullhd">
+          <div class="box">
+            <article class="message is-danger" *ngIf="error">
+              <div class="message-body">
+                {{ error }}
+              </div>
+            </article>
+            <app-login-form
+              (formSubmit)="onSubmitLoginForm($event)"
+            ></app-login-form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
