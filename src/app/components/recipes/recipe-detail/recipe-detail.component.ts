@@ -55,7 +55,6 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$), ofType(DeleteRecipeSuccessAction))
       .subscribe(action => {
         if (action.recipe_uuid === this.recipe.uuid) {
-          console.log('well this happened...')
           _location.back()
         }
       })

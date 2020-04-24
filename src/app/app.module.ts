@@ -1,5 +1,5 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { NgModule } from '@angular/core'
+import { NgModule, APP_INITIALIZER } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
 import { EffectsModule } from '@ngrx/effects'
@@ -33,11 +33,16 @@ import { PluckPipe } from './pipes/pluck.pipe'
 import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
-import { reducers } from './store/reducers/app.reducer';
-import { ModalDirective } from './components/modals/modal.directive';
-import { ModalComponent } from './components/modals/modal/modal.component';
-import { IngredientFormComponent } from './forms/ingredient-form/ingredient-form.component';
+import { reducers } from './store/reducers/app.reducer'
+import { ModalDirective } from './components/modals/modal.directive'
+import { ModalComponent } from './components/modals/modal/modal.component'
+import { IngredientFormComponent } from './forms/ingredient-form/ingredient-form.component'
 import { IngredientModalComponent } from './components/modals/forms/ingredient-modal/ingredient-modal.component'
+import { AppInitService } from './app-init.service'
+
+export function init_app(loadService: AppInitService) {
+  return () => loadService.init()
+}
 
 @NgModule({
   declarations: [
@@ -81,6 +86,13 @@ import { IngredientModalComponent } from './components/modals/forms/ingredient-m
     ReactiveFormsModule,
   ],
   providers: [
+    AppInitService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: init_app,
+      deps: [AppInitService],
+      multi: true,
+    },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
