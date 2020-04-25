@@ -1,18 +1,23 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { NgModule, APP_INITIALIZER } from '@angular/core'
+import { APP_INITIALIZER, NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { AppInitService } from './app-init.service'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { LoginComponent } from './components/auth/login/login.component'
 import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.component'
+import { IngredientModalComponent } from './components/modals/forms/ingredient-modal/ingredient-modal.component'
+import { ModalDirective } from './components/modals/modal.directive'
+import { ModalComponent } from './components/modals/modal/modal.component'
 import { AutocompleteIngredientComponent } from './components/partial/autocomplete/autocomplete-ingredient/autocomplete-ingredient.component'
 import { AutocompleteComponent } from './components/partial/autocomplete/autocomplete.component'
 import { BulmaDropdownComponent } from './components/partial/bulma-dropdown/bulma-dropdown.component'
 import { ErrorComponent } from './components/partial/error/error.component'
+import { FileUploadComponent } from './components/partial/file-upload/file-upload.component'
 import { HeroComponent } from './components/partial/hero/hero.component'
 import { MainComponent } from './components/partial/main/main.component'
 import { NavbarComponent } from './components/partial/navbar/navbar.component'
@@ -21,6 +26,8 @@ import { RecipeDetailComponent } from './components/recipes/recipe-detail/recipe
 import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit-ingredients/recipe-edit-ingredients.component'
 import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps/recipe-edit-steps.component'
 import { RecipeListComponent } from './components/recipes/recipe-list/recipe-list.component'
+import { AutofocusDirective } from './directives/autofocus.directive'
+import { IngredientFormComponent } from './forms/ingredient-form/ingredient-form.component'
 import { LoginFormComponent } from './forms/login-form/login-form.component'
 import { RecipeCreateFormComponent } from './forms/recipe-create-form/recipe-create-form.component'
 import { RecipeIngredientFormComponent } from './forms/recipe-ingredient-form/recipe-ingredient-form.component'
@@ -34,11 +41,6 @@ import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer'
-import { ModalDirective } from './components/modals/modal.directive'
-import { ModalComponent } from './components/modals/modal/modal.component'
-import { IngredientFormComponent } from './forms/ingredient-form/ingredient-form.component'
-import { IngredientModalComponent } from './components/modals/forms/ingredient-modal/ingredient-modal.component'
-import { AppInitService } from './app-init.service'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -73,6 +75,8 @@ export function init_app(loadService: AppInitService) {
     ModalComponent,
     IngredientFormComponent,
     IngredientModalComponent,
+    FileUploadComponent,
+    AutofocusDirective,
   ],
   imports: [
     BrowserModule,

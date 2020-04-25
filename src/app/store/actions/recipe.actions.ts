@@ -32,6 +32,15 @@ export const GetForChefSuccessAction = createAction(
   props<{ recipes: Recipe[] }>(),
 )
 
+export const CreateRecipeWithFileAction = createAction(
+  'RECIPE - create with file',
+  props<{ recipe: RecipeCreateDto }>(),
+)
+export const CreateRecipeWithFileSuccessAction = createAction(
+  'RECIPE - create with file succeeded',
+  props<{ recipe: RecipeCreateDto }>(),
+)
+
 export const CreateRecipeAction = createAction(
   'RECIPE - create',
   props<{ recipe: RecipeCreateDto }>(),

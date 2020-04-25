@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
@@ -13,12 +13,56 @@ import RecipeStepDto from '../models/DTO/recipe-step.model'
 export class ApiService {
   constructor(private http: HttpClient) {}
 
+  toFormData<T>(obj: T): FormData {
+    const formData = new FormData()
+
+    for (const key in Object.keys(obj)) {
+      const value = obj[key]
+      formData.append(key, value)
+    }
+
+    return formData
+  }
+
+  private customOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  }
+
+  private get(path: string) {
+    return this.http.get(
+      `${environment.config.apiUrl}/${path}`,
+      this.customOptions,
+    )
+  }
+
+  private post(path: string, body) {
+    return this.http.post(
+      `${environment.config.apiUrl}/${path}`,
+      body,
+      this.customOptions,
+    )
+  }
+
+  private put(path: string, body) {
+    return this.http.put(
+      `${environment.config.apiUrl}/${path}`,
+      body,
+      this.customOptions,
+    )
+  }
+
+  private delete(path: string) {
+    return this.http.delete(
+      `${environment.config.apiUrl}/${path}`,
+      this.customOptions,
+    )
+  }
+
   // ======== AUTHENTICATION ========
   public accessToken(username: string, password: string): Observable<any> {
-    return this.http.post(`${environment.config.apiUrl}/token`, {
-      username,
-      password,
-    })
+    return this.post('token', { username, password })
   }
   public refreshToken(token: string): Observable<any> {
     return this.http.post<{ access: string }>(
@@ -30,74 +74,64 @@ export class ApiService {
   }
 
   public getMe(): Observable<any> {
-    return this.http.get(`${environment.config.apiUrl}/users/me`)
+    return this.get('users/me')
+  }
+
+  // ======== FILES =========
+  public uploadFile(file) {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    return this.http.post(`${environment.config.apiUrl}/files`, formData)
   }
 
   // ======== RECIPES ========
   public getRecipes(): Observable<any> {
-    return this.http.get(`${environment.config.apiUrl}/recipes`)
+    return this.get('recipes')
   }
 
   public getRecipe(uuid: string): Observable<any> {
-    return this.http.get(`${environment.config.apiUrl}/recipes/${uuid}`)
+    return this.get(`recipes/${uuid}`)
   }
 
   public getRecipesForChef(chef_uuid: string): Observable<any> {
-    return this.http.get(
-      `${environment.config.apiUrl}/users/${chef_uuid}/recipes`,
-    )
+    return this.get(`users/${chef_uuid}/recipes`)
   }
 
   public createRecipe(recipe: RecipeCreateDto) {
-    return this.http.post(
-      `${environment.config.apiUrl}/recipes`,
-      JSON.stringify(recipe),
-    )
+    return this.post(`recipes`, recipe)
   }
 
   public deleteRecipe(recipe_uuid: string) {
-    return this.http.delete(
-      `${environment.config.apiUrl}/recipes/${recipe_uuid}`,
-    )
+    return this.delete(`recipes/${recipe_uuid}`)
   }
 
   public updateRecipeIngredients(
     recipe_uuid: string,
     ingredients: RecipeIngredientDto,
   ) {
-    return this.http.put(
-      `${environment.config.apiUrl}/recipes/${recipe_uuid}`,
-      ingredients,
-    )
+    return this.put(`recipes/${recipe_uuid}`, ingredients)
   }
 
   public updateRecipeSteps(recipe_uuid: string, steps: RecipeStepDto) {
-    return this.http.put(
-      `${environment.config.apiUrl}/recipes/${recipe_uuid}`,
-      steps,
-    )
+    return this.put(`recipes/${recipe_uuid}`, steps)
   }
 
   // ======== INGREDIENTS ========
   public searchIngredient(query: string) {
-    return this.http.get(
-      `${environment.config.apiUrl}/ingredients?search=${query}`,
-    )
+    return this.get(`ingredients?search=${query}`)
   }
 
   public getIngredient(uuid: string) {
-    return this.http.get(`${environment.config.apiUrl}/ingredients/${uuid}`)
+    return this.get(`ingredients/${uuid}`)
   }
 
   public createIngredient(ingredient: IngredientCreateDto) {
-    return this.http.post(
-      `${environment.config.apiUrl}/ingredients`,
-      ingredient,
-    )
+    return this.post(`ingredients`, ingredient)
   }
 
   // ======== CHEFS ========
   public getChef(uuid: string): Observable<any> {
-    return this.http.get(`${environment.config.apiUrl}/users/${uuid}`)
+    return this.get(`users/${uuid}`)
   }
 }

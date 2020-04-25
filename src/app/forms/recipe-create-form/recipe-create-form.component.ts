@@ -19,6 +19,7 @@ export class RecipeCreateFormComponent implements OnInit {
     is_public: [false],
     portion_size: [1],
     portion_type: ['portion'],
+    image: [null],
   })
 
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
@@ -26,7 +27,7 @@ export class RecipeCreateFormComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    this.formSubmit.emit(RecipeCreateDto.fromFormValue(this.recipeForm.value))
+    this.formSubmit.emit(<RecipeCreateDto>this.recipeForm.value)
   }
 
   get ingredients() {

@@ -8,6 +8,7 @@ import Recipe from 'src/app/models/recipe.model'
 import { Action } from '@ngrx/store'
 import { ApiService } from 'src/app/services/api.service'
 import Ingredient from 'src/app/models/ingredient.model'
+import RecipeCreateDto from 'src/app/models/DTO/recipe-create.model'
 
 @Injectable()
 export class RecipeEffects {
@@ -53,6 +54,27 @@ export class RecipeEffects {
           map((data: Recipe[]) =>
             recipeActions.GetForChefSuccessAction({ recipes: data }),
           ),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  CreateRecipeWithFile$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.CreateRecipeWithFileAction),
+      mergeMap(action =>
+        this.apiService.uploadFile(action.recipe.image).pipe(
+          map(data => {
+            let recipe: RecipeCreateDto = {
+              ...action.recipe,
+              image_id: data['id'],
+            }
+            delete recipe.image
+            return recipeActions.CreateRecipeAction({ recipe })
+          }),
           catchError((error: Error) =>
             of(recipeActions.ErrorRecipeAction(error)),
           ),

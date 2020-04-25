@@ -1,13 +1,19 @@
+import { FormGroup } from '@angular/forms'
+
 export default class RecipeCreateDto {
-  name: string
-  description: string
-  portion_size: number
-  portion_type: string
-  is_public: boolean
-  ingredients: []
-  steps: []
+  constructor(
+    public name: string,
+    public description: string,
+    public portion_size: number,
+    public portion_type: string,
+    public is_public: boolean,
+    public ingredients: [],
+    public steps: [],
+    public image: File,
+    public image_id: number,
+  ) {}
 
   static fromFormValue(form): RecipeCreateDto {
-    return form as RecipeCreateDto
+    return <RecipeCreateDto>form
   }
 }

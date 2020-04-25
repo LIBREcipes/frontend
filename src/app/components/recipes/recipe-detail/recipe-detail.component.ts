@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router'
 import { ofType } from '@ngrx/effects'
 import { ActionsSubject, select, Store } from '@ngrx/store'
 import { Observable, Subject } from 'rxjs'
-import { map, takeUntil } from 'rxjs/operators'
+import { map, takeUntil, filter } from 'rxjs/operators'
 import Recipe from 'src/app/models/recipe.model'
 import { AuthenticationService } from 'src/app/services/authentication.service'
 import {
@@ -52,11 +52,13 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     })
 
     actionsSubject
-      .pipe(takeUntil(this.destroyed$), ofType(DeleteRecipeSuccessAction))
+      .pipe(
+        takeUntil(this.destroyed$),
+        ofType(DeleteRecipeSuccessAction),
+        filter(a => a.recipe_uuid === this.recipe.uuid),
+      )
       .subscribe(action => {
-        if (action.recipe_uuid === this.recipe.uuid) {
-          _location.back()
-        }
+        _location.back()
       })
   }
 

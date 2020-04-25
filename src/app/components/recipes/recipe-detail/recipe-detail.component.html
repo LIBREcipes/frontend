@@ -1,86 +1,114 @@
 <div *ngIf="recipe; else emptyState">
-    <app-hero 
-        [title]="recipe.name"
-        subtitle="@{{ recipe.chef.username }}"
-        [subtitleAction]="['/chefs', recipe.chef.uuid]"
-    ></app-hero>
+  <app-hero
+    [title]="recipe.name"
+    subtitle="@{{ recipe.chef.username }}"
+    [subtitleAction]="['/chefs', recipe.chef.uuid]"
+  ></app-hero>
 
-    <figure *ngIf="recipe.image" class="image is-2by1 is-hidden-desktop" style="margin-bottom: 10px">
-        <img src="{{ recipe.image }}" style="object-fit: cover;">
-    </figure>
+  <figure
+    *ngIf="recipe.image"
+    class="image is-2by1 is-hidden-desktop"
+    style="margin-bottom: 10px;"
+  >
+    <img src="{{ recipe.image.file }}" style="object-fit: cover;" />
+  </figure>
 
-    <div class="container" style="margin-top: 10px">
-        <article *ngIf="recipe.description" class="message">
-            <div class="message-body">
-                {{ recipe.description }}
-                <br >
-                <br >
-                ~ {{ recipe.chef.username }}
-            </div>
+  <div class="container" style="margin-top: 10px;">
+    <article *ngIf="recipe.description" class="message">
+      <div class="message-body">
+        {{ recipe.description }}
+        <br />
+        <br />
+        ~ {{ recipe.chef.username }}
+      </div>
+    </article>
+    <div class="columns">
+      <div class="column is-3">
+        <article class="panel is-primary">
+          <p class="panel-heading">Ingredients</p>
+          <div *ngIf="isOwner()" class="panel-block">
+            <button
+              class="button is-link is-outlined is-fullwidth"
+              [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']"
+            >
+              <span class="icon"><i class="fa fa-pencil"></i></span>
+              <span>Edit ingredients</span>
+            </button>
+          </div>
+          <div class="panel-block level">
+            <a class="level-item" (click)="changePortionSize(-1)"
+              ><i class="fa fa-minus-circle"></i
+            ></a>
+            <p class="level-item">
+              {{ displayPortionSize }} {{ recipe.portion_type }}
+            </p>
+            <a class="level-item" (click)="changePortionSize(1)"
+              ><i class="fa fa-plus-circle"></i
+            ></a>
+          </div>
+          <a *ngFor="let ingredient of recipe.ingredients" class="panel-block">
+            <strong
+              >{{
+                ingredient.amount * (displayPortionSize / recipe.portion_size)
+              }}
+              {{ ingredient.unit }}</strong
+            >
+            <span class="is-pulled-right"
+              >&nbsp;{{ ingredient.ingredient.name }}</span
+            >
+          </a>
         </article>
-        <div class="columns">
-            <div class="column is-3">
-                <article class="panel is-primary">
-                    <p class="panel-heading">Ingredients</p>
-                     <div *ngIf="isOwner()" class="panel-block">
-                        <button class="button is-link is-outlined is-fullwidth" [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']">
-                            <span class="icon"><i class="fa fa-pencil"></i></span>
-                            <span>Edit ingredients</span>
-                        </button>
-                    </div>
-                    <div class="panel-block level">
-                        <a class="level-item" (click)="changePortionSize(-1)" ><i class="fa fa-minus-circle"></i></a>
-                        <p class="level-item">{{ displayPortionSize }} {{ recipe.portion_type }}</p>
-                        <a class="level-item" (click)="changePortionSize(1)"><i class="fa fa-plus-circle"></i></a>
-                    </div>
-                    <a *ngFor="let ingredient of recipe.ingredients" class="panel-block">
-                        <strong>{{ ingredient.amount * (displayPortionSize / recipe.portion_size) }} {{ ingredient.unit }}</strong>
-                        <span class="is-pulled-right">&nbsp;{{ ingredient.ingredient.name }}</span>
-                    </a>
-                </article>
 
-                <article class="panel is-light">
-                    <p class="panel-heading">Actions</p>
-                    <a class="panel-block" >
-                        <span class="icon icon-small">
-                            <i class="fa fa-share"></i>
-                        </span>
-                        <span>Share this recipe</span>
-                    </a>
-                    <a *ngIf="isOwner()" class="panel-block has-text-danger" (click)="deleteRecipe()">
-                        <span class="icon icon-small">
-                            <i class="fa fa-trash"></i>
-                        </span>
-                        <span>Delete recipe</span>
-                    </a>
-                </article>
-            </div>
+        <article class="panel is-light">
+          <p class="panel-heading">Actions</p>
+          <a class="panel-block">
+            <span class="icon icon-small">
+              <i class="fa fa-share"></i>
+            </span>
+            <span>Share this recipe</span>
+          </a>
+          <a
+            *ngIf="isOwner()"
+            class="panel-block has-text-danger"
+            (click)="deleteRecipe()"
+          >
+            <span class="icon icon-small">
+              <i class="fa fa-trash"></i>
+            </span>
+            <span>Delete recipe</span>
+          </a>
+        </article>
+      </div>
 
-            <div class="column is-9">
-                <figure *ngIf="recipe.image" class="image is-2by1 is-hidden-touch" style="margin-bottom: 10px">
-                    <img src="{{ recipe.image }}" style="object-fit: cover;">
-                </figure>
-                <article class="panel">
-                        <p class="panel-heading">Steps</p>
-                        <p class="panel-block" *ngIf="isOwner()">
-                            <button 
-                                class="button is-link is-outlined is-fullwidth"
-                                [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']">
-                                <span class="icon"><i class="fa fa-pencil"></i></span>
-                                <span>Edit Steps</span>
-                            </button>
-                        </p>
-                        <p *ngFor="let step of recipe.steps" class="panel-block">
-                            <strong>{{ step.step }}.</strong>&nbsp;
-                            {{ step.description }}
-                        </p>
-                </article>
-            </div>
-        </div>
+      <div class="column is-9">
+        <figure
+          *ngIf="recipe.image"
+          class="image is-2by1 is-hidden-touch"
+          style="margin-bottom: 10px;"
+        >
+          <img src="{{ recipe.image.file }}" style="object-fit: cover;" />
+        </figure>
+        <article class="panel">
+          <p class="panel-heading">Steps</p>
+          <p class="panel-block" *ngIf="isOwner()">
+            <button
+              class="button is-link is-outlined is-fullwidth"
+              [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']"
+            >
+              <span class="icon"><i class="fa fa-pencil"></i></span>
+              <span>Edit Steps</span>
+            </button>
+          </p>
+          <p *ngFor="let step of recipe.steps" class="panel-block">
+            <strong>{{ step.step }}.</strong>&nbsp;
+            {{ step.description }}
+          </p>
+        </article>
+      </div>
     </div>
+  </div>
 </div>
 
 <ng-template #emptyState>
-    <app-error
-        type="not-found"></app-error>
+  <app-error type="not-found"></app-error>
 </ng-template>

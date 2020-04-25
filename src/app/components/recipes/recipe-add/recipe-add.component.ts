@@ -5,6 +5,7 @@ import { Store, ActionsSubject } from '@ngrx/store'
 import {
   CreateRecipeAction,
   CreateRecipeSuccessAction,
+  CreateRecipeWithFileAction,
 } from 'src/app/store/actions/recipe.actions'
 import { Location } from '@angular/common'
 import { Subject } from 'rxjs'
@@ -34,7 +35,9 @@ export class RecipeAddComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   onRecipeSubmit(recipe: RecipeCreateDto): void {
-    this.store.dispatch(CreateRecipeAction({ recipe }))
+    if (recipe.image)
+      this.store.dispatch(CreateRecipeWithFileAction({ recipe }))
+    else this.store.dispatch(CreateRecipeAction({ recipe }))
   }
 
   ngOnDestroy(): void {

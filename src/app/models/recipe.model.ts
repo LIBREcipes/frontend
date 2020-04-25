@@ -1,6 +1,7 @@
 import User from './user.model'
 import RecipeIngredient from './recipe-ingredient.model'
 import RecipeStep from './recipe-step.model'
+import DjangoFile from './django-file.model'
 
 export default class Recipe {
   id: number
@@ -13,7 +14,7 @@ export default class Recipe {
   language: string
   created_date: Date
   modified_date: Date
-  image: string
+  image: DjangoFile
 
   portion_size: number
   portion_type: string

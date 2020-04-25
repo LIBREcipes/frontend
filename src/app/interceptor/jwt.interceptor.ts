@@ -65,18 +65,15 @@ export class JwtInterceptor implements HttpInterceptor {
     )
   }
 
-  addAccessToken(request): HttpRequest<unknown> {
+  addAccessToken(request: HttpRequest<unknown>): HttpRequest<unknown> {
     let accessToken = this.authenticationService.getAccessToken()
 
-    if (accessToken) {
-      return request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      })
-    }
+    if (!accessToken) return request
 
-    return request
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
   }
 }
