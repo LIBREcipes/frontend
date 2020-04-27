@@ -9,14 +9,14 @@ import AppState from 'src/app/store/states/app.state'
 import { tap, takeUntil, map } from 'rxjs/operators'
 import { Location } from '@angular/common'
 import { ofType } from '@ngrx/effects'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  private destroyed$ = new Subject<boolean>()
+export class LoginComponent extends WithDestroy() implements OnInit, OnDestroy {
   auth$: Observable<AuthState>
 
   returnUrl: string
@@ -29,7 +29,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private _location: Location,
     private actionsSubject: ScannedActionsSubject,
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.returnUrl =
@@ -37,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authenticationService.currentUser
       .pipe(
-        takeUntil(this.destroyed$),
+        takeUntil(this.destroy$),
         map(user => {
           if (user) this._location.back()
         }),
@@ -45,17 +47,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe()
 
     this.actionsSubject
-      .pipe(takeUntil(this.destroyed$), ofType(authActions.LoginErrorAction))
+      .pipe(takeUntil(this.destroy$), ofType(authActions.LoginErrorAction))
       .subscribe(error => (this.error = error.detail))
   }
 
   onSubmitLoginForm(event: { username: string; password: string }) {
     this.error = null
     this.store.dispatch(authActions.GetTokenAction(event))
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next(true)
-    this.destroyed$.complete()
   }
 }

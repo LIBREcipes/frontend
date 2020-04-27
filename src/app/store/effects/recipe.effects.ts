@@ -9,6 +9,7 @@ import { Action } from '@ngrx/store'
 import { ApiService } from 'src/app/services/api.service'
 import Ingredient from 'src/app/models/ingredient.model'
 import RecipeCreateDto from 'src/app/models/DTO/recipe-create.model'
+import RecipeEditDto from 'src/app/models/DTO/recipe-edit.model'
 
 @Injectable()
 export class RecipeEffects {
@@ -88,7 +89,46 @@ export class RecipeEffects {
       ofType(recipeActions.CreateRecipeAction),
       mergeMap(action =>
         this.apiService.createRecipe(action.recipe).pipe(
-          map((data: Recipe) => recipeActions.CreateRecipeSuccessAction(data)),
+          map((recipe: Recipe) =>
+            recipeActions.CreateRecipeSuccessAction({ recipe }),
+          ),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  UpdateRecipeWithFile$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.UpdateRecipeWithFileAction),
+      mergeMap(action =>
+        this.apiService.uploadFile(action.recipe.image).pipe(
+          map(data => {
+            let recipe: RecipeEditDto = {
+              ...action.recipe,
+              image_id: data['id'],
+            }
+            delete recipe.image
+            return recipeActions.UpdateRecipeAction({ recipe })
+          }),
+          catchError((error: Error) =>
+            of(recipeActions.ErrorRecipeAction(error)),
+          ),
+        ),
+      ),
+    ),
+  )
+
+  UpdateRecipe$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(recipeActions.UpdateRecipeAction),
+      mergeMap(action =>
+        this.apiService.updateRecipe(action.recipe).pipe(
+          map((recipe: Recipe) =>
+            recipeActions.UpdateRecipeSuccessAction({ recipe }),
+          ),
           catchError((error: Error) =>
             of(recipeActions.ErrorRecipeAction(error)),
           ),

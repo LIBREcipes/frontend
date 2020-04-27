@@ -6,6 +6,7 @@ import IngredientCreateDto from '../models/DTO/ingredient-create.model'
 import RecipeCreateDto from '../models/DTO/recipe-create.model'
 import RecipeIngredientDto from '../models/DTO/recipe-ingredient.model'
 import RecipeStepDto from '../models/DTO/recipe-step.model'
+import RecipeEditDto from '../models/DTO/recipe-edit.model'
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +105,10 @@ export class ApiService {
 
   public deleteRecipe(recipe_uuid: string) {
     return this.delete(`recipes/${recipe_uuid}`)
+  }
+
+  public updateRecipe(recipe: RecipeEditDto) {
+    return this.put(`recipes/${recipe.uuid}`, recipe)
   }
 
   public updateRecipeIngredients(

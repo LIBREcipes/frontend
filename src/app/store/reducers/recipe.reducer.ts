@@ -18,8 +18,8 @@ const _recipeReducer = createReducer(
         : [...state.recipes, recipe],
     }
   }),
-  on(action.CreateRecipeSuccessAction, (state: RecipeState, recipe: Recipe) => {
-    return { ...state, recipes: [...state.recipes, recipe] }
+  on(action.CreateRecipeSuccessAction, (state: RecipeState, props) => {
+    return { ...state, recipes: [...state.recipes, props.recipe] }
   }),
   on(action.DeleteRecipeSuccessAction, (state: RecipeState, props) => {
     return {

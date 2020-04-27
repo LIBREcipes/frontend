@@ -2,14 +2,19 @@
   <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
-      <p class="modal-card-title">{{ data.title }}</p>
-      <button class="delete" aria-label="close" (click)="onCancel()"></button>
+      <p class="modal-card-title">{{ modal ? modal.data.title : 'title' }}</p>
+      <button
+        class="delete"
+        aria-label="close"
+        (click)="onModalClose()"
+      ></button>
     </header>
-    <section class="modal-card-body" modalBody>
+    <section class="modal-card-body">
+      <div class="container" appModal></div>
     </section>
     <footer class="modal-card-foot">
-      <button class="button is-success">Save changes</button>
-      <button class="button" (click)="onCancel()">Cancel</button>
+      <button class="button is-success" (click)="onSave()">Save changes</button>
+      <button class="button" (click)="onModalClose()">Cancel</button>
     </footer>
   </div>
 </div>

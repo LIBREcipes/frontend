@@ -1,4 +1,5 @@
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+  <input type="hidden" formControlName="uuid" *ngIf="recipeForm.get('uuid')" />
   <!-- Name -->
   <div class="field is-horizontal">
     <div class="field-label">
@@ -82,7 +83,7 @@
     </div>
   </div>
 
-  <div class="field is-grouped-right">
+  <div class="field is-grouped-right" *ngIf="!isModal">
     <div class="control">
       <button
         class="button is-primary"

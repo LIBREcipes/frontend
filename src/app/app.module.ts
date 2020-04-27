@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { LoginComponent } from './components/auth/login/login.component'
 import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.component'
-import { IngredientModalComponent } from './components/modals/forms/ingredient-modal/ingredient-modal.component'
 import { ModalDirective } from './components/modals/modal.directive'
 import { ModalComponent } from './components/modals/modal/modal.component'
 import { AutocompleteIngredientComponent } from './components/partial/autocomplete/autocomplete-ingredient/autocomplete-ingredient.component'
@@ -74,7 +73,6 @@ export function init_app(loadService: AppInitService) {
     ModalDirective,
     ModalComponent,
     IngredientFormComponent,
-    IngredientModalComponent,
     FileUploadComponent,
     AutofocusDirective,
   ],

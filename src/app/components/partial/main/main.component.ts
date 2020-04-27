@@ -10,18 +10,21 @@ import { ModalComponent } from '../../modals/modal/modal.component'
 import { ModalDirective } from '../../modals/modal.directive'
 import { ModalService } from '../../modals/modal.service'
 import { takeUntil } from 'rxjs/operators'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.sass'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent extends WithDestroy() implements OnInit {
   title = 'librecipes'
   constructor(
     private componentFactory: ComponentFactoryResolver,
     private modalService: ModalService,
-  ) {}
+  ) {
+    super()
+  }
 
   ngOnInit(): void {
     this.modalService.modals.subscribe(modal => this.showModal(modal))
@@ -32,17 +35,19 @@ export class MainComponent implements OnInit {
 
   showModal(modal: Modal): void {
     const factory = this.componentFactory.resolveComponentFactory(
-      modal.component,
+      ModalComponent,
     )
 
     const viewContainerRef = this.modalHost.viewContainerRef
     viewContainerRef.clear()
 
     const componentRef = viewContainerRef.createComponent(factory)
-    componentRef.instance.data = modal.data
-    componentRef.instance.cancel.subscribe(data => {
-      viewContainerRef.clear()
-      this.modalService.dataSubject.next(data)
-    })
+    componentRef.instance.modal = modal
+    componentRef.instance.modalClose
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(obj => {
+        viewContainerRef.clear()
+        this.modalService.dataSubject.next(obj)
+      })
   }
 }

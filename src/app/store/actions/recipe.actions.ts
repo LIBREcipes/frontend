@@ -5,6 +5,7 @@ import Ingredient from 'src/app/models/ingredient.model'
 import RecipeIngredientDto from 'src/app/models/DTO/recipe-ingredient.model'
 import RecipeStepDto from 'src/app/models/DTO/recipe-step.model'
 import IngredientCreateDto from 'src/app/models/DTO/ingredient-create.model'
+import RecipeEditDto from 'src/app/models/DTO/recipe-edit.model'
 
 export const ErrorRecipeAction = createAction('RECIPE - error', props<Error>())
 
@@ -47,7 +48,20 @@ export const CreateRecipeAction = createAction(
 )
 export const CreateRecipeSuccessAction = createAction(
   'RECIPE - create succeeded',
-  props<Recipe>(),
+  props<{ recipe: Recipe }>(),
+)
+
+export const UpdateRecipeWithFileAction = createAction(
+  'RECIPE - update recipe with image',
+  props<{ recipe: RecipeEditDto }>(),
+)
+export const UpdateRecipeWithFileSuccessAction = createAction(
+  'RECIPE - update recipe with image succeeded',
+  props<{ recipe: RecipeEditDto }>(),
+)
+export const UpdateRecipeAction = createAction(
+  'RECIPE - update recipe',
+  props<{ recipe: RecipeEditDto }>(),
 )
 
 export const DeleteRecipeAction = createAction(

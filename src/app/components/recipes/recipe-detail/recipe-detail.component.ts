@@ -80,7 +80,10 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   }
 
   showEditModal() {
-    // this.modalService.showEditRecipeForm(this.recipe).subscribe(console.log)
+    this.modalService.showEditRecipeForm(this.recipe).subscribe(recipe =>
+      // TODO show toast
+      console.log('showEditRecipeForm subscription', recipe),
+    )
   }
 
   deleteRecipe(): void {
