@@ -7,14 +7,14 @@ import { LogoutAction } from 'src/app/store/actions/auth.actions'
 import AppState from 'src/app/store/states/app.state'
 import { AuthenticationService } from 'src/app/services/authentication.service'
 import { Router } from '@angular/router'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.sass'],
 })
-export class NavbarComponent implements OnInit {
-  private destroyed$ = new Subject<boolean>()
+export class NavbarComponent extends WithDestroy() implements OnInit {
   isActive = false
 
   user: User
@@ -60,9 +60,10 @@ export class NavbarComponent implements OnInit {
     authenticationService: AuthenticationService,
     private router: Router,
   ) {
+    super()
     authenticationService.currentUser
       .pipe(
-        takeUntil(this.destroyed$),
+        takeUntil(this.destroy$),
         tap(user => {
           this.user = user
         }),
@@ -70,7 +71,7 @@ export class NavbarComponent implements OnInit {
       .subscribe()
 
     router.events
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(_ => (this.isActive = false))
   }
 
@@ -89,10 +90,5 @@ export class NavbarComponent implements OnInit {
         location.reload()
         break
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next(true)
-    this.destroyed$.complete()
   }
 }

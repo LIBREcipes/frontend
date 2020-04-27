@@ -14,15 +14,17 @@ import {
 import { selectCurrentRecipe } from 'src/app/store/selectors/recipe.selector'
 import AppState from 'src/app/store/states/app.state'
 import { Location } from '@angular/common'
+import { ModalService } from '../../modals/modal.service'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.sass'],
 })
-export class RecipeDetailComponent implements OnInit, OnDestroy {
-  private destroyed$ = new Subject<boolean>()
+export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   private recipe$: Observable<Params>
+  isShowEditing = false
   recipe: Recipe = null
   displayPortionSize: number = 0
 
@@ -32,13 +34,15 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     actionsSubject: ActionsSubject,
     _location: Location,
+    private modalService: ModalService,
   ) {
+    super()
     route.params.subscribe(params => {
-      this.destroyed$.next(true)
+      this.destroy$.next()
       store
         .pipe(select(selectCurrentRecipe, params['recipe_uuid']))
         .pipe(
-          takeUntil(this.destroyed$),
+          takeUntil(this.destroy$),
           map(recipe => {
             if (!recipe) {
               store.dispatch(GetRecipeAction({ uuid: params['recipe_uuid'] }))
@@ -53,7 +57,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
     actionsSubject
       .pipe(
-        takeUntil(this.destroyed$),
+        takeUntil(this.destroy$),
         ofType(DeleteRecipeSuccessAction),
         filter(a => a.recipe_uuid === this.recipe.uuid),
       )
@@ -75,12 +79,11 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.displayPortionSize = Math.max(1, this.displayPortionSize + amount)
   }
 
-  deleteRecipe(): void {
-    this.store.dispatch(DeleteRecipeAction({ recipe_uuid: this.recipe.uuid }))
+  showEditModal() {
+    // this.modalService.showEditRecipeForm(this.recipe).subscribe(console.log)
   }
 
-  ngOnDestroy() {
-    this.destroyed$.next(true)
-    this.destroyed$.complete()
+  deleteRecipe(): void {
+    this.store.dispatch(DeleteRecipeAction({ recipe_uuid: this.recipe.uuid }))
   }
 }

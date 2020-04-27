@@ -26,26 +26,27 @@
       <div class="column is-3">
         <article class="panel is-primary">
           <p class="panel-heading">Ingredients</p>
-          <div *ngIf="isOwner()" class="panel-block">
-            <button
-              class="button is-link is-outlined is-fullwidth"
-              [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']"
-            >
-              <span class="icon"><i class="fa fa-pencil"></i></span>
-              <span>Edit ingredients</span>
-            </button>
-          </div>
-          <div class="panel-block level">
-            <a class="level-item" (click)="changePortionSize(-1)"
+          <div class="panel-block">
+            <a
+              class="tile is-child is-vertical has-text-centered"
+              (click)="changePortionSize(-1)"
               ><i class="fa fa-minus-circle"></i
             ></a>
-            <p class="level-item">
+            <p class="tile is-child is-vertical is-10 has-text-centered">
               {{ displayPortionSize }} {{ recipe.portion_type }}
             </p>
-            <a class="level-item" (click)="changePortionSize(1)"
+            <a
+              class="tile is-child is-vertical has-text-centered"
+              (click)="changePortionSize(1)"
               ><i class="fa fa-plus-circle"></i
             ></a>
           </div>
+          <p
+            *ngIf="!recipe.ingredients || !recipe.ingredients.length"
+            class="panel-block"
+          >
+            <small>No ingredients defined.</small>
+          </p>
           <a *ngFor="let ingredient of recipe.ingredients" class="panel-block">
             <strong
               >{{
@@ -61,22 +62,56 @@
 
         <article class="panel is-light">
           <p class="panel-heading">Actions</p>
-          <a class="panel-block">
-            <span class="icon icon-small">
-              <i class="fa fa-share"></i>
-            </span>
-            <span>Share this recipe</span>
-          </a>
-          <a
-            *ngIf="isOwner()"
-            class="panel-block has-text-danger"
-            (click)="deleteRecipe()"
+          <p class="panel-tabs" *ngIf="isOwner()">
+            <a
+              [class.is-active]="!isShowEditing"
+              (click)="isShowEditing = false"
+              >All</a
+            >
+            <a [class.is-active]="isShowEditing" (click)="isShowEditing = true"
+              >Edit</a
+            >
+          </p>
+          <ng-template [ngIf]="!isShowEditing">
+            <a class="panel-block">
+              <span class="icon icon-small">
+                <i class="fa fa-share"></i>
+              </span>
+              <span>Share this recipe</span>
+            </a></ng-template
           >
-            <span class="icon icon-small">
-              <i class="fa fa-trash"></i>
-            </span>
-            <span>Delete recipe</span>
-          </a>
+          <ng-template [ngIf]="isShowEditing && isOwner()">
+            <a class="panel-block" (click)="showEditModal()">
+              <span class="icon icon-small">
+                <i class="fa fa-edit"></i>
+              </span>
+              <span>Edit Recipe</span>
+            </a>
+            <a
+              class="panel-block"
+              [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']"
+            >
+              <span class="icon icon-small">
+                <i class="fa fa-edit"></i>
+              </span>
+              <span>Edit Ingredients</span>
+            </a>
+            <a
+              class="panel-block"
+              [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']"
+            >
+              <span class="icon icon-small">
+                <i class="fa fa-edit"></i>
+              </span>
+              <span>Edit Steps</span>
+            </a>
+            <a class="panel-block has-text-danger" (click)="deleteRecipe()">
+              <span class="icon icon-small">
+                <i class="fa fa-trash"></i>
+              </span>
+              <span>Delete recipe</span>
+            </a>
+          </ng-template>
         </article>
       </div>
 
@@ -90,14 +125,8 @@
         </figure>
         <article class="panel">
           <p class="panel-heading">Steps</p>
-          <p class="panel-block" *ngIf="isOwner()">
-            <button
-              class="button is-link is-outlined is-fullwidth"
-              [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']"
-            >
-              <span class="icon"><i class="fa fa-pencil"></i></span>
-              <span>Edit Steps</span>
-            </button>
+          <p *ngIf="!recipe.steps || !recipe.steps.length" class="panel-block">
+            <small>No steps defined.</small>
           </p>
           <p *ngFor="let step of recipe.steps" class="panel-block">
             <strong>{{ step.step }}.</strong>&nbsp;

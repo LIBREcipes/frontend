@@ -18,15 +18,14 @@ import {
   UpdateRecipeSuccessAction,
 } from 'src/app/store/actions/recipe.actions'
 import { ofType } from '@ngrx/effects'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-recipe-edit-steps',
   templateUrl: './recipe-edit-steps.component.html',
   styleUrls: ['./recipe-edit-steps.component.sass'],
 })
-export class RecipeEditStepsComponent implements OnInit, OnDestroy {
-  private destroyed$ = new Subject<boolean>()
-
+export class RecipeEditStepsComponent extends WithDestroy() implements OnInit {
   recipe: Recipe
 
   constructor(
@@ -35,13 +34,14 @@ export class RecipeEditStepsComponent implements OnInit, OnDestroy {
     actionsSubject: ScannedActionsSubject,
     private router: Router,
   ) {
+    super()
     const routeChanged$ = new Subject<boolean>()
     route.params.subscribe(params => {
       routeChanged$.next(true)
       if (params['recipe_uuid']) {
         store
           .pipe(select(selectRecipe, { recipe_uuid: params['recipe_uuid'] }))
-          .pipe(takeUntil(routeChanged$), takeUntil(this.destroyed$))
+          .pipe(takeUntil(routeChanged$), takeUntil(this.destroy$))
           .subscribe(recipe => {
             if (!recipe) {
               store.dispatch(GetRecipeAction({ uuid: params['recipe_uuid'] }))
@@ -55,7 +55,7 @@ export class RecipeEditStepsComponent implements OnInit, OnDestroy {
     // listen for update complete
     actionsSubject
       .pipe(
-        takeUntil(this.destroyed$),
+        takeUntil(this.destroy$),
         ofType(UpdateRecipeSuccessAction),
         map(props => props.recipe),
       )
@@ -78,10 +78,5 @@ export class RecipeEditStepsComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       UpdateRecipeStepsAction({ recipe_uuid: this.recipe.uuid, steps }),
     )
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next(true)
-    this.destroyed$.complete()
   }
 }

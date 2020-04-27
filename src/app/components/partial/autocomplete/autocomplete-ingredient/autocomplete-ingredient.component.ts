@@ -20,6 +20,7 @@ import { AutocompleteObject } from 'src/app/models/autocompletable.model'
 import { selectIngredient } from 'src/app/store/selectors/recipe.selector'
 import { ModalService } from 'src/app/components/modals/modal.service'
 import { IngredientFormComponent } from 'src/app/forms/ingredient-form/ingredient-form.component'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-autocomplete-ingredient',
@@ -33,10 +34,8 @@ import { IngredientFormComponent } from 'src/app/forms/ingredient-form/ingredien
     },
   ],
 })
-export class AutocompleteIngredientComponent
-  implements OnInit, OnDestroy, ControlValueAccessor {
-  private destroyed$ = new Subject<boolean>()
-
+export class AutocompleteIngredientComponent extends WithDestroy()
+  implements OnInit, ControlValueAccessor {
   query = new FormControl('')
   results: AutocompleteObject[] = []
   selectedValue: AutocompleteObject = null
@@ -46,11 +45,13 @@ export class AutocompleteIngredientComponent
     private store: Store<AppState>,
     private actionsSubject: ActionsSubject,
     private modalService: ModalService,
-  ) {}
+  ) {
+    super()
+  }
   ngOnInit(): void {
     // listen for query changes
     this.query.valueChanges
-      .pipe(takeUntil(this.destroyed$), debounceTime(300))
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(value => {
         if (!this.selectedValue || value !== this.selectedValue.value)
           this.store.dispatch(SearchIngredientAction({ query: value }))
@@ -59,7 +60,7 @@ export class AutocompleteIngredientComponent
     // listen for results
     this.actionsSubject
       .pipe(
-        takeUntil(this.destroyed$),
+        takeUntil(this.destroy$),
         ofType(SearchIngredientSuccessAction),
         map(props => props.ingredients),
         map(ingredients =>
@@ -115,11 +116,6 @@ export class AutocompleteIngredientComponent
       .subscribe(ingredient =>
         this.selectAutocompleteObject(Ingredient.toAutocomplete(ingredient)),
       )
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next(true)
-    this.destroyed$.complete()
   }
 
   get value() {

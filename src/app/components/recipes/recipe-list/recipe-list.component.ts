@@ -11,14 +11,14 @@ import {
   selectRecipes,
   selectChefRecipes,
 } from 'src/app/store/selectors/recipe.selector'
+import { WithDestroy } from 'src/app/mixins'
 
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
   styleUrls: ['./recipe-list.component.sass'],
 })
-export class RecipeListComponent implements OnInit, OnDestroy {
-  private destroyed$ = new Subject<boolean>()
+export class RecipeListComponent extends WithDestroy() implements OnInit {
   private chef_uuid: string
   title = 'Recipes'
   showEmptyState: boolean = false
@@ -28,6 +28,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[] = []
 
   constructor(private store: Store<AppState>, route: ActivatedRoute) {
+    super()
     route.params.subscribe(x => {
       this.chef_uuid = x['chef_uuid']
       this.title = x['chef_uuid'] ? 'My Recipes' : 'Recipes'
@@ -47,7 +48,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.recipes$
       .pipe(
-        takeUntil(this.destroyed$),
+        takeUntil(this.destroy$),
         map(recipes => {
           this.recipes = recipes
           this.showEmptyState = !recipes
@@ -56,10 +57,5 @@ export class RecipeListComponent implements OnInit, OnDestroy {
       .subscribe()
 
     this.store.dispatch(recipeActions.GetRecipesAction())
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next(true)
-    this.destroyed$.complete()
   }
 }

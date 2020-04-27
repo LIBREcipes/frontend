@@ -36,7 +36,12 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    console.log('file-upload-writeValue', obj)
+    if (obj == null) return
+
+    let split: string = obj.file.split('/')
+    this.file = <File>{
+      name: split[split.length - 1],
+    }
   }
   registerOnChange(fn: any): void {
     this.onChange = fn
