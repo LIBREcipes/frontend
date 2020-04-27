@@ -27,14 +27,24 @@ export class ModalComponent extends WithDestroy() implements OnInit {
   @Input() modal: Modal
   @Output() modalClose = new EventEmitter()
 
+  private defaultData = {
+    confirmButtonText: 'Save',
+    startDisabled: false,
+    hideCancel: false,
+  }
+
   @ViewChild(ModalDirective, { static: true }) modalBody: ModalDirective
   private currentComponentRef: ComponentRef<Modalable>
+  disabled: boolean = false
 
   constructor(private componentFactory: ComponentFactoryResolver) {
     super()
   }
 
   ngOnInit(): void {
+    this.modal.data = { ...this.defaultData, ...this.modal.data }
+    this.disabled = this.modal.data.startDisabled
+
     const factory = this.componentFactory.resolveComponentFactory(
       this.modal.component,
     )
@@ -48,6 +58,9 @@ export class ModalComponent extends WithDestroy() implements OnInit {
     this.currentComponentRef.instance.closeModal
       .pipe(takeUntil(this.destroy$))
       .subscribe(recipe => this.onModalClose(recipe))
+    this.currentComponentRef.instance.disabled
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(disabled => (this.disabled = disabled))
   }
 
   onSave(): void {

@@ -23,6 +23,8 @@ export function WithModal<T extends Constructor<{}>>(
   class WithModalClass extends Base implements Modalable {
     @Input() data
     @Output() closeModal = new EventEmitter()
+    @Output() disabled = new EventEmitter()
+
     isModal: boolean = false
 
     onModalSave(): void {

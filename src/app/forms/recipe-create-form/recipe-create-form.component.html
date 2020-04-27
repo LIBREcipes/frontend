@@ -83,14 +83,14 @@
     </div>
   </div>
 
-  <div class="field is-grouped-right" *ngIf="!isModal">
+  <div class="field is-grouped-right" [class.is-hidden]="isModal">
     <div class="control">
       <button
         class="button is-primary"
         type="submit"
         [disabled]="!recipeForm.valid"
       >
-        create
+        Create
       </button>
     </div>
   </div>

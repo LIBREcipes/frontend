@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <div class="field is-grouped is-grouped-right" *ngIf="!isModal">
+  <div class="field is-grouped is-grouped-right" [class.is-hidden]="isModal">
     <div class="control">
       <button type="submit" class="button is-success" (click)="onSubmit()">
         Save

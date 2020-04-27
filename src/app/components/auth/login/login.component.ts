@@ -21,8 +21,6 @@ export class LoginComponent extends WithDestroy() implements OnInit, OnDestroy {
 
   returnUrl: string
 
-  error: string = null
-
   constructor(
     private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
@@ -45,14 +43,5 @@ export class LoginComponent extends WithDestroy() implements OnInit, OnDestroy {
         }),
       )
       .subscribe()
-
-    this.actionsSubject
-      .pipe(takeUntil(this.destroy$), ofType(authActions.LoginErrorAction))
-      .subscribe(error => (this.error = error.detail))
-  }
-
-  onSubmitLoginForm(event: { username: string; password: string }) {
-    this.error = null
-    this.store.dispatch(authActions.GetTokenAction(event))
   }
 }

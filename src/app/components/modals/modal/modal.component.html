@@ -13,8 +13,20 @@
       <div class="container" appModal></div>
     </section>
     <footer class="modal-card-foot">
-      <button class="button is-success" (click)="onSave()">Save changes</button>
-      <button class="button" (click)="onModalClose()">Cancel</button>
+      <button
+        class="button is-success"
+        [disabled]="disabled"
+        (click)="onSave()"
+      >
+        {{ modal.data.confirmButtonText }}
+      </button>
+      <button
+        *ngIf="!modal.data.hideCancel"
+        class="button"
+        (click)="onModalClose()"
+      >
+        Cancel
+      </button>
     </footer>
   </div>
 </div>

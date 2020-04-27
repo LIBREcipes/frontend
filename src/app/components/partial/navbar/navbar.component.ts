@@ -8,6 +8,7 @@ import AppState from 'src/app/store/states/app.state'
 import { AuthenticationService } from 'src/app/services/authentication.service'
 import { Router } from '@angular/router'
 import { WithDestroy } from 'src/app/mixins'
+import { ModalService } from '../../modals/modal.service'
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,7 @@ import { WithDestroy } from 'src/app/mixins'
   styleUrls: ['./navbar.component.sass'],
 })
 export class NavbarComponent extends WithDestroy() implements OnInit {
-  isActive = false
+  isDropdownActive = false
 
   user: User
 
@@ -59,6 +60,7 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
     private store: Store<AppState>,
     authenticationService: AuthenticationService,
     private router: Router,
+    private modalService: ModalService,
   ) {
     super()
     authenticationService.currentUser
@@ -72,10 +74,14 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
 
     router.events
       .pipe(takeUntil(this.destroy$))
-      .subscribe(_ => (this.isActive = false))
+      .subscribe(_ => (this.isDropdownActive = false))
   }
 
   ngOnInit(): void {}
+
+  showLoginModal(): void {
+    this.modalService.showLoginForm().pipe(takeUntil(this.destroy$)).subscribe()
+  }
 
   onDropdownSelected(key) {
     switch (key) {
