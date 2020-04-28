@@ -27,10 +27,12 @@ const routes: Routes = [
       {
         path: 'recipes/:recipe_uuid/edit/ingredients',
         component: RecipeEditIngredientsComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'recipes/:recipe_uuid/edit/steps',
         component: RecipeEditStepsComponent,
+        canActivate: [AuthGuard],
       },
 
       { path: 'chefs/:chef_uuid', component: ChefDetailComponent },

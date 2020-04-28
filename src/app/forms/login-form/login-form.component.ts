@@ -18,7 +18,7 @@ import { ofType } from '@ngrx/effects'
 })
 export class LoginFormComponent extends WithDestroy(WithModal(class {}))
   implements OnInit {
-  error: string = null
+  errorType = LoginErrorAction
   loginForm = this.formBuilder.group({
     username: ['', [Validators.required, Validators.minLength(4)]],
     password: ['', [Validators.required, Validators.minLength(4)]],
@@ -40,11 +40,6 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
       )
       .subscribe(user => this.closeModal.emit(user))
 
-    // Listen for login errors
-    actionsSubject
-      .pipe(takeUntil(this.destroy$), ofType(LoginErrorAction))
-      .subscribe(error => (this.error = error.detail))
-
     // change confirm button's disabled state
     this.loginForm.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -54,7 +49,6 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
   ngOnInit(): void {}
 
   onSubmit() {
-    this.error = null
     this.store.dispatch(GetTokenAction(this.loginForm.value))
   }
 

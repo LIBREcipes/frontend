@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store'
 import RecipeIngredientDto from 'src/app/models/DTO/recipe-ingredient.model'
 import RecipeIngredient from 'src/app/models/recipe-ingredient.model'
 import AppState from 'src/app/store/states/app.state'
+import { ErrorRecipeAction } from 'src/app/store/actions/recipe.actions'
 
 @Component({
   selector: 'app-recipe-ingredient-form',
@@ -16,6 +17,7 @@ export class RecipeIngredientFormComponent implements OnInit {
   ingredientForm = this.fb.group({
     ingredients: this.fb.array([]),
   })
+  errorType = ErrorRecipeAction
 
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 

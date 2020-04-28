@@ -1,9 +1,5 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <article class="message is-danger" *ngIf="error">
-    <div class="message-body">
-      {{ error }}
-    </div>
-  </article>
+  <app-form-error [action]="errorType"></app-form-error>
   <div class="field">
     <label class="label">Username</label>
     <div class="control">

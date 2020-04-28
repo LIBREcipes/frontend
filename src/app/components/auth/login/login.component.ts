@@ -19,27 +19,24 @@ import { WithDestroy } from 'src/app/mixins'
 export class LoginComponent extends WithDestroy() implements OnInit, OnDestroy {
   auth$: Observable<AuthState>
 
-  returnUrl: string
-
   constructor(
-    private store: Store<AppState>,
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private _location: Location,
+    private router: Router,
     private actionsSubject: ScannedActionsSubject,
   ) {
     super()
   }
 
   ngOnInit(): void {
-    this.returnUrl =
+    const returnUrl =
       this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/'
 
     this.authenticationService.currentUser
       .pipe(
         takeUntil(this.destroy$),
         map(user => {
-          if (user) this._location.back()
+          if (user) this.router.navigateByUrl(returnUrl)
         }),
       )
       .subscribe()

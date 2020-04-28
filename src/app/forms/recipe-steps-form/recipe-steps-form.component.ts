@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import RecipeStep from 'src/app/models/recipe-step.model'
 import RecipeStepDto from 'src/app/models/DTO/recipe-step.model'
 import { FormBuilder, FormArray, Validators } from '@angular/forms'
+import { ErrorRecipeAction } from 'src/app/store/actions/recipe.actions'
 
 @Component({
   selector: 'app-recipe-steps-form',
@@ -11,6 +12,7 @@ import { FormBuilder, FormArray, Validators } from '@angular/forms'
 export class RecipeStepsFormComponent implements OnInit {
   @Input() initial: RecipeStep[]
   @Output() formSubmit = new EventEmitter<RecipeStepDto>()
+  errorType = ErrorRecipeAction
 
   form = this.fb.group({
     steps: this.fb.array([]),

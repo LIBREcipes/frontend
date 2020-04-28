@@ -5,6 +5,7 @@ import { WithModal, WithDestroy } from 'src/app/mixins'
 import {
   CreateIngredientAction,
   CreateIngredientSuccessAction,
+  ErrorRecipeAction,
 } from 'src/app/store/actions/recipe.actions'
 import RecipeCreateDto from 'src/app/models/DTO/recipe-create.model'
 import { Store, ScannedActionsSubject } from '@ngrx/store'
@@ -20,6 +21,7 @@ import { ofType } from '@ngrx/effects'
 export class IngredientFormComponent extends WithDestroy(WithModal(class {}))
   implements OnInit {
   @Output() formSubmit = new EventEmitter<IngredientCreateDto>()
+  errorType = ErrorRecipeAction
 
   form: FormGroup
 

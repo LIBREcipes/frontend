@@ -1,4 +1,5 @@
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+  <app-form-error [action]="errorType" [spacer]="!isModal"></app-form-error>
   <input type="hidden" formControlName="uuid" *ngIf="recipeForm.get('uuid')" />
   <!-- Name -->
   <div class="field is-horizontal">

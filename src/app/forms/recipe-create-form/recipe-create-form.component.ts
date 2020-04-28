@@ -13,6 +13,7 @@ import {
   UpdateRecipeAction,
   UpdateRecipeWithFileAction,
   UpdateRecipeSuccessAction,
+  ErrorRecipeAction,
 } from 'src/app/store/actions/recipe.actions'
 import AppState from 'src/app/store/states/app.state'
 
@@ -26,6 +27,7 @@ import AppState from 'src/app/store/states/app.state'
 export class RecipeCreateFormComponent extends WithDestroy(WithModal(class {}))
   implements OnInit {
   @Output() recipeCreated = new EventEmitter()
+  errorType = ErrorRecipeAction
 
   recipeForm = this.fb.group({
     name: [''],
