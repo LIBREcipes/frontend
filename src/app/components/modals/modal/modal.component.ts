@@ -36,6 +36,7 @@ export class ModalComponent extends WithDestroy() implements OnInit {
   @ViewChild(ModalDirective, { static: true }) modalBody: ModalDirective
   private currentComponentRef: ComponentRef<Modalable>
   disabled: boolean = false
+  isLoading = false
 
   constructor(private componentFactory: ComponentFactoryResolver) {
     super()
@@ -55,6 +56,9 @@ export class ModalComponent extends WithDestroy() implements OnInit {
     this.currentComponentRef = viewContainerRef.createComponent(factory)
     this.currentComponentRef.instance.data = this.modal.data
     this.currentComponentRef.instance.initModal()
+    this.currentComponentRef.instance.isLoading
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isLoading => (this.isLoading = isLoading))
     this.currentComponentRef.instance.closeModal
       .pipe(takeUntil(this.destroy$))
       .subscribe(recipe => this.onModalClose(recipe))

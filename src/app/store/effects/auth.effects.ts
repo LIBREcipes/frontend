@@ -59,6 +59,22 @@ export class AuthEffects {
     ),
   )
 
+  CreateUser$: Observable<Action> = createEffect(() =>
+    this.action$.pipe(
+      ofType(authActions.CreateUserAction),
+      mergeMap(action =>
+        this.apiService.createUser(action.user).pipe(
+          map((user: User) => {
+            return authActions.CreateUserSuccessAction({ user })
+          }),
+          catchError((error: Error) => {
+            return of(authActions.ErrorAuthAction(error))
+          }),
+        ),
+      ),
+    ),
+  )
+
   Logout$: Observable<Action> = createEffect(() =>
     this.action$.pipe(
       ofType(authActions.LogoutAction),

@@ -80,7 +80,13 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
   ngOnInit(): void {}
 
   showLoginModal(): void {
+    this.isDropdownActive = false
     this.modalService.showLoginForm().pipe(takeUntil(this.destroy$)).subscribe()
+  }
+
+  showRegistrationModal(): void {
+    this.isDropdownActive = false
+    this.modalService.showRegistrationForm()
   }
 
   onDropdownSelected(key) {

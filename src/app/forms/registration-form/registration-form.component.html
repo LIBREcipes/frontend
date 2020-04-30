@@ -1,0 +1,67 @@
+<form [formGroup]="form">
+  <article class="field">
+    <label class="label">Username *</label>
+    <div class="control">
+      <input
+        type="text"
+        class="input"
+        formControlName="username"
+        required
+        appAutofocus
+      />
+    </div>
+  </article>
+
+  <article class="field">
+    <label class="label">First Name *</label>
+    <div class="control">
+      <input type="text" class="input" formControlName="first_name" required />
+    </div>
+  </article>
+
+  <article class="field">
+    <label class="label">Last Name *</label>
+    <div class="control">
+      <input type="text" class="input" formControlName="last_name" required />
+    </div>
+  </article>
+
+  <article class="field">
+    <label class="label">Email *</label>
+    <div class="control">
+      <input type="email" class="input" formControlName="email" required />
+    </div>
+  </article>
+
+  <article class="field">
+    <label class="label">Password *</label>
+    <div class="control">
+      <input
+        type="password"
+        class="input"
+        formControlName="password"
+        required
+      />
+    </div>
+  </article>
+
+  <article class="field">
+    <label class="label">Confirm Password *</label>
+    <div class="control">
+      <input
+        type="password"
+        class="input"
+        formControlName="password_confirm"
+        required
+      />
+    </div>
+  </article>
+
+  <div class="field" [class.is-hidden]="isModal">
+    <div class="control">
+      <button class="button is-primary" type="submit" [disabled]="!form.valid">
+        Register
+      </button>
+    </div>
+  </div>
+</form>

@@ -7,6 +7,7 @@ import RecipeCreateDto from '../models/DTO/recipe-create.model'
 import RecipeIngredientDto from '../models/DTO/recipe-ingredient.model'
 import RecipeStepDto from '../models/DTO/recipe-step.model'
 import RecipeEditDto from '../models/DTO/recipe-edit.model'
+import UserCreateDto from '../models/DTO/user-create.model'
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +77,10 @@ export class ApiService {
 
   public getMe(): Observable<any> {
     return this.get('users/me')
+  }
+
+  public createUser(user: UserCreateDto) {
+    return this.post('users', user)
   }
 
   // ======== FILES =========

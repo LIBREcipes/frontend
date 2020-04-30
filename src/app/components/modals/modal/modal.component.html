@@ -17,6 +17,7 @@
         class="button is-success"
         [disabled]="disabled"
         (click)="onSave()"
+        [class.is-loading]="isLoading"
       >
         {{ modal.data.confirmButtonText }}
       </button>

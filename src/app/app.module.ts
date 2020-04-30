@@ -40,7 +40,9 @@ import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer';
-import { FormErrorComponent } from './components/partial/form-error/form-error.component'
+import { FormErrorComponent } from './components/partial/form-error/form-error.component';
+import { RegistrationFormComponent } from './forms/registration-form/registration-form.component';
+import { NotificationComponent } from './components/partial/notification/notification.component'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -77,6 +79,8 @@ export function init_app(loadService: AppInitService) {
     FileUploadComponent,
     AutofocusDirective,
     FormErrorComponent,
+    RegistrationFormComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

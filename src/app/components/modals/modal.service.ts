@@ -7,6 +7,7 @@ import Recipe from 'src/app/models/recipe.model'
 import Modal from './modal'
 import { LoginFormComponent } from 'src/app/forms/login-form/login-form.component'
 import User from 'src/app/models/user.model'
+import { RegistrationFormComponent } from 'src/app/forms/registration-form/registration-form.component'
 
 @Injectable({
   providedIn: 'root',
@@ -55,5 +56,16 @@ export class ModalService {
 
     this.modals.next(new Modal(LoginFormComponent, data))
     return this.clearDataSubject<User>()
+  }
+
+  showRegistrationForm(): Subject<void> {
+    const data = {
+      title: 'Register',
+      confirmButtonText: 'Register',
+      startDisabled: true,
+    }
+
+    this.modals.next(new Modal(RegistrationFormComponent, data))
+    return this.clearDataSubject<void>()
   }
 }

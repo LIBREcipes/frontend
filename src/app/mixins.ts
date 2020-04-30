@@ -24,11 +24,12 @@ export function WithModal<T extends Constructor<{}>>(
     @Input() data
     @Output() closeModal = new EventEmitter()
     @Output() disabled = new EventEmitter()
+    @Output() isLoading = new EventEmitter()
 
     isModal: boolean = false
 
     onModalSave(): void {
-      throw new Error('onModalSave needs to be overriden')
+      throw new Error('WithModal().onModalSave needs to be overriden')
     }
 
     initModal(): void {
