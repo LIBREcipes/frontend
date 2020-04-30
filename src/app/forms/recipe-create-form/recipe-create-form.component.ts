@@ -60,6 +60,7 @@ export class RecipeCreateFormComponent extends WithDestroy(WithModal(class {}))
   ngOnInit(): void {}
 
   onSubmit(): void {
+    this.isLoading.emit(true)
     if (this.recipeForm.value.uuid) {
       const recipe = new RecipeEditDto(this.recipeForm.value)
       if (recipe.image)

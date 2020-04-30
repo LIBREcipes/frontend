@@ -48,15 +48,20 @@
             <small>No ingredients defined.</small>
           </p>
           <a *ngFor="let ingredient of recipe.ingredients" class="panel-block">
-            <strong
-              >{{
-                ingredient.amount * (displayPortionSize / recipe.portion_size)
-              }}
-              {{ ingredient.unit }}</strong
-            >
-            <span class="is-pulled-right"
-              >&nbsp;{{ ingredient.ingredient.name }}</span
-            >
+            <div class="level">
+              <div class="level-left">
+                <span>&nbsp;{{ ingredient.ingredient.name }}</span>
+              </div>
+              <div class="level-right">
+                <strong
+                  >{{
+                    ingredient.amount *
+                      (displayPortionSize / recipe.portion_size)
+                  }}
+                  {{ ingredient.unit }}</strong
+                >
+              </div>
+            </div>
           </a>
         </article>
 

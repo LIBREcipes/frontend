@@ -1,5 +1,8 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <app-form-error [action]="errorType"></app-form-error>
+  <app-form-error
+    [action]="errorType"
+    (active)="isLoading.emit(false)"
+  ></app-form-error>
   <div class="field">
     <label class="label">Username</label>
     <div class="control">

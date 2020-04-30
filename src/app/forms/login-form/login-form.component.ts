@@ -10,6 +10,8 @@ import {
 } from 'src/app/store/actions/auth.actions'
 import { takeUntil, map } from 'rxjs/operators'
 import { ofType } from '@ngrx/effects'
+import { Location } from '@angular/common'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-login-form',
@@ -28,6 +30,7 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
     actionsSubject: ScannedActionsSubject,
+    router: Router,
   ) {
     super()
 
@@ -38,7 +41,10 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
         ofType(LoginSuccessAction),
         map(props => props.user),
       )
-      .subscribe(user => this.closeModal.emit(user))
+      .subscribe(user => {
+        window.location.reload()
+        this.closeModal.emit(user)
+      })
 
     // change confirm button's disabled state
     this.loginForm.valueChanges
@@ -49,6 +55,7 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
   ngOnInit(): void {}
 
   onSubmit() {
+    this.isLoading.emit(true)
     this.store.dispatch(GetTokenAction(this.loginForm.value))
   }
 

@@ -1,4 +1,4 @@
-<app-hero *ngIf="!showEmptyState" [title]="title"></app-hero>
+<app-hero [title]="title"></app-hero>
 
 <section class="container" *ngIf="!showEmptyState; else errorBlock">
   <div class="columns is-multiline">

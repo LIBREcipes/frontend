@@ -1,5 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <app-form-error [action]="errorType"></app-form-error>
+  <app-form-error
+    [action]="errorType"
+    (active)="isLoading = false"
+  ></app-form-error>
   <div
     class="message"
     formArrayName="steps"
@@ -47,7 +50,12 @@
 
   <div class="field">
     <div class="control">
-      <button class="button is-primary" type="submit" [disabled]="!form.valid">
+      <button
+        class="button is-primary"
+        [class.is-loading]="isLoading"
+        type="submit"
+        [disabled]="!form.valid"
+      >
         Save
       </button>
     </div>

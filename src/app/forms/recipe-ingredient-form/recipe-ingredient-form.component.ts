@@ -54,6 +54,7 @@ export class RecipeIngredientFormComponent implements OnInit {
   }
   removeForm(index) {
     this.ingredients.removeAt(index)
+    this.ingredientForm.markAsDirty()
   }
 
   onSubmit() {

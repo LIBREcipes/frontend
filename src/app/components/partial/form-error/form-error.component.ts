@@ -1,7 +1,14 @@
-import { Component, OnInit, Input, Type } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  Input,
+  Type,
+  Output,
+  EventEmitter,
+} from '@angular/core'
 import { WithDestroy } from 'src/app/mixins'
 import { ScannedActionsSubject, Action, ActionCreator } from '@ngrx/store'
-import { takeUntil, map } from 'rxjs/operators'
+import { takeUntil, map, tap } from 'rxjs/operators'
 import { ErrorRecipeAction } from 'src/app/store/actions/recipe.actions'
 import { ofType } from '@ngrx/effects'
 import DjangoError from 'src/app/models/django-error.model'
@@ -14,6 +21,7 @@ import DjangoError from 'src/app/models/django-error.model'
 export class FormErrorComponent extends WithDestroy() implements OnInit {
   @Input() action: any
   @Input() spacer = false
+  @Output() active = new EventEmitter()
   error: string = null
 
   constructor(private actionsSubject: ScannedActionsSubject) {
@@ -25,8 +33,13 @@ export class FormErrorComponent extends WithDestroy() implements OnInit {
       .pipe(
         takeUntil(this.destroy$),
         ofType(this.action),
-        map(err => (err['detail'] ? err : new DjangoError(<Error>err))),
+        map(err =>
+          err instanceof DjangoError ? err : new DjangoError(<Error>err),
+        ),
       )
-      .subscribe(err => (this.error = err.detail))
+      .subscribe(err => {
+        this.error = err.detail
+        this.active.emit()
+      })
   }
 }

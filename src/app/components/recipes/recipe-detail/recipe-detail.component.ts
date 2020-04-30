@@ -16,6 +16,7 @@ import AppState from 'src/app/store/states/app.state'
 import { Location } from '@angular/common'
 import { ModalService } from '../../modals/modal.service'
 import { WithDestroy } from 'src/app/mixins'
+import { NotificationService } from '../../partial/notification/notification.service'
 
 @Component({
   selector: 'app-recipe-detail',
@@ -35,6 +36,7 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
     actionsSubject: ActionsSubject,
     _location: Location,
     private modalService: ModalService,
+    private notificationService: NotificationService,
   ) {
     super()
     route.params.subscribe(params => {
@@ -80,10 +82,13 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   }
 
   showEditModal() {
-    this.modalService.showEditRecipeForm(this.recipe).subscribe(recipe =>
-      // TODO show toast
-      console.log('showEditRecipeForm subscription', recipe),
-    )
+    this.modalService
+      .showEditRecipeForm(this.recipe)
+      .subscribe(recipe =>
+        this.notificationService.showNotification(
+          `Successfully update <b>${recipe.name}</b>.`,
+        ),
+      )
   }
 
   deleteRecipe(): void {

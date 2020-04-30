@@ -12,10 +12,17 @@ export class NotificationService {
 
   constructor() {}
 
-  showNotification(msg: string, success = true) {
-    this.onShow.next(
-      new Notification(NotificationService.COUNTER++, msg, success),
+  showNotification(msg: string, success = true, autoDismiss = true) {
+    const notification = new Notification(
+      NotificationService.COUNTER++,
+      msg,
+      success,
     )
+    this.onShow.next(notification)
+
+    if (autoDismiss) {
+      setTimeout(() => this.deleteNotification(notification.id), 3000)
+    }
   }
 
   deleteNotification(id: number) {

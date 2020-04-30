@@ -13,6 +13,7 @@ export class RecipeStepsFormComponent implements OnInit {
   @Input() initial: RecipeStep[]
   @Output() formSubmit = new EventEmitter<RecipeStepDto>()
   errorType = ErrorRecipeAction
+  isLoading = false
 
   form = this.fb.group({
     steps: this.fb.array([]),
@@ -47,9 +48,11 @@ export class RecipeStepsFormComponent implements OnInit {
 
   removeForm(index) {
     this.steps.removeAt(index)
+    this.form.markAsDirty()
   }
 
   onSubmit() {
+    this.isLoading = true
     this.formSubmit.emit(
       !this.form.dirty && !this.form.touched
         ? null

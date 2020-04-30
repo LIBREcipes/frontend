@@ -51,7 +51,7 @@ export class RecipeListComponent extends WithDestroy() implements OnInit {
         takeUntil(this.destroy$),
         map(recipes => {
           this.recipes = recipes
-          this.showEmptyState = !recipes
+          this.showEmptyState = !recipes || recipes.length === 0
         }),
       )
       .subscribe()
