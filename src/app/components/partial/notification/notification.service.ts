@@ -12,8 +12,10 @@ export class NotificationService {
 
   constructor() {}
 
-  showNotification(msg: string) {
-    this.onShow.next(new Notification(NotificationService.COUNTER++, msg))
+  showNotification(msg: string, success = true) {
+    this.onShow.next(
+      new Notification(NotificationService.COUNTER++, msg, success),
+    )
   }
 
   deleteNotification(id: number) {
