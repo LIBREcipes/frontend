@@ -33,9 +33,7 @@ export class FormErrorComponent extends WithDestroy() implements OnInit {
       .pipe(
         takeUntil(this.destroy$),
         ofType(this.action),
-        map(err =>
-          err instanceof DjangoError ? err : new DjangoError(<Error>err),
-        ),
+        map(err => ('detail' in err ? err : new DjangoError(<Error>err))),
       )
       .subscribe(err => {
         this.error = err.detail
