@@ -1,17 +1,16 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core'
+import { Component, Injector, OnInit } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
-import { WithModal, WithDestroy } from 'src/app/mixins'
-import { Store, ScannedActionsSubject } from '@ngrx/store'
-import AppState from 'src/app/store/states/app.state'
+import { ofType } from '@ngrx/effects'
+import { ScannedActionsSubject, Store } from '@ngrx/store'
+import { map, takeUntil } from 'rxjs/operators'
+import { WithDestroy, WithModal } from 'src/app/mixins'
 import {
   GetTokenAction,
-  LoginSuccessAction,
   LoginErrorAction,
+  LoginSuccessAction,
 } from 'src/app/store/actions/auth.actions'
-import { takeUntil, map } from 'rxjs/operators'
-import { ofType } from '@ngrx/effects'
-import { Location } from '@angular/common'
-import { Router } from '@angular/router'
+import AppState from 'src/app/store/states/app.state'
+import { ModalService } from 'src/app/components/modals/modal.service'
 
 @Component({
   selector: 'app-login-form',
@@ -29,8 +28,8 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<AppState>,
+    private modalService: ModalService,
     actionsSubject: ScannedActionsSubject,
-    router: Router,
   ) {
     super()
 
@@ -57,6 +56,10 @@ export class LoginFormComponent extends WithDestroy(WithModal(class {}))
   onSubmit() {
     this.isLoading.emit(true)
     this.store.dispatch(GetTokenAction(this.loginForm.value))
+  }
+
+  showForgotPassword() {
+    this.modalService.showPasswordResetRequestForm()
   }
 
   onModalSave(): void {

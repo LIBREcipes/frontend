@@ -12,32 +12,42 @@ import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-
   {
     path: '',
     component: MainComponent,
     children: [
-      { path: 'recipes', component: RecipeListComponent },
       {
-        path: 'recipes/create',
-        component: RecipeAddComponent,
-        canActivate: [AuthGuard],
+        path: 'recipes',
+        children: [
+          {
+            path: 'create',
+            component: RecipeAddComponent,
+            canActivate: [AuthGuard],
+          },
+          { path: ':recipe_uuid', component: RecipeDetailComponent },
+          {
+            path: ':recipe_uuid/edit/ingredients',
+            component: RecipeEditIngredientsComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: ':recipe_uuid/edit/steps',
+            component: RecipeEditStepsComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: '',
+            component: RecipeListComponent,
+          },
+        ],
       },
-      { path: 'recipes/:recipe_uuid', component: RecipeDetailComponent },
       {
-        path: 'recipes/:recipe_uuid/edit/ingredients',
-        component: RecipeEditIngredientsComponent,
-        canActivate: [AuthGuard],
+        path: 'chefs',
+        children: [
+          { path: ':chef_uuid', component: ChefDetailComponent },
+          { path: ':chef_uuid/recipes', component: RecipeListComponent },
+        ],
       },
-      {
-        path: 'recipes/:recipe_uuid/edit/steps',
-        component: RecipeEditStepsComponent,
-        canActivate: [AuthGuard],
-      },
-
-      { path: 'chefs/:chef_uuid', component: ChefDetailComponent },
-      { path: 'chefs/:chef_uuid/recipes', component: RecipeListComponent },
-
       { path: '', redirectTo: '/recipes', pathMatch: 'full' },
     ],
   },

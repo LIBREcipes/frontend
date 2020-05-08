@@ -21,7 +21,7 @@ export class NotificationService {
     this.onShow.next(notification)
 
     if (autoDismiss) {
-      setTimeout(() => this.deleteNotification(notification.id), 3000)
+      setTimeout(() => this.deleteNotification(notification.id), 5000)
     }
   }
 

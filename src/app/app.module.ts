@@ -17,9 +17,11 @@ import { AutocompleteComponent } from './components/partial/autocomplete/autocom
 import { BulmaDropdownComponent } from './components/partial/bulma-dropdown/bulma-dropdown.component'
 import { ErrorComponent } from './components/partial/error/error.component'
 import { FileUploadComponent } from './components/partial/file-upload/file-upload.component'
+import { FormErrorComponent } from './components/partial/form-error/form-error.component'
 import { HeroComponent } from './components/partial/hero/hero.component'
 import { MainComponent } from './components/partial/main/main.component'
 import { NavbarComponent } from './components/partial/navbar/navbar.component'
+import { NotificationComponent } from './components/partial/notification/notification.component'
 import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.component'
 import { RecipeDetailComponent } from './components/recipes/recipe-detail/recipe-detail.component'
 import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit-ingredients/recipe-edit-ingredients.component'
@@ -31,6 +33,7 @@ import { LoginFormComponent } from './forms/login-form/login-form.component'
 import { RecipeCreateFormComponent } from './forms/recipe-create-form/recipe-create-form.component'
 import { RecipeIngredientFormComponent } from './forms/recipe-ingredient-form/recipe-ingredient-form.component'
 import { RecipeStepsFormComponent } from './forms/recipe-steps-form/recipe-steps-form.component'
+import { RegistrationFormComponent } from './forms/registration-form/registration-form.component'
 import { JwtInterceptor } from './interceptor/jwt.interceptor'
 import { CapFirstPipe } from './pipes/cap-first.pipe'
 import { EllipsisJoinPipe } from './pipes/ellipsis-join.pipe'
@@ -40,9 +43,8 @@ import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer'
-import { FormErrorComponent } from './components/partial/form-error/form-error.component'
-import { RegistrationFormComponent } from './forms/registration-form/registration-form.component'
-import { NotificationComponent } from './components/partial/notification/notification.component'
+import { PasswordResetRequestComponent } from './forms/auth/password-reset-request/password-reset-request.component'
+import { ModalService } from './components/modals/modal.service'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -81,6 +83,7 @@ export function init_app(loadService: AppInitService) {
     FormErrorComponent,
     RegistrationFormComponent,
     NotificationComponent,
+    PasswordResetRequestComponent,
   ],
   imports: [
     BrowserModule,

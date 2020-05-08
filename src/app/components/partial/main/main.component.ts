@@ -64,7 +64,7 @@ export class MainComponent extends WithDestroy() implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(obj => {
         viewContainerRef.clear()
-        this.modalService.dataSubject.next(obj)
+        if (obj !== 'cancel') this.modalService.dataSubject.next(obj)
       })
   }
 

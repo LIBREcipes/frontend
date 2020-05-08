@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service'
 import { Router } from '@angular/router'
 import { WithDestroy } from 'src/app/mixins'
 import { ModalService } from '../../modals/modal.service'
+import { LoginFormComponent } from 'src/app/forms/login-form/login-form.component'
 
 @Component({
   selector: 'app-navbar',
@@ -81,7 +82,15 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
 
   showLoginModal(): void {
     this.isDropdownActive = false
-    this.modalService.showLoginForm().pipe(takeUntil(this.destroy$)).subscribe()
+    this.modalService
+      .showModal<User>(LoginFormComponent, {
+        title: 'Login',
+        confirmButtonText: 'Login',
+        hideCancel: true,
+        startDisabled: true,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe()
   }
 
   showRegistrationModal(): void {

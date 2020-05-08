@@ -83,6 +83,10 @@ export class ApiService {
     return this.post('users', user)
   }
 
+  public requestPasswordReset(email: string) {
+    return this.post('auth/password-reset-request', { email })
+  }
+
   // ======== FILES =========
   public uploadFile(file) {
     const formData = new FormData()
