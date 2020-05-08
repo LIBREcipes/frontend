@@ -21,7 +21,7 @@
         </div>
         <div class="card-content">
           <div class="media">
-            <div class="media-left">
+            <!-- <div class="media-left">
               <figure class="image is-48x48">
                 <img
                   src="https://bulma.io/images/placeholders/96x96.png"
@@ -29,7 +29,7 @@
                   [alt]="recipe.chef.username"
                 />
               </figure>
-            </div>
+            </div> -->
             <div class="media-content">
               <p class="title is-4">
                 <a [routerLink]="['/recipes', recipe.uuid]">{{
@@ -44,12 +44,21 @@
             </div>
           </div>
 
-          <div class="content">
+          <div
+            class="content"
+            *ngIf="recipe.ingredients && recipe.ingredients.length"
+          >
             {{
               recipe.ingredients
                 | pluck: 'ingredient.name'
                 | ellipsisJoin: ', ':70
             }}
+          </div>
+          <div
+            class="content"
+            *ngIf="!recipe.ingredients || !recipe.ingredients.length"
+          >
+            <small>No ingredients specified</small>
           </div>
         </div>
         <footer class="card-footer">
