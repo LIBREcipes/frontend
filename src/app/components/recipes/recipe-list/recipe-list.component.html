@@ -30,7 +30,7 @@
                 />
               </figure>
             </div> -->
-          <div class="content">
+          <div class="content is-height-2">
             <p class="title is-4">
               <a [routerLink]="['/recipes', recipe.uuid]">{{ recipe.name }}</a>
             </p>
@@ -38,7 +38,7 @@
           <!-- </div> -->
 
           <div
-            class="content"
+            class="content is-height-2"
             *ngIf="recipe.ingredients && recipe.ingredients.length"
           >
             {{
@@ -48,7 +48,7 @@
             }}
           </div>
           <div
-            class="content"
+            class="content is-height-2 has-text-grey"
             *ngIf="!recipe.ingredients || !recipe.ingredients.length"
           >
             <small>No ingredients specified</small>
