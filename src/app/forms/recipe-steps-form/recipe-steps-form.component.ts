@@ -39,11 +39,14 @@ export class RecipeStepsFormComponent implements OnInit {
     return this.fb.group({
       id: [id],
       description: [description, Validators.required],
+      collapsed: [true],
     })
   }
 
   addForm() {
-    this.steps.push(this.getForm())
+    const form = this.getForm()
+    form.get('collapsed').setValue(false)
+    this.steps.push(form)
   }
 
   removeForm(index) {
@@ -53,6 +56,7 @@ export class RecipeStepsFormComponent implements OnInit {
 
   onSubmit() {
     this.isLoading = true
+
     this.formSubmit.emit(
       !this.form.dirty && !this.form.touched
         ? null

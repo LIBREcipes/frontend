@@ -1,0 +1,52 @@
+<div class="message" cdkDrag>
+  <!-- DRAG AND DROP TEMPLATES -->
+  <div
+    class="has-background-grey"
+    style="height: 30px;"
+    *cdkDragPlaceholder
+  ></div>
+  <!-- /DRAG AND DROP TEMPLATES -->
+  <div class="message-header" (click)="toggleCollapsed()" cdkDragHandle>
+    <p>
+      <span class="icon"><i class="fa fa-bars"></i></span>
+      <span *ngIf="stepValue">{{ stepValue | ellipsis: 50 }}</span>
+    </p>
+    <span class="icon">
+      <i
+        class="fa"
+        [class.fa-chevron-down]="collapsed.value"
+        [class.fa-chevron-up]="!collapsed.value"
+      ></i>
+    </span>
+  </div>
+  <div
+    *ngIf="!collapsed.value"
+    class="message-body"
+    [formGroup]="controlContainer.control"
+  >
+    <input type="hidden" formControlName="id" />
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">Description</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <textarea
+              class="textarea"
+              rows="1"
+              formControlName="description"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <a class="button is-danger" (confirm)="remove.emit()" appConfirm
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

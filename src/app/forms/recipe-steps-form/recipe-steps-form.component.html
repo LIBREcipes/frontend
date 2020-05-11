@@ -8,50 +8,20 @@
     [action]="errorType"
     (active)="isLoading = false"
   ></app-form-error>
-  <div
-    class="message"
+
+  <ng-template
+    ngFor
+    let-i="index"
+    let-control
+    [ngForOf]="steps.controls"
     formArrayName="steps"
-    *ngFor="let control of steps.controls; let i = index"
-    cdkDrag
   >
-    <div class="message-header" *cdkDragPreview>
-      <p>Step {{ i + 1 }}</p>
-    </div>
-    <div
-      class="has-background-info"
-      style="height: 2px;"
-      *cdkDragPlaceholder
-    ></div>
-    <div class="message-header" cdkDragHandle>
-      <p>
-        <span class="icon"><i class="fa fa-bars"></i></span>Step
-        {{ i + 1 }}
-      </p>
-      <button
-        class="delete"
-        aria-label="delete"
-        (click)="removeForm(i)"
-      ></button>
-    </div>
-    <div class="message-body" [formGroupName]="i">
-      <input type="hidden" formControlName="id" />
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Description</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <textarea
-                class="textarea"
-                formControlName="description"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <app-recipe-step-field
+      [step]="i + 1"
+      (remove)="removeForm($event)"
+      [formGroupName]="i"
+    ></app-recipe-step-field
+  ></ng-template>
 
   <div class="field is-grouped is-grouped-right">
     <div class="control">

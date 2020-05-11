@@ -45,6 +45,8 @@ import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer'
+import { RecipeStepFieldComponent } from './forms/recipe-steps-form/recipe-step-field/recipe-step-field.component';
+import { ConfirmDirective } from './directives/confirm.directive'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -84,6 +86,8 @@ export function init_app(loadService: AppInitService) {
     RegistrationFormComponent,
     NotificationComponent,
     PasswordResetRequestComponent,
+    RecipeStepFieldComponent,
+    ConfirmDirective,
   ],
   imports: [
     BrowserModule,

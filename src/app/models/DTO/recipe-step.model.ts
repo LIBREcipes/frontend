@@ -16,6 +16,8 @@ export default class RecipeStepDto {
       if (!step.id) {
         delete step.id
       }
+
+      if (step.hasOwnProperty('collapsed')) delete step.collapsed
     }
 
     return form as RecipeStepDto
