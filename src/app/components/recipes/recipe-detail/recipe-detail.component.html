@@ -105,7 +105,11 @@
               </span>
               <span>Edit Steps</span>
             </a>
-            <a class="panel-block has-text-danger" (click)="deleteRecipe()">
+            <a
+              class="panel-block has-text-danger"
+              (confirm)="deleteRecipe()"
+              appConfirm
+            >
               <span class="icon icon-small">
                 <i class="fa fa-trash"></i>
               </span>
