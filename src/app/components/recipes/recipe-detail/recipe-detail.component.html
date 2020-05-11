@@ -73,12 +73,12 @@
             >
           </p>
           <ng-template [ngIf]="!isShowEditing">
-            <a class="panel-block">
+            <p class="panel-block has-text-grey-light">
               <span class="icon icon-small">
                 <i class="fa fa-share"></i>
               </span>
               <span>Share this recipe</span>
-            </a></ng-template
+            </p></ng-template
           >
           <ng-template [ngIf]="isShowEditing && isOwner()">
             <a class="panel-block" (click)="showEditModal()">
@@ -128,10 +128,12 @@
           <p *ngIf="!recipe.steps || !recipe.steps.length" class="panel-block">
             <small>No steps defined.</small>
           </p>
-          <p *ngFor="let step of recipe.steps" class="panel-block">
-            <strong>{{ step.step }}.</strong>&nbsp;
-            {{ step.description }}
-          </p>
+          <div *ngFor="let step of recipe.steps" class="panel-block">
+            <section class="step-container">
+              <strong>{{ step.step }}.</strong>&nbsp;
+              <span>{{ step.description }}</span>
+            </section>
+          </div>
         </article>
       </div>
     </div>
