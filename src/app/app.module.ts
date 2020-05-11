@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
@@ -28,6 +29,7 @@ import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit
 import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps/recipe-edit-steps.component'
 import { RecipeListComponent } from './components/recipes/recipe-list/recipe-list.component'
 import { AutofocusDirective } from './directives/autofocus.directive'
+import { PasswordResetRequestComponent } from './forms/auth/password-reset-request/password-reset-request.component'
 import { IngredientFormComponent } from './forms/ingredient-form/ingredient-form.component'
 import { LoginFormComponent } from './forms/login-form/login-form.component'
 import { RecipeCreateFormComponent } from './forms/recipe-create-form/recipe-create-form.component'
@@ -43,8 +45,6 @@ import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer'
-import { PasswordResetRequestComponent } from './forms/auth/password-reset-request/password-reset-request.component'
-import { ModalService } from './components/modals/modal.service'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -95,6 +95,7 @@ export function init_app(loadService: AppInitService) {
       maxAge: 25, // Retains last 25 states
     }),
     ReactiveFormsModule,
+    DragDropModule,
   ],
   providers: [
     AppInitService,

@@ -59,4 +59,11 @@ export class RecipeStepsFormComponent implements OnInit {
         : RecipeStepDto.fromFormValue(this.form.value),
     )
   }
+
+  stepDropped(el) {
+    const step = this.steps.at(el.previousIndex)
+    this.steps.removeAt(el.previousIndex)
+    this.steps.insert(el.currentIndex, step)
+    this.form.markAsDirty()
+  }
 }

@@ -8,7 +8,7 @@ export default class DjangoError {
     }
 
     this.detail =
-      'error' in error && 'detail' in error['error']
+      error.hasOwnProperty('error') && error['error'].hasOwnProperty('detail')
         ? error['error']['detail']
         : error['statusText']
   }

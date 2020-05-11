@@ -1,4 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  cdkDropList
+  (cdkDropListDropped)="stepDropped($event)"
+>
   <app-form-error
     [action]="errorType"
     (active)="isLoading = false"
@@ -7,9 +12,21 @@
     class="message"
     formArrayName="steps"
     *ngFor="let control of steps.controls; let i = index"
+    cdkDrag
   >
-    <div class="message-header">
+    <div class="message-header" *cdkDragPreview>
       <p>Step {{ i + 1 }}</p>
+    </div>
+    <div
+      class="has-background-info"
+      style="height: 2px;"
+      *cdkDragPlaceholder
+    ></div>
+    <div class="message-header" cdkDragHandle>
+      <p>
+        <span class="icon"><i class="fa fa-bars"></i></span>Step
+        {{ i + 1 }}
+      </p>
       <button
         class="delete"
         aria-label="delete"
