@@ -18,7 +18,7 @@
   >
     <app-recipe-step-field
       [step]="i + 1"
-      (remove)="removeForm($event)"
+      (remove)="removeForm(i)"
       [formGroupName]="i"
     ></app-recipe-step-field
   ></ng-template>

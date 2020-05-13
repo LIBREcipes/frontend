@@ -1,4 +1,4 @@
-<div class="message" cdkDrag [cdkDragStartDelay]="500">
+<div class="message" cdkDrag>
   <!-- DRAG AND DROP TEMPLATES -->
   <div
     class="has-background-grey"
@@ -6,9 +6,9 @@
     *cdkDragPlaceholder
   ></div>
   <!-- /DRAG AND DROP TEMPLATES -->
-  <div class="message-header" (click)="toggleCollapsed()" cdkDragHandle>
+  <div class="message-header" (click)="toggleCollapsed()">
     <p>
-      <span class="icon"><i class="fa fa-bars"></i></span>
+      <span class="icon" cdkDragHandle><i class="fa fa-bars"></i></span>
       <span *ngIf="stepValue">{{ stepValue | ellipsis: 50 }}</span>
     </p>
     <span class="icon">
