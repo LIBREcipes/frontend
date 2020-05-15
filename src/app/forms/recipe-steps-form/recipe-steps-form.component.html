@@ -23,19 +23,7 @@
     ></app-recipe-step-field
   ></ng-template>
 
-  <div class="field is-grouped is-grouped-right">
-    <div class="control">
-      <button
-        class="button is-small is-outlined"
-        type="button"
-        (click)="addForm()"
-      >
-        <i class="fa fa-plus"></i>
-      </button>
-    </div>
-  </div>
-
-  <div class="field">
+  <div class="field is-grouped">
     <div class="control">
       <button
         class="button is-primary"
@@ -44,6 +32,12 @@
         [disabled]="!form.valid"
       >
         Save
+      </button>
+    </div>
+    <div class="control">
+      <button class="button is-outlined" type="button" (click)="addForm()">
+        <span class="icon"><i class="fa fa-plus"></i></span>
+        <span>Add Step</span>
       </button>
     </div>
   </div>
