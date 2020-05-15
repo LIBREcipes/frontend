@@ -19,11 +19,13 @@
     </div>
     <div id="topNav" class="navbar-menu" [class.is-active]="isDropdownActive">
       <div class="navbar-start">
-        <a
-          *ngFor="let item of navbarLinks"
-          class="navbar-item"
-          [routerLink]="item.link"
-          >{{ item.value }}</a
+        <ng-template ngFor let-item [ngForOf]="navbarLinks">
+          <a
+            *ngIf="!item.auth || user"
+            class="navbar-item"
+            (click)="onDropdownSelected(item)"
+            >{{ item.value }}</a
+          ></ng-template
         >
       </div>
       <div class="navbar-end">

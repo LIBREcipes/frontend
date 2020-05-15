@@ -1,8 +1,17 @@
-div.ingredient
-    width: 100%
-    display: flex
-    justify-content: space-between
+@import 'src/_variables'
 
-section.step-container
-    display: flex
-    // justify-content: space-between
+$recipe-info-margin: 1rem
+
+.recipe-info
+    margin-top: $recipe-info-margin
+    margin-bottom: $recipe-info-margin
+
+.recipe-info-hr
+        margin-top: $recipe-info-margin 
+
+section.without-hr
+    margin-top: 3rem
+
+@media screen and ( min-width:1024px )
+    .has-border-left-desktop
+        border-left: 1px solid $hr-background-color

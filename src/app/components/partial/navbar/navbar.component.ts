@@ -23,28 +23,18 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
 
   navbarLinks = [
     {
-      key: 'home',
-      value: 'Home',
-      link: '/',
-    },
-    {
       key: 'recipes',
       value: 'Recipes',
       link: '/recipes',
     },
-    // {
-    //   key: 'ingredients',
-    //   value: 'Ingredients',
-    //   link: '/ingredients'
-    // }
+    {
+      key: 'myRecipes',
+      value: 'My Recipes',
+      auth: true,
+    },
   ]
 
   userDropdownOptions = [
-    {
-      key: 'myRecipes',
-      icon: 'fa fa-book',
-      value: 'My Recipes',
-    },
     {
       key: 'profile',
       icon: 'fa fa-user',
@@ -98,8 +88,13 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
     this.modalService.showRegistrationForm()
   }
 
-  onDropdownSelected(key) {
-    switch (key) {
+  onDropdownSelected(item) {
+    if ('link' in item) {
+      this.router.navigateByUrl(item['link'])
+      return
+    }
+
+    switch (item['key']) {
       case 'myRecipes':
         this.router.navigate(['/chefs', this.user.uuid, 'recipes'])
         break

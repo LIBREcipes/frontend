@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { ActivatedRoute, Params } from '@angular/router'
+import { ActivatedRoute, Params, Router } from '@angular/router'
 import { ofType } from '@ngrx/effects'
 import { ActionsSubject, select, Store } from '@ngrx/store'
 import { Observable, Subject } from 'rxjs'
@@ -28,13 +28,14 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   isShowEditing = false
   recipe: Recipe = null
   displayPortionSize: number = 0
+  recipeEditDropdown = false
 
   constructor(
     route: ActivatedRoute,
     private store: Store<AppState>,
     private authenticationService: AuthenticationService,
     actionsSubject: ActionsSubject,
-    _location: Location,
+    router: Router,
     private modalService: ModalService,
     private notificationService: NotificationService,
   ) {
@@ -64,7 +65,7 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
         filter(a => a.recipe_uuid === this.recipe.uuid),
       )
       .subscribe(action => {
-        _location.back()
+        router.navigate(['/recipes'])
       })
   }
 

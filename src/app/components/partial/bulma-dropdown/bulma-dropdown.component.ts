@@ -21,7 +21,7 @@ export class BulmaDropdownComponent implements OnInit {
     this.isActive = value ?? !this.isActive
   }
 
-  onDropdownSelected(key) {
-    this.dropdownSelect.emit(key)
+  onDropdownSelected(item) {
+    this.dropdownSelect.emit(item)
   }
 }

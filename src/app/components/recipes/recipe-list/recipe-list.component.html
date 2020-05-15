@@ -1,70 +1,38 @@
 <app-hero [title]="title"></app-hero>
 
-<section class="container" *ngIf="!showEmptyState; else errorBlock">
-  <div class="columns is-multiline">
-    <div
-      *ngFor="let recipe of recipes"
-      class="column is-one-quarter-fullhd is-one-third-desktop is-half"
+<div class="container is-fluid">
+  <section
+    class="columns is-desktop is-centered is-multiline"
+    *ngIf="recipes; else errorBlock"
+  >
+    <article
+      *ngFor="let recipe of recipes; let isLast = last"
+      class="clickable column is-5-desktop is-3-fullhd has-border-desktop"
+      [routerLink]="['/recipes', recipe.uuid]"
     >
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img
-              [src]="
-                recipe.image
-                  ? recipe.image.file
-                  : 'https://bulma.io/images/placeholders/1280x960.png'
-              "
-              alt="{{ recipe.name }} image"
-            />
+      <div class="columns is-multiline">
+        <div class="column is-12-desktop">
+          <figure class="image is-5by3">
+            <img [src]="recipe.image ? recipe.image.file : ''" />
           </figure>
         </div>
-        <div class="card-content">
-          <!-- <div class="media"> -->
-          <!-- <div class="media-left">
-              <figure class="image is-48x48">
-                <img
-                  src="https://bulma.io/images/placeholders/96x96.png"
-                  class="is-rounded"
-                  [alt]="recipe.chef.username"
-                />
-              </figure>
-            </div> -->
-          <div class="content is-height-2">
-            <p class="title is-4">
-              <a [routerLink]="['/recipes', recipe.uuid]">{{ recipe.name }}</a>
-            </p>
-          </div>
-          <!-- </div> -->
-
-          <div
-            class="content is-height-2"
-            *ngIf="recipe.ingredients && recipe.ingredients.length"
-          >
+        <section class="column recipe-content">
+          <span class="is-title">
+            {{ recipe.name }}
+          </span>
+          <span class="has-text-grey">
             {{
-              recipe.ingredients
-                | pluck: 'ingredient.name'
-                | ellipsisJoin: ', ':70
+              (recipe.description ? recipe.description : 'No description.')
+                | ellipsis: 150
             }}
-          </div>
-          <div
-            class="content is-height-2 has-text-grey"
-            *ngIf="!recipe.ingredients || !recipe.ingredients.length"
-          >
-            <small>No ingredients specified</small>
-          </div>
-        </div>
-        <footer class="card-footer">
-          <p class="card-footer-item">
-            <!-- <time>{{ recipe.created_date | date }}</time> -->
-            {{ recipe.chef.username }}
-          </p>
-        </footer>
+          </span>
+        </section>
       </div>
-    </div>
-  </div>
-</section>
+      <hr *ngIf="!isLast" class="is-hidden-desktop" />
+    </article>
+  </section>
 
-<ng-template #errorBlock>
-  <app-error type="empty"></app-error>
-</ng-template>
+  <ng-template #errorBlock>
+    <app-error type="empty"></app-error>
+  </ng-template>
+</div>
