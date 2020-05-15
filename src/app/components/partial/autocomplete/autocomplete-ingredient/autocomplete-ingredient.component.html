@@ -1,27 +1,36 @@
 <div class="dropdown" [class.is-active]="isActive()">
   <div class="dropdown-trigger">
     <div class="field">
-        <div class="control">
-            <input 
-                class="input"
-                placeholder="Search ingredients..."
-                [formControl]="query"
-            >
-        </div>
+      <div class="control">
+        <input
+          class="input"
+          placeholder="Search ingredients..."
+          [formControl]="query"
+        />
+      </div>
     </div>
   </div>
   <div class="dropdown-menu" id="dropdown-menu" role="menu">
     <div class="dropdown-content">
+      <ng-template [ngIf]="showAddOption">
         <a class="dropdown-item" (click)="createIngredient(query.value)">
-            <span class="icon"><i class="fa fa-plus"></i></span>
-            <span>Add {{ query.value }}</span>
+          <span class="icon"><i class="fa fa-plus"></i></span>
+          <span>Create {{ query.value }}</span>
         </a>
-        <hr class="dropdown-divider" *ngIf="results.length">
-        <a 
-            class="dropdown-item"
-            *ngFor="let result of results"
-            (click)="selectAutocompleteObject(result)"
-        ><span>{{ result.value }}</span></a>
+        <hr class="dropdown-divider" />
+      </ng-template>
+      <a
+        class="dropdown-item"
+        *ngFor="let result of results"
+        (click)="selectAutocompleteObject(result)"
+        ><span>{{ result.value }}</span></a
+      >
+      <p
+        class="dropdown-item"
+        *ngIf="!showAddOption && (!results || !results.length)"
+      >
+        <span>Searching..</span>
+      </p>
     </div>
   </div>
 </div>

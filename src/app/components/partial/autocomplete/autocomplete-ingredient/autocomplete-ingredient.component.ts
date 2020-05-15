@@ -40,6 +40,7 @@ export class AutocompleteIngredientComponent extends WithDestroy()
   results: AutocompleteObject[] = []
   selectedValue: AutocompleteObject = null
   ongChangeFn = (val: string) => {}
+  showAddOption = false
 
   constructor(
     private store: Store<AppState>,
@@ -63,11 +64,14 @@ export class AutocompleteIngredientComponent extends WithDestroy()
         takeUntil(this.destroy$),
         ofType(SearchIngredientSuccessAction),
         map(props => props.ingredients),
-        map(ingredients =>
-          ingredients.map<AutocompleteObject>(i =>
-            Ingredient.toAutocomplete(i),
-          ),
-        ),
+        map(ingredients => {
+          this.showAddOption = true
+          return ingredients.map<AutocompleteObject>(i => {
+            if (i.name.toLowerCase() === this.query.value.toLowerCase())
+              this.showAddOption = false
+            return Ingredient.toAutocomplete(i)
+          })
+        }),
       )
       .subscribe((results: AutocompleteObject[]) => (this.results = results))
   }
