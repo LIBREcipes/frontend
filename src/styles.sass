@@ -41,4 +41,8 @@ form .message
         @include delay(-1.1 + $i*0.1)
 
 img
-  object-fit: cover
+  &.is-cover
+    object-fit: cover
+
+  &.is-contain
+    object-fit: contain

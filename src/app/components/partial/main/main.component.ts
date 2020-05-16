@@ -6,6 +6,7 @@ import {
   ComponentFactory,
   ViewContainerRef,
 } from '@angular/core'
+import { environment } from 'src/environments/environment'
 import Modal from '../../modals/modal'
 import { ModalComponent } from '../../modals/modal/modal.component'
 import { ModalDirective } from '../../modals/modal.directive'
@@ -17,6 +18,7 @@ import {
   NotificationService,
   Notification,
 } from '../notification/notification.service'
+import { Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-main',
@@ -30,8 +32,10 @@ export class MainComponent extends WithDestroy() implements OnInit {
     private componentFactory: ComponentFactoryResolver,
     private modalService: ModalService,
     private notificationService: NotificationService,
+    titleService: Title,
   ) {
     super()
+    titleService.setTitle(environment.config.title)
   }
 
   ngOnInit(): void {

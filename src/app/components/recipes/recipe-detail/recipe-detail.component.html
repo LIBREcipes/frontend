@@ -5,7 +5,7 @@
   <div class="column is-12-tablet is-10-desktop is-9-widescreen is-7-fullhd">
     <h1 class="title is-5">{{ recipe.name }}</h1>
     <figure class="image is-5by3" *ngIf="recipe.image">
-      <img [src]="recipe.image.file" />
+      <img class="is-cover" [src]="recipe.image.file" />
     </figure>
 
     <section class="recipe-info has-text-centered is-block">

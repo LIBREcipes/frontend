@@ -13,7 +13,10 @@
       <div class="columns is-multiline">
         <div class="column is-12-desktop">
           <figure class="image is-5by3">
-            <img [src]="recipe.image ? recipe.image.file : ''" />
+            <img
+              class="is-cover"
+              [src]="recipe.image ? recipe.image.file : ''"
+            />
           </figure>
         </div>
         <section class="column recipe-content">

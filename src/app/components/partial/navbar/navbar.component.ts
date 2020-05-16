@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core'
-import { select, Store } from '@ngrx/store'
-import { Subject } from 'rxjs'
-import { map, takeUntil, tap } from 'rxjs/operators'
+import { Router } from '@angular/router'
+import { Store } from '@ngrx/store'
+import { takeUntil, tap } from 'rxjs/operators'
+import { LoginFormComponent } from 'src/app/forms/login-form/login-form.component'
+import { WithDestroy } from 'src/app/mixins'
 import User from 'src/app/models/user.model'
+import { AuthenticationService } from 'src/app/services/authentication.service'
 import { LogoutAction } from 'src/app/store/actions/auth.actions'
 import AppState from 'src/app/store/states/app.state'
-import { AuthenticationService } from 'src/app/services/authentication.service'
-import { Router } from '@angular/router'
-import { WithDestroy } from 'src/app/mixins'
 import { ModalService } from '../../modals/modal.service'
-import { LoginFormComponent } from 'src/app/forms/login-form/login-form.component'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-navbar',
@@ -46,6 +46,10 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
       value: 'Sign Out',
     },
   ]
+
+  get title(): string {
+    return environment.config.title ?? 'LIBREcipes'
+  }
 
   constructor(
     private store: Store<AppState>,
