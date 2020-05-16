@@ -1,5 +1,8 @@
 <form [formGroup]="form" *ngIf="form">
-  <app-form-error [action]="errorType"></app-form-error>
+  <app-form-error
+    [action]="errorType"
+    (active)="isLoading.emit(false)"
+  ></app-form-error>
   <div class="field is-horizontal">
     <div class="field-label">
       <label class="label">Name</label>

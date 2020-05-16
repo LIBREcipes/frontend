@@ -50,6 +50,7 @@ export class IngredientFormComponent extends WithDestroy(WithModal(class {}))
   }
 
   onSubmit() {
+    this.isLoading.emit(true)
     const ingredient = <RecipeCreateDto>this.form.value
     this.store.dispatch(CreateIngredientAction({ ingredient }))
   }

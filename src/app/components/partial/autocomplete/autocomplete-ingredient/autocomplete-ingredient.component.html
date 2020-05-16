@@ -17,7 +17,7 @@
           <span class="icon"><i class="fa fa-plus"></i></span>
           <span>Create {{ query.value }}</span>
         </a>
-        <hr class="dropdown-divider" />
+        <hr class="dropdown-divider" *ngIf="results && results.length" />
       </ng-template>
       <a
         class="dropdown-item"
