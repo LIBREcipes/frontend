@@ -18,6 +18,7 @@ export class RecipeIngredientFormComponent implements OnInit {
     ingredients: this.fb.array([]),
   })
   errorType = ErrorRecipeAction
+  isLoading = false
 
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 
@@ -58,6 +59,7 @@ export class RecipeIngredientFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true
     this.formsubmit.emit(
       !this.ingredientForm.dirty && !this.ingredientForm.touched
         ? null
