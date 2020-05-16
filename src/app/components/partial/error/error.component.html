@@ -16,10 +16,16 @@
   </section>
 </div> -->
 
-<article>
+<article *ngIf="showError; else progressBlock">
   <h1 class="title">{{ getTitle() }}</h1>
   <h2 class="subtitle">{{ getMessage() }}</h2>
   <button class="button" *ngIf="showBackButton()" (click)="goBack()">
     Go Back
   </button>
 </article>
+
+<ng-template #progressBlock>
+  <article>
+    <app-spinner></app-spinner>
+  </article>
+</ng-template>

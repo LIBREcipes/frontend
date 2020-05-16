@@ -10,6 +10,7 @@ import {
   DeleteRecipeAction,
   DeleteRecipeSuccessAction,
   GetRecipeAction,
+  ErrorRecipeAction,
 } from 'src/app/store/actions/recipe.actions'
 import { selectCurrentRecipe } from 'src/app/store/selectors/recipe.selector'
 import AppState from 'src/app/store/states/app.state'
@@ -29,6 +30,7 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   recipe: Recipe = null
   displayPortionSize: number = 0
   recipeEditDropdown = false
+  showEmptyStateError = false
 
   constructor(
     route: ActivatedRoute,
@@ -57,6 +59,10 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
         )
         .subscribe()
     })
+
+    actionsSubject
+      .pipe(takeUntil(this.destroy$), ofType(ErrorRecipeAction))
+      .subscribe(_ => (this.showEmptyStateError = true))
 
     actionsSubject
       .pipe(

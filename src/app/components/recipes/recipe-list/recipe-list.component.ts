@@ -21,7 +21,7 @@ import { WithDestroy } from 'src/app/mixins'
 export class RecipeListComponent extends WithDestroy() implements OnInit {
   private chef_uuid: string
   title = 'Recipes'
-  showEmptyState: boolean = false
+  showEmptyStateError = false
 
   recipes$: Observable<Recipe[]>
   recipeSubscription: Subscription
@@ -46,16 +46,19 @@ export class RecipeListComponent extends WithDestroy() implements OnInit {
   }
 
   ngOnInit(): void {
+    let isFirstRun = true
     this.recipes$
       .pipe(
         takeUntil(this.destroy$),
         map(recipes => {
           this.recipes = recipes
-          this.showEmptyState = !recipes || recipes.length === 0
+          if (!isFirstRun)
+            this.showEmptyStateError = !recipes || recipes.length === 0
         }),
       )
       .subscribe()
 
+    isFirstRun = false
     this.store.dispatch(recipeActions.GetRecipesAction())
   }
 }

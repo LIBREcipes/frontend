@@ -3,7 +3,7 @@
 <div class="container is-fluid">
   <section
     class="columns is-desktop is-centered is-multiline"
-    *ngIf="recipes; else errorBlock"
+    *ngIf="recipes && recipes.length; else errorBlock"
   >
     <article
       *ngFor="let recipe of recipes; let isLast = last"
@@ -33,6 +33,6 @@
   </section>
 
   <ng-template #errorBlock>
-    <app-error type="empty"></app-error>
+    <app-error type="empty" [showError]="showEmptyStateError"></app-error>
   </ng-template>
 </div>

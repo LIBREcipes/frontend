@@ -8,6 +8,7 @@ import { Location } from '@angular/common'
 })
 export class ErrorComponent implements OnInit {
   @Input() type: ERROR_TYPE
+  @Input() showError = true
 
   constructor(private _location: Location) {}
 

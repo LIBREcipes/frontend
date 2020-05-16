@@ -46,7 +46,8 @@ import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer'
 import { RecipeStepFieldComponent } from './forms/recipe-steps-form/recipe-step-field/recipe-step-field.component';
-import { ConfirmDirective } from './directives/confirm.directive'
+import { ConfirmDirective } from './directives/confirm.directive';
+import { SpinnerComponent } from './components/partial/spinner/spinner.component'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -88,6 +89,7 @@ export function init_app(loadService: AppInitService) {
     PasswordResetRequestComponent,
     RecipeStepFieldComponent,
     ConfirmDirective,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
