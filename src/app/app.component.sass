@@ -1,5 +1,23 @@
-html, body
-    height: 100vh
+$footer-height: 4rem
+
+.main-container
+    position: relative
+    min-height: 100vh
+
+    .content-container
+        padding-bottom: $footer-height + 1rem
+
+footer.footer
+    position: absolute
+    bottom: 0
+    height: $footer-height
     width: 100vw
-    margin: 0
     padding: 0
+    background-color: hsl(0, 0%, 97%)
+    color: hsl(0, 0%, 60%)
+
+    .content
+        height: 100%
+        display: flex
+        align-items: center
+        justify-content: center
