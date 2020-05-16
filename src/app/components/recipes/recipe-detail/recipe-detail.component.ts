@@ -99,4 +99,8 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   deleteRecipe(): void {
     this.store.dispatch(DeleteRecipeAction({ recipe_uuid: this.recipe.uuid }))
   }
+
+  showImage(url: string) {
+    window.open(url, '_blank')
+  }
 }
