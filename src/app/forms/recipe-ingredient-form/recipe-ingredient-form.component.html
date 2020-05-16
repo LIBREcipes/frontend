@@ -8,15 +8,26 @@
     formArrayName="ingredients"
     *ngFor="let control of ingredients.controls; let i = index"
   >
-    <div class="message-header">
+    <div
+      class="message-header"
+      (click)="
+        control.get('collapsed').setValue(!control.get('collapsed').value)
+      "
+    >
       <p>Ingredient {{ i + 1 }}</p>
-      <button
-        class="delete"
-        aria-label="delete"
-        (click)="removeForm(i)"
-      ></button>
+      <span class="icon">
+        <i
+          class="fa"
+          [class.fa-chevron-down]="control.get('collapsed').value"
+          [class.fa-chevron-up]="!control.get('collapsed').value"
+        ></i>
+      </span>
     </div>
-    <div class="message-body" [formGroupName]="i">
+    <div
+      class="message-body"
+      [formGroupName]="i"
+      *ngIf="!control.get('collapsed').value"
+    >
       <input type="hidden" formControlName="id" />
       <div class="field is-horizontal">
         <div class="field-label">
@@ -39,14 +50,31 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="input" type="number" formControlName="amount" />
+              <input
+                class="input"
+                type="number"
+                placeholder="0.5"
+                formControlName="amount"
+              />
             </div>
           </div>
           <div class="field">
             <div class="control">
-              <input class="input" type="text" formControlName="unit" />
+              <input
+                class="input"
+                type="text"
+                placeholder="grams"
+                formControlName="unit"
+              />
             </div>
           </div>
+        </div>
+      </div>
+      <div class="field is-grouped is-grouped-right">
+        <div class="control">
+          <a class="button is-danger" (confirm)="removeForm(i)" appConfirm
+            >Delete</a
+          >
         </div>
       </div>
     </div>

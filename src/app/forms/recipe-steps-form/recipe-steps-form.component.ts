@@ -46,6 +46,7 @@ export class RecipeStepsFormComponent implements OnInit {
   addForm() {
     const form = this.getForm()
     form.get('collapsed').setValue(false)
+    this.steps.controls.forEach(f => f.get('collapsed').setValue(true))
     this.steps.push(form)
   }
 

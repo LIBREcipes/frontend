@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms'
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import RecipeIngredientDto from 'src/app/models/DTO/recipe-ingredient.model'
 import RecipeIngredient from 'src/app/models/recipe-ingredient.model'
@@ -38,20 +38,24 @@ export class RecipeIngredientFormComponent implements OnInit {
 
   private getForm(
     id: number = null,
-    amount: number = 0,
+    amount: number = null,
     unit: string = '',
     ingredient_uuid: string = null,
   ): FormGroup {
     return this.fb.group({
       id: [id],
-      amount: [amount],
+      amount: [amount, Validators.required],
       unit: [unit],
-      ingredient_uuid: [ingredient_uuid],
+      ingredient_uuid: [ingredient_uuid, Validators.required],
+      collapsed: [true],
     })
   }
 
   addForm() {
-    this.ingredients.push(this.getForm())
+    const form = this.getForm()
+    form.get('collapsed').setValue(false)
+    this.ingredients.controls.forEach(f => f.get('collapsed').setValue(true))
+    this.ingredients.push(form)
   }
   removeForm(index) {
     this.ingredients.removeAt(index)

@@ -1,4 +1,11 @@
-import { Component, forwardRef, OnInit, OnDestroy } from '@angular/core'
+import {
+  Component,
+  forwardRef,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from '@angular/core'
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,

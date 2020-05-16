@@ -14,6 +14,8 @@ export default class RecipeIngredientDto {
       if (!ing.id) {
         delete ing.id
       }
+
+      if (ing.hasOwnProperty('collapsed')) delete ing['collapsed']
     }
 
     return form as RecipeIngredientDto
