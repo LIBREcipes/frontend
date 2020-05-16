@@ -23,9 +23,12 @@
     <div class="columns is-multiline">
       <section class="without-hr column is-12-tablet is-4-desktop">
         <h5 class="title is-6">Ingredients</h5>
-        <label *ngFor="let ri of recipe.ingredients" class="checkbox is-block">
-          <input type="checkbox" class="custom-checkbox" />
-          <span style="margin-left: 0.5rem;"
+        <label
+          *ngFor="let ri of recipe.ingredients"
+          class="checkbox is-block checkbox-margin"
+        >
+          <input type="checkbox" />
+          <span
             ><b>{{ ri.amount }} {{ ri.unit }}</b> {{ ri.ingredient.name }}</span
           >
         </label>
@@ -46,9 +49,12 @@
 
       <section class="without-hr column has-border-left-desktop steps">
         <h5 class="title is-6">Steps</h5>
-        <label *ngFor="let step of recipe.steps" class="checkbox is-block">
-          <input type="checkbox" class="custom-checkbox" />
-          <span style="margin-left: 0.5rem;">{{ step.description }}</span>
+        <label
+          *ngFor="let step of recipe.steps"
+          class="checkbox is-block checkbox-margin"
+        >
+          <input type="checkbox" />
+          <span>{{ step.description }}</span>
         </label>
         <article *ngIf="!recipe.steps || !recipe.steps.length">
           <button
