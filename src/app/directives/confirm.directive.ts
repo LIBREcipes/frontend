@@ -37,7 +37,7 @@ export class ConfirmDirective implements OnInit {
     }
 
     this.setInner(`
-      <span class="icon"><i class="fa fa-exclamation-circle"></i></span>
+      <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
       <span>Click to confirm</span>`)
     this.currentTimer = setTimeout(() => {
       this.setInner(this.originalText)

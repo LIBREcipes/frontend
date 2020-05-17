@@ -37,12 +37,12 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
   userDropdownOptions = [
     {
       key: 'profile',
-      icon: 'fa fa-user',
+      icon: 'fas fa-user',
       value: 'Profile',
     },
     {
       key: 'signout',
-      icon: 'fa fa-sign-out',
+      icon: 'fas fa-sign-out-alt',
       value: 'Sign Out',
     },
   ]
