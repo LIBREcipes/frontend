@@ -6,8 +6,9 @@ BUILD=true
 PUSH=false
 DEPLOY=false
 DEPLOY_HOST=''
+TAG_LATEST=''
 
-if ! ARGUMENTS=$(getopt -o t:nd:p -l tag:,push,deploy:,no-build --name "$0" -- "$@"); then
+if ! ARGUMENTS=$(getopt -o t:nd:p -l tag:,push,deploy:,no-build,tag-latest: --name "$0" -- "$@"); then
     echo "Failed to parse arguments"
     exit 1
 fi
@@ -33,6 +34,11 @@ while true; do
     -n|--no-build)
       BUILD=false
       ;;
+
+    --tag-latest)
+      docker tag mattydebie/librecipes-frontend:$2 mattydebie/librecipes-frontend:latest
+      exit 0
+    ;;
 
     --)
       break
