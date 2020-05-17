@@ -2,7 +2,7 @@ import DynamicEnvironment from './dynamic-environment'
 
 class Environment extends DynamicEnvironment {
   public production: boolean
-  public version = '0.1a'
+  public version = '0.1'
 
   constructor() {
     super()
