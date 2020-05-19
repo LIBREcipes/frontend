@@ -15,6 +15,8 @@ export class RecipeStepsFormComponent implements OnInit {
   errorType = ErrorRecipeAction
   isLoading = false
 
+  allCollapsed = true
+
   form = this.fb.group({
     steps: this.fb.array([]),
   })
@@ -46,7 +48,7 @@ export class RecipeStepsFormComponent implements OnInit {
   addForm() {
     const form = this.getForm()
     form.get('collapsed').setValue(false)
-    this.steps.controls.forEach(f => f.get('collapsed').setValue(true))
+    this.expandCollapseAll(true)
     this.steps.push(form)
   }
 
@@ -70,5 +72,14 @@ export class RecipeStepsFormComponent implements OnInit {
     this.steps.removeAt(el.previousIndex)
     this.steps.insert(el.currentIndex, step)
     this.form.markAsDirty()
+  }
+
+  expandCollapseAll(value: boolean = null): void {
+    if (value === null) {
+      this.allCollapsed = !this.allCollapsed
+      value = this.allCollapsed
+    }
+
+    this.steps.controls.forEach(f => f.get('collapsed').setValue(value))
   }
 }

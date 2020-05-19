@@ -3,7 +3,7 @@
   *ngIf="recipe; else emptyState"
 >
   <div class="column is-12-tablet is-10-desktop is-9-widescreen is-7-fullhd">
-    <h1 class="title is-5">{{ recipe.name }}</h1>
+    <h5 class="title is-5">{{ recipe.name }}</h5>
     <figure class="image is-5by3" *ngIf="recipe.image">
       <img
         class="is-cover"
@@ -13,7 +13,7 @@
     </figure>
 
     <section class="recipe-info has-text-centered is-block">
-      <span class="icon"><i class="fas fa-male"></i></span>
+      <span class="icon"><i class="fas fa-utensils"></i></span>
       <span>{{ recipe.portion_size }} {{ recipe.portion_type }}</span>
     </section>
 

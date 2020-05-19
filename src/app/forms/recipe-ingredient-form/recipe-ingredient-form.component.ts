@@ -20,6 +20,8 @@ export class RecipeIngredientFormComponent implements OnInit {
   errorType = ErrorRecipeAction
   isLoading = false
 
+  allCollapsed = true
+
   constructor(private store: Store<AppState>, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -54,7 +56,7 @@ export class RecipeIngredientFormComponent implements OnInit {
   addForm() {
     const form = this.getForm()
     form.get('collapsed').setValue(false)
-    this.ingredients.controls.forEach(f => f.get('collapsed').setValue(true))
+    this.expandCollapseAll(true)
     this.ingredients.push(form)
   }
   removeForm(index) {
@@ -69,5 +71,13 @@ export class RecipeIngredientFormComponent implements OnInit {
         ? null
         : RecipeIngredientDto.fromFormValue(this.ingredientForm.value),
     )
+  }
+
+  expandCollapseAll(value: boolean = null): void {
+    if (value === null) {
+      this.allCollapsed = !this.allCollapsed
+      value = this.allCollapsed
+    }
+    this.ingredients.controls.forEach(f => f.get('collapsed').setValue(value))
   }
 }
