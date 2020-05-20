@@ -131,6 +131,14 @@ export class ApiService {
     return this.put(`recipes/${recipe_uuid}`, steps)
   }
 
+  public searchRecipe(query) {
+    return this.get(`recipes?search=${query}`)
+  }
+
+  public searchRecipeForChef(chef_uuid: string, query: string) {
+    return this.get(`users/${chef_uuid}/recipes?search=${query}`)
+  }
+
   // ======== INGREDIENTS ========
   public searchIngredient(query: string) {
     return this.get(`ingredients?search=${query}`)

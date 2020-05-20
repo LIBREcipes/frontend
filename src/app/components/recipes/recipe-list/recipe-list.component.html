@@ -1,4 +1,14 @@
-<app-hero [title]="title"></app-hero>
+<!-- <app-hero [title]="title"></app-hero> -->
+<div class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">{{ title }}</h1>
+      <div class="subtitle">
+        <app-autocomplete-search></app-autocomplete-search>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="container is-fluid">
   <section

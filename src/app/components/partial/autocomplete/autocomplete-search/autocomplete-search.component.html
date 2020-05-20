@@ -1,0 +1,50 @@
+<div class="dropdown" [class.is-active]="query.value && query.value.length">
+  <div class="dropdown-trigger">
+    <div class="field">
+      <div class="control has-icons-left has-icons-right">
+        <input
+          class="input"
+          type="text"
+          placeholder="Search recipes.."
+          [formControl]="query"
+        />
+        <span class="icon is-left is-small">
+          <i class="fas fa-search"></i>
+        </span>
+        <span class="icon is-right is-small" *ngIf="hasOutgoingRequests()">
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      <small
+        class="dropdown-item"
+        *ngIf="!hasResults() && !hasOutgoingRequests()"
+        >No results found.</small
+      >
+      <small
+        class="dropdown-item"
+        style="margin-left: -0.5em;"
+        *ngIf="results.recipes && results.recipes.length"
+        ><b>Recipes</b></small
+      >
+      <ng-template
+        ngFor
+        let-result
+        [ngForOf]="results.recipes"
+        let-latest="last"
+      >
+        <div
+          class="dropdown-item clickable"
+          [routerLink]="['/recipes', result.uuid]"
+        >
+          <p [innerHTML]="result.name | highlight: query.value:40"></p>
+          <small class="has-text-grey-light">{{ result.chef.username }}</small>
+        </div>
+        <hr class="dropdown-divider" *ngIf="!latest" />
+      </ng-template>
+    </div>
+  </div>
+</div>
