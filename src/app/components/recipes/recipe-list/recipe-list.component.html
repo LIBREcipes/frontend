@@ -1,50 +1,41 @@
-<!-- <app-hero [title]="title"></app-hero> -->
-<div class="hero">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">{{ title }}</h1>
-      <div class="subtitle">
-        <app-autocomplete-search></app-autocomplete-search>
+<div class="container">
+  <header class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">{{ title }}</h1>
+        <div class="subtitle">
+          <app-autocomplete-search></app-autocomplete-search>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </header>
 
-<div class="container is-fluid">
   <section
-    class="columns is-desktop is-centered is-multiline"
+    class="columns is-multiline"
     *ngIf="recipes && recipes.length; else errorBlock"
   >
     <article
-      *ngFor="let recipe of recipes; let isLast = last"
-      class="clickable column is-5-desktop is-3-fullhd has-border-desktop"
+      class="column clickable is-6-tablet is-4-desktop is-3-fullhd"
+      *ngFor="let recipe of recipes"
       [routerLink]="['/recipes', recipe.uuid]"
     >
-      <div class="columns is-multiline">
-        <div class="column is-12-desktop">
-          <figure class="image is-5by3">
-            <img
-              class="is-cover"
-              [src]="recipe.image ? recipe.image.file : ''"
-            />
-          </figure>
-        </div>
-        <section class="column recipe-content">
-          <span class="is-title">
-            {{ recipe.name }}
-          </span>
-          <span class="has-text-grey">
-            {{
-              (recipe.description ? recipe.description : 'No description.')
-                | ellipsis: 150
-            }}
-          </span>
-        </section>
-      </div>
-      <hr *ngIf="!isLast" class="is-hidden-desktop" />
+      <figure class="image is-5by3">
+        <img
+          [src]="recipe.image ? recipe.image.file : ''"
+          [alt]="recipe.name"
+          class="is-cover"
+        />
+      </figure>
+      <section>
+        <span class="is-title">{{ recipe.name | ellipsis: 75 }}</span>
+        <small class="has-text-grey">{{
+          recipe.description
+            ? (recipe.description | ellipsis: 100)
+            : 'No Description.'
+        }}</small>
+      </section>
     </article>
   </section>
-
   <ng-template #errorBlock>
     <app-error type="empty" [showError]="showEmptyStateError"></app-error>
   </ng-template>

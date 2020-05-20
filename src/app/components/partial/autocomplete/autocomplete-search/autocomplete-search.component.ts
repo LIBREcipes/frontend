@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store'
 import { selectRecipes } from 'src/app/store/selectors/recipe.selector'
 import { ApiService } from 'src/app/services/api.service'
 import { WithDestroy } from 'src/app/mixins'
-import { takeUntil, debounceTime, debounce } from 'rxjs/operators'
+import { takeUntil, debounceTime, debounce, filter } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
 
@@ -33,7 +33,11 @@ export class AutocompleteSearchComponent extends WithDestroy()
       chef_uuid !== null ? RecipeSearchType.CHEF : RecipeSearchType.ALL
 
     this.query.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(v => v.length > 2),
+        debounceTime(300),
+      )
       .subscribe(value => {
         queryChanged.next()
         const service =
