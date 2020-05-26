@@ -9,9 +9,13 @@ import AppState from 'src/app/store/states/app.state'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   selectRecipes,
-  selectChefRecipes,
+  selectMyRecipes,
+  selectRecipe,
 } from 'src/app/store/selectors/recipe.selector'
 import { WithDestroy } from 'src/app/mixins'
+import Page, { PageVars } from 'src/app/models/page.model'
+import { environment } from 'src/environments/environment'
+import { AuthenticationService } from 'src/app/services/authentication.service'
 
 @Component({
   selector: 'app-recipe-list',
@@ -19,46 +23,76 @@ import { WithDestroy } from 'src/app/mixins'
   styleUrls: ['./recipe-list.component.sass'],
 })
 export class RecipeListComponent extends WithDestroy() implements OnInit {
-  private chef_uuid: string
+  private chef_uuid: string = null
   title = 'Recipes'
   showEmptyStateError = false
+  isLoadingPage = false
 
-  recipes$: Observable<Recipe[]>
-  recipeSubscription: Subscription
-  recipes: Recipe[] = []
+  recipePage: Page<Recipe> = new Page<Recipe>()
 
-  constructor(private store: Store<AppState>, route: ActivatedRoute) {
+  constructor(
+    private store: Store<AppState>,
+    route: ActivatedRoute,
+    private authService: AuthenticationService,
+  ) {
     super()
-    route.params.subscribe(x => {
-      this.chef_uuid = x['chef_uuid']
-      this.title = x['chef_uuid'] ? 'My Recipes' : 'Recipes'
+    const routeChanged$ = new Subject<void>()
+    route.paramMap.subscribe(params => {
+      routeChanged$.next()
 
-      if (this.chef_uuid) {
-        store.dispatch(
-          recipeActions.GetForChefAction({ chef_uuid: this.chef_uuid }),
-        )
-      }
+      this.chef_uuid = params.get('chef_uuid')
+      this.subscribe(routeChanged$)
+    })
+  }
 
-      this.recipes$ = store.pipe(
-        select(selectChefRecipes, { chef_uuid: this.chef_uuid }),
-      )
+  private subscribe(subject: Subject<void>): void {
+    let recipes$: Observable<any> = this.store.pipe(
+      takeUntil(subject),
+      takeUntil(this.destroy$),
+    )
+
+    if (this.chef_uuid) {
+      if (this.chef_uuid === 'me')
+        recipes$ = recipes$.pipe(select(selectMyRecipes))
+    } else {
+      recipes$ = recipes$.pipe(select(selectRecipes))
+    }
+
+    recipes$.subscribe(page => {
+      this.recipePage = page
+      this.isLoadingPage = false
     })
   }
 
   ngOnInit(): void {
-    let isFirstRun = true
-    this.recipes$
-      .pipe(
-        takeUntil(this.destroy$),
-        map(recipes => {
-          this.recipes = recipes
-          if (!isFirstRun)
-            this.showEmptyStateError = !recipes || recipes.length === 0
+    this.fetchRecipes()
+  }
+
+  onScrolledDown(): void {
+    this.isLoadingPage = true
+    this.fetchRecipes()
+  }
+
+  fetchRecipes() {
+    if (!this.chef_uuid) {
+      this.store.dispatch(
+        recipeActions.GetRecipesAction({
+          payload: this.recipePage.getNextPageVars(
+            environment.config.defaultPageLimit,
+          ),
         }),
       )
-      .subscribe()
-
-    isFirstRun = false
-    this.store.dispatch(recipeActions.GetRecipesAction())
+    } else {
+      if (this.chef_uuid === 'me') {
+        this.store.dispatch(
+          recipeActions.GetForChefAction({
+            chef_uuid: this.authService.currentUserValue.uuid,
+            pageVars: this.recipePage.getNextPageVars(
+              environment.config.defaultPageLimit,
+            ),
+          }),
+        )
+      }
+    }
   }
 }

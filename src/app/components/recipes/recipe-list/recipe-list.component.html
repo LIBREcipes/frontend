@@ -12,16 +12,23 @@
 
   <section
     class="columns is-multiline"
-    *ngIf="recipes && recipes.length; else errorBlock"
+    infiniteScroll
+    (scrolled)="onScrolledDown()"
+    [infiniteScrollDistance]="1"
+    *ngIf="recipePage && recipePage.hasContent(); else errorBlock"
   >
     <article
       class="column clickable is-6-tablet is-4-desktop is-3-fullhd"
-      *ngFor="let recipe of recipes"
+      *ngFor="let recipe of recipePage.objects"
       [routerLink]="['/recipes', recipe.uuid]"
     >
       <figure class="image is-5by3">
         <img
-          [src]="recipe.image ? recipe.image.file : ''"
+          [src]="
+            recipe.image
+              ? recipe.image.file
+              : 'https://via.placeholder.com/1280x720.png?text=No+Image+available'
+          "
           [alt]="recipe.name"
           class="is-cover"
         />
@@ -36,6 +43,9 @@
       </section>
     </article>
   </section>
+  <div style="display: flex; justify-content: center;" *ngIf="isLoadingPage">
+    <app-spinner></app-spinner>
+  </div>
   <ng-template #errorBlock>
     <app-error type="empty" [showError]="showEmptyStateError"></app-error>
   </ng-template>

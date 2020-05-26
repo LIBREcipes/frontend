@@ -100,7 +100,7 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
 
     switch (item['key']) {
       case 'myRecipes':
-        this.router.navigate(['/chefs', this.user.uuid, 'recipes'])
+        this.router.navigate(['/chefs', 'me', 'recipes'])
         break
       case 'profile':
         this.router.navigate(['/chefs', this.user.uuid])

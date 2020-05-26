@@ -12,22 +12,19 @@ export const selectRecipes = createSelector(
   (s: RecipeState) => s.recipes,
 )
 
-export const selectChefRecipes = createSelector(
+export const selectMyRecipes = createSelector(
   appRecipes,
-  (s: RecipeState, props: { chef_uuid: string }) =>
-    props.chef_uuid
-      ? s.recipes.filter(recipe => recipe.chef.uuid === props.chef_uuid)
-      : s.recipes,
+  (s: RecipeState) => s.chefRecipes,
 )
 export const selectRecipe = createSelector(
   appRecipes,
   (s: RecipeState, props: { recipe_uuid: string }) =>
-    s.recipes.find(recipe => recipe.uuid === props.recipe_uuid),
+    s.recipes.objects.find(recipe => recipe.uuid === props.recipe_uuid),
 )
 
 export const selectCurrentRecipe = createSelector(
   selectRecipes,
-  (recipes, uuid: string) => recipes.find(r => r.uuid === uuid),
+  (recipes, uuid: string) => recipes.objects.find(r => r.uuid === uuid),
 )
 
 export const selectIngredient = createSelector(

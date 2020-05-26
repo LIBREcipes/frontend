@@ -1,14 +1,18 @@
 import Recipe from 'src/app/models/recipe.model'
 import Ingredient from 'src/app/models/ingredient.model'
+import Page from 'src/app/models/page.model'
+import { environment } from 'src/environments/environment'
 
 export default interface RecipeState {
-  recipes: Recipe[]
+  recipes: Page<Recipe>
+  chefRecipes: Page<Recipe>
   ingredients: Ingredient[]
 }
 
 export const initializeState = (): RecipeState => {
   return {
-    recipes: [],
+    recipes: new Page<Recipe>(),
+    chefRecipes: new Page<Recipe>(),
     ingredients: [],
   }
 }

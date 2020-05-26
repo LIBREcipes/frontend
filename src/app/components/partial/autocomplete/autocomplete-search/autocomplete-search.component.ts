@@ -8,6 +8,7 @@ import { WithDestroy } from 'src/app/mixins'
 import { takeUntil, debounceTime, debounce, filter } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
+import { AuthenticationService } from 'src/app/services/authentication.service'
 
 @Component({
   selector: 'app-autocomplete-search',
@@ -24,7 +25,11 @@ export class AutocompleteSearchComponent extends WithDestroy()
     recipes: null,
   }
 
-  constructor(apiService: ApiService, route: ActivatedRoute) {
+  constructor(
+    apiService: ApiService,
+    route: ActivatedRoute,
+    authService: AuthenticationService,
+  ) {
     super()
     const queryChanged = new Subject<void>()
 
@@ -43,14 +48,19 @@ export class AutocompleteSearchComponent extends WithDestroy()
         const service =
           type === RecipeSearchType.ALL
             ? apiService.searchRecipe(value)
-            : apiService.searchRecipeForChef(chef_uuid, value)
+            : apiService.searchRecipeForChef(
+                chef_uuid === 'me'
+                  ? authService.currentUserValue.uuid
+                  : chef_uuid,
+                value,
+              )
 
         this.activeRequestsRef.add('recipes')
         service
           .pipe(takeUntil(queryChanged), takeUntil(this.destroy$))
-          .subscribe(results => {
+          .subscribe(page => {
             this.activeRequestsRef.delete('recipes')
-            this.results['recipes'] = results
+            this.results['recipes'] = page['results']
           })
       })
   }

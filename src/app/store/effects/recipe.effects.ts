@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/services/api.service'
 import Ingredient from 'src/app/models/ingredient.model'
 import RecipeCreateDto from 'src/app/models/DTO/recipe-create.model'
 import RecipeEditDto from 'src/app/models/DTO/recipe-edit.model'
+import { PageDto } from 'src/app/models/page.model'
 
 @Injectable()
 export class RecipeEffects {
@@ -19,8 +20,8 @@ export class RecipeEffects {
     this.action$.pipe(
       ofType(recipeActions.GetRecipesAction),
       mergeMap(action =>
-        this.apiService.getRecipes().pipe(
-          map((data: Recipe[]) => {
+        this.apiService.getRecipes(action.payload).pipe(
+          map((data: PageDto<Recipe>) => {
             return recipeActions.SuccessGetRecipesAction({ payload: data })
           }),
           catchError((error: Error) => {
@@ -51,14 +52,16 @@ export class RecipeEffects {
     this.action$.pipe(
       ofType(recipeActions.GetForChefAction),
       mergeMap(action =>
-        this.apiService.getRecipesForChef(action.chef_uuid).pipe(
-          map((data: Recipe[]) =>
-            recipeActions.GetForChefSuccessAction({ recipes: data }),
+        this.apiService
+          .getRecipesForChef(action.chef_uuid, action.pageVars)
+          .pipe(
+            map((data: PageDto<Recipe>) =>
+              recipeActions.GetForChefSuccessAction({ payload: data }),
+            ),
+            catchError((error: Error) =>
+              of(recipeActions.ErrorRecipeAction(error)),
+            ),
           ),
-          catchError((error: Error) =>
-            of(recipeActions.ErrorRecipeAction(error)),
-          ),
-        ),
       ),
     ),
   )

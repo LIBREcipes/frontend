@@ -8,6 +8,7 @@ import RecipeIngredientDto from '../models/DTO/recipe-ingredient.model'
 import RecipeStepDto from '../models/DTO/recipe-step.model'
 import RecipeEditDto from '../models/DTO/recipe-edit.model'
 import UserCreateDto from '../models/DTO/user-create.model'
+import { PageVars } from '../models/page.model'
 
 @Injectable({
   providedIn: 'root',
@@ -96,16 +97,21 @@ export class ApiService {
   }
 
   // ======== RECIPES ========
-  public getRecipes(): Observable<any> {
-    return this.get('recipes')
+  public getRecipes(pageVars: PageVars): Observable<any> {
+    return this.get(`recipes?limit=${pageVars.limit}&offset=${pageVars.offset}`)
   }
 
   public getRecipe(uuid: string): Observable<any> {
     return this.get(`recipes/${uuid}`)
   }
 
-  public getRecipesForChef(chef_uuid: string): Observable<any> {
-    return this.get(`users/${chef_uuid}/recipes`)
+  public getRecipesForChef(
+    chef_uuid: string,
+    pageVars: PageVars,
+  ): Observable<any> {
+    return this.get(
+      `users/${chef_uuid}/recipes?limit=${pageVars.limit}&offset=${pageVars.offset}`,
+    )
   }
 
   public createRecipe(recipe: RecipeCreateDto) {
@@ -132,11 +138,11 @@ export class ApiService {
   }
 
   public searchRecipe(query) {
-    return this.get(`recipes?search=${query}`)
+    return this.get(`recipes?search=${query}&limit=5`)
   }
 
   public searchRecipeForChef(chef_uuid: string, query: string) {
-    return this.get(`users/${chef_uuid}/recipes?search=${query}`)
+    return this.get(`users/${chef_uuid}/recipes?search=${query}&limit=5`)
   }
 
   // ======== INGREDIENTS ========

@@ -7,24 +7,30 @@ export const initialState = initializeState()
 
 const _recipeReducer = createReducer(
   initialState,
-  on(action.SuccessGetRecipesAction, (state: RecipeState, { payload }) => {
-    return { ...state, recipes: payload }
+  on(action.SuccessGetRecipesAction, (state: RecipeState, props) => {
+    return { ...state, recipes: state.recipes.addPage(props.payload) }
+  }),
+  on(action.GetForChefSuccessAction, (state: RecipeState, props) => {
+    return { ...state, chefRecipes: state.chefRecipes.addPage(props.payload) }
   }),
   on(action.SuccessGetRecipeAction, (state: RecipeState, recipe: Recipe) => {
     return {
       ...state,
-      recipes: state.recipes.find(x => x.uuid === recipe.uuid)
-        ? state.recipes.map(x => (x.uuid === recipe.uuid ? recipe : x))
-        : [...state.recipes, recipe],
+      recipes: state.recipes.addOrUpdate(recipe),
     }
   }),
   on(action.CreateRecipeSuccessAction, (state: RecipeState, props) => {
-    return { ...state, recipes: [...state.recipes, props.recipe] }
+    return {
+      ...state,
+      recipes: state.recipes.addOrUpdate(props.recipe),
+      chefRecipes: state.chefRecipes.addOrUpdate(props.recipe),
+    }
   }),
   on(action.DeleteRecipeSuccessAction, (state: RecipeState, props) => {
     return {
       ...state,
-      recipes: state.recipes.filter(r => r.uuid !== props.recipe_uuid),
+      recipes: state.recipes.delete(props.recipe_uuid),
+      chefRecipes: state.recipes.delete(props.recipe_uuid),
     }
   }),
 
@@ -33,9 +39,8 @@ const _recipeReducer = createReducer(
     (state: RecipeState, props: { recipe: Recipe }) => {
       return {
         ...state,
-        recipes: state.recipes.map(recipe =>
-          recipe.uuid === props.recipe.uuid ? props.recipe : recipe,
-        ),
+        recipes: state.recipes.addOrUpdate(props.recipe),
+        chefRecipes: state.recipes.addOrUpdate(props.recipe),
       }
     },
   ),

@@ -6,13 +6,17 @@ import RecipeIngredientDto from 'src/app/models/DTO/recipe-ingredient.model'
 import RecipeStepDto from 'src/app/models/DTO/recipe-step.model'
 import IngredientCreateDto from 'src/app/models/DTO/ingredient-create.model'
 import RecipeEditDto from 'src/app/models/DTO/recipe-edit.model'
+import { PageDto, PageVars } from 'src/app/models/page.model'
 
 export const ErrorRecipeAction = createAction('RECIPE - error', props<Error>())
 
-export const GetRecipesAction = createAction('RECIPE - get all')
+export const GetRecipesAction = createAction(
+  'RECIPE - get all',
+  props<{ payload: PageVars }>(),
+)
 export const SuccessGetRecipesAction = createAction(
   'RECIPE - get all succeeded',
-  props<{ payload: Recipe[] }>(),
+  props<{ payload: PageDto<Recipe> }>(),
 )
 
 export const GetRecipeAction = createAction(
@@ -26,11 +30,11 @@ export const SuccessGetRecipeAction = createAction(
 
 export const GetForChefAction = createAction(
   'RECIPE - get for chef',
-  props<{ chef_uuid: string }>(),
+  props<{ chef_uuid: string; pageVars: PageVars }>(),
 )
 export const GetForChefSuccessAction = createAction(
   'RECIPE - get for chef succeeded',
-  props<{ recipes: Recipe[] }>(),
+  props<{ payload: PageDto<Recipe> }>(),
 )
 
 export const CreateRecipeWithFileAction = createAction(
