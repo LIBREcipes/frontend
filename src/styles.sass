@@ -44,11 +44,14 @@ form .message
         @include delay(-1.1 + $i*0.1)
 
 img
+  image-orientation: none
+
   &.is-cover
     object-fit: cover
     -webkit-object-fit: cover
 
   &.is-contain
+    object-fit: contain
     -webkit-object-fit: contain
 
 // CHECKBOXES
