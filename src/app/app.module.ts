@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
+import { ImageCropperModule } from 'ngx-image-cropper'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
 import { AppInitService } from './app-init.service'
 import { AppRoutingModule } from './app-routing.module'
@@ -108,6 +109,7 @@ export function init_app(loadService: AppInitService) {
     }),
     ReactiveFormsModule,
     DragDropModule,
+    ImageCropperModule,
   ],
   providers: [
     AppInitService,

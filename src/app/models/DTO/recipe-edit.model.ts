@@ -17,7 +17,10 @@ export default class RecipeEditDto {
     this.portion_type = recipe.portion_type
     this.portion_size = recipe.portion_size
     this.is_public = recipe.is_public
-    if (recipe.image && recipe.image instanceof File) {
+    if (
+      recipe.image &&
+      (recipe.image instanceof File || recipe.image instanceof Blob)
+    ) {
       this.image = recipe.image
     }
     this.image_id = recipe.image_id

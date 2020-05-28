@@ -1,6 +1,11 @@
 <div class="file has-name">
   <label class="file-label">
-    <input class="file-input" type="file" [accept]="accept" />
+    <input
+      class="file-input"
+      type="file"
+      [accept]="accept"
+      (change)="fileChanged($event)"
+    />
     <span class="file-cta">
       <span class="file-icon">
         <i class="fas fa-upload"></i>
@@ -14,3 +19,45 @@
     </span>
   </label>
 </div>
+
+<section class="cropper-modal" *ngIf="fileChangedEvent">
+  <div class="cropper-container">
+    <article class="cropper-header">
+      <span class="icon"><i class="fas fa-times"></i></span>
+      <span>Crop Image</span>
+    </article>
+    <article class="cropper-content">
+      <app-spinner *ngIf="cropperConfig.loading"></app-spinner>
+      <image-cropper
+        style="max-height: 400px;"
+        [aspectRatio]="16 / 9"
+        [imageChangedEvent]="fileChangedEvent"
+        [transform]="{ rotate: cropperConfig.rotate }"
+        [autoCrop]="false"
+        [resizeToWidth]="1280"
+        [resizeToHeight]="720"
+        [onlyScaleDown]="true"
+        (imageLoaded)="cropperConfig.loading = false"
+        (imageCropped)="imageCropped($event)"
+      ></image-cropper>
+    </article>
+    <article class="cropper-footer">
+      <span class="icon clickable" (click)="fileChangedEvent = null"
+        ><i class="fas fa-fw fa-times"></i
+      ></span>
+      <span
+        class="icon clickable"
+        (click)="cropperConfig.rotate = (cropperConfig.rotate - 90) % 360"
+        ><i class="fas fa-fw fa-undo"></i
+      ></span>
+      <span
+        class="icon clickable"
+        (click)="cropperConfig.rotate = (cropperConfig.rotate + 90) % 360"
+        ><i class="fas fa-fw fa-undo fa-flip-horizontal"></i
+      ></span>
+      <span class="icon clickable" (click)="cropImage()"
+        ><i class="fas fa-fw fa-check"></i
+      ></span>
+    </article>
+  </div>
+</section>
