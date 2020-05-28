@@ -31,6 +31,7 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   displayPortionSize: number = 0
   recipeEditDropdown = false
   showEmptyStateError = false
+  showPortionEdit = false
 
   constructor(
     route: ActivatedRoute,
@@ -84,7 +85,8 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
     )
   }
 
-  changePortionSize(amount) {
+  changePortionSize(amount, event = null) {
+    if (event) event.stopPropagation()
     this.displayPortionSize = Math.max(1, this.displayPortionSize + amount)
   }
 
