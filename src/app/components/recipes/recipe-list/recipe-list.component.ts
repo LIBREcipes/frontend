@@ -41,6 +41,7 @@ export class RecipeListComponent extends WithDestroy() implements OnInit {
       routeChanged$.next()
 
       this.chef_uuid = params.get('chef_uuid')
+      this.title = this.chef_uuid ? 'My Recipes' : 'Recipes'
       this.subscribe(routeChanged$)
     })
   }
