@@ -9,6 +9,7 @@ import { RecipeAddComponent } from './components/recipes/recipe-add/recipe-add.c
 import { AuthGuard } from './guards/auth.guard'
 import { RecipeEditIngredientsComponent } from './components/recipes/recipe-edit-ingredients/recipe-edit-ingredients.component'
 import { RecipeEditStepsComponent } from './components/recipes/recipe-edit-steps/recipe-edit-steps.component'
+import { ShortlinkToRecipeComponent } from './components/recipes/shortlink-to-recipe/shortlink-to-recipe.component'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -48,6 +49,9 @@ const routes: Routes = [
           { path: ':chef_uuid/recipes', component: RecipeListComponent },
         ],
       },
+
+      { path: 'r/:token', component: ShortlinkToRecipeComponent },
+
       { path: '', redirectTo: '/recipes', pathMatch: 'full' },
     ],
   },

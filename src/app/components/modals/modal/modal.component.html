@@ -14,6 +14,7 @@
     </section>
     <footer class="modal-card-foot">
       <button
+        *ngIf="!modal.data.hideConfirm"
         class="button is-success"
         [disabled]="disabled"
         (click)="onSave()"

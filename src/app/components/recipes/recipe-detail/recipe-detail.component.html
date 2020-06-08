@@ -12,26 +12,32 @@
       />
     </figure>
 
-    <section
-      class="recipe-info has-text-centered is-block clickable"
-      (click)="showPortionEdit = !showPortionEdit"
-    >
-      <span class="icon"><i class="fas fa-utensils"></i></span>
-      <span>{{ displayPortionSize }} {{ recipe.portion_type }}</span>
-      <span class="icon"
-        ><i
-          class="fas"
-          [class.fa-caret-down]="!showPortionEdit"
-          [class.fa-caret-up]="showPortionEdit"
-        ></i
-      ></span>
-      <div *ngIf="showPortionEdit">
-        <span class="icon" (click)="changePortionSize(-1, $event)">
-          <i class="fas fa-minus-square"></i> </span
-        ><span class="icon" (click)="changePortionSize(1, $event)">
-          <i class="fas fa-plus-square"></i>
-        </span>
-      </div>
+    <section class="recipe-info-container">
+      <article class="recipe-info has-text-centered is-block">
+        <span class="icon"><i class="fas fa-user"></i></span>
+        <span>{{ recipe.chef.username }}</span>
+      </article>
+      <article
+        class="recipe-info has-text-centered is-block clickable"
+        (click)="showPortionEdit = !showPortionEdit"
+      >
+        <span class="icon"><i class="fas fa-utensils"></i></span>
+        <span>{{ displayPortionSize }} {{ recipe.portion_type }}</span>
+        <span class="icon"
+          ><i
+            class="fas"
+            [class.fa-caret-down]="!showPortionEdit"
+            [class.fa-caret-up]="showPortionEdit"
+          ></i
+        ></span>
+        <div *ngIf="showPortionEdit">
+          <span class="icon" (click)="changePortionSize(-1, $event)">
+            <i class="fas fa-minus-square"></i> </span
+          ><span class="icon" (click)="changePortionSize(1, $event)">
+            <i class="fas fa-plus-square"></i>
+          </span>
+        </div>
+      </article>
     </section>
 
     <hr class="recipe-info-hr" />
@@ -144,8 +150,12 @@
       </div>
       <!-- /Edit Button -->
       <!-- Share Button -->
-      <span class="icon is-large clickable" *ngIf="false">
-        <span class="fa-stack">
+      <span
+        class="icon is-large clickable"
+        (click)="showShareModal()"
+        *ngIf="recipe.is_public || isOwner()"
+      >
+        <span class="fa-stack fa-1.5x clickable">
           <i class="fas fa-circle fa-stack-2x"></i>
           <i class="fas fa-share fa-stack-1x fa-inverse"></i>
         </span>

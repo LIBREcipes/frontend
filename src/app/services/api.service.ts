@@ -145,6 +145,18 @@ export class ApiService {
     return this.get(`users/${chef_uuid}/recipes?search=${query}&limit=5`)
   }
 
+  public getRecipePublicShortlink(recipe_uuid: string) {
+    return this.get(`recipes/${recipe_uuid}/shortlink`)
+  }
+
+  public getRecipeUuidFromShortlink(token: string) {
+    return this.get(`recipes/shortlink/${token}`)
+  }
+
+  public deleteRecipeShortlink(token: string) {
+    return this.delete(`recipes/shortlink/${token}`)
+  }
+
   // ======== INGREDIENTS ========
   public searchIngredient(query: string) {
     return this.get(`ingredients?search=${query}`)

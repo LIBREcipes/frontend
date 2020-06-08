@@ -23,8 +23,13 @@ export const selectRecipe = createSelector(
 )
 
 export const selectCurrentRecipe = createSelector(
-  selectRecipes,
-  (recipes, uuid: string) => recipes.objects.find(r => r.uuid === uuid),
+  appRecipes,
+  (recipes, uuid: string) => {
+    let recipe = recipes.recipes.objects.find(r => r.uuid === uuid)
+    if (recipe) return recipe
+
+    return recipes.chefRecipes.objects.find(r => r.uuid === uuid)
+  },
 )
 
 export const selectIngredient = createSelector(

@@ -18,6 +18,11 @@ import { Location } from '@angular/common'
 import { ModalService } from '../../modals/modal.service'
 import { WithDestroy } from 'src/app/mixins'
 import { NotificationService } from '../../partial/notification/notification.service'
+import {
+  ShareModalComponent,
+  ShareModalType,
+} from '../../modals/share-modal/share-modal.component'
+import { ApiService } from 'src/app/services/api.service'
 
 @Component({
   selector: 'app-recipe-detail',
@@ -41,6 +46,7 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
     router: Router,
     private modalService: ModalService,
     private notificationService: NotificationService,
+    private apiService: ApiService,
   ) {
     super()
     route.params.subscribe(params => {
@@ -51,7 +57,12 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
           takeUntil(this.destroy$),
           map(recipe => {
             if (!recipe) {
-              store.dispatch(GetRecipeAction({ uuid: params['recipe_uuid'] }))
+              this.apiService
+                .getRecipe(params['recipe_uuid'])
+                .subscribe(recipe => {
+                  this.recipe = recipe
+                  this.displayPortionSize = recipe?.portion_size
+                })
               return
             }
             this.recipe = recipe
@@ -104,5 +115,15 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
 
   showImage(url: string) {
     window.open(url, '_blank')
+  }
+
+  showShareModal(): void {
+    this.modalService.showModal(ShareModalComponent, {
+      title: 'Share Recipe',
+      uuid: this.recipe.uuid,
+      type: ShareModalType.RECIPE,
+      isOwner: this.isOwner(),
+      hideConfirm: true,
+    })
   }
 }

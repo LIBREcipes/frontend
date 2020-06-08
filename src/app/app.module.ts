@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard'
 import { DragDropModule } from '@angular/cdk/drag-drop'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, NgModule } from '@angular/core'
@@ -15,6 +16,7 @@ import { LoginComponent } from './components/auth/login/login.component'
 import { ChefDetailComponent } from './components/chefs/chef-detail/chef-detail.component'
 import { ModalDirective } from './components/modals/modal.directive'
 import { ModalComponent } from './components/modals/modal/modal.component'
+import { ShareModalComponent } from './components/modals/share-modal/share-modal.component'
 import { AutocompleteIngredientComponent } from './components/partial/autocomplete/autocomplete-ingredient/autocomplete-ingredient.component'
 import { AutocompleteSearchComponent } from './components/partial/autocomplete/autocomplete-search/autocomplete-search.component'
 import { AutocompleteComponent } from './components/partial/autocomplete/autocomplete.component'
@@ -51,7 +53,8 @@ import { PluckPipe } from './pipes/pluck.pipe'
 import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
-import { reducers } from './store/reducers/app.reducer'
+import { reducers } from './store/reducers/app.reducer';
+import { ShortlinkToRecipeComponent } from './components/recipes/shortlink-to-recipe/shortlink-to-recipe.component'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -96,6 +99,8 @@ export function init_app(loadService: AppInitService) {
     SpinnerComponent,
     AutocompleteSearchComponent,
     HighlightPipe,
+    ShareModalComponent,
+    ShortlinkToRecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +115,7 @@ export function init_app(loadService: AppInitService) {
     ReactiveFormsModule,
     DragDropModule,
     ImageCropperModule,
+    ClipboardModule,
   ],
   providers: [
     AppInitService,

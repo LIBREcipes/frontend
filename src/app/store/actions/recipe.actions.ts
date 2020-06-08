@@ -27,7 +27,6 @@ export const SuccessGetRecipeAction = createAction(
   'RECIPE - get succeeded',
   props<Recipe>(),
 )
-
 export const GetForChefAction = createAction(
   'RECIPE - get for chef',
   props<{ chef_uuid: string; pageVars: PageVars }>(),

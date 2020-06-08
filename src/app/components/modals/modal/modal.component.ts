@@ -31,6 +31,7 @@ export class ModalComponent extends WithDestroy() implements OnInit {
     confirmButtonText: 'Save',
     startDisabled: false,
     hideCancel: false,
+    hideConfirm: false,
   }
 
   @ViewChild(ModalDirective, { static: true }) modalBody: ModalDirective
