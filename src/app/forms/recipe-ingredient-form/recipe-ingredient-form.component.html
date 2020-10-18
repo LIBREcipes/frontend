@@ -15,7 +15,7 @@
       "
     >
       <p>Ingredient {{ i + 1 }}</p>
-      <span class="icon">
+      <span class="toggle">
         <i
           class="fa"
           [class.fa-chevron-down]="control.get('collapsed').value"
@@ -29,77 +29,49 @@
       *ngIf="!control.get('collapsed').value"
     >
       <input type="hidden" formControlName="id" />
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Ingredient</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <app-autocomplete-ingredient
-                formControlName="ingredient_uuid"
-              ></app-autocomplete-ingredient>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Amount</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input
-                class="input"
-                type="number"
-                placeholder="0.5"
-                formControlName="amount"
-              />
-            </div>
-          </div>
-          <div class="field">
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="grams"
-                formControlName="unit"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="field is-grouped is-grouped-right">
+      <div class="field">
+        <label class="label">Ingredient</label>
         <div class="control">
-          <a class="button is-danger" (confirm)="removeForm(i)" appConfirm
-            >Delete</a
-          >
+          <app-autocomplete-ingredient
+            formControlName="ingredient_uuid"
+          ></app-autocomplete-ingredient>
         </div>
+      </div>
+      <div class="field">
+        <label class="label">Amount</label>
+        <div class="control-group">
+          <div class="control">
+            <input
+              class="input"
+              type="number"
+              placeholder="0.5"
+              formControlName="amount"
+            />
+          </div>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="grams"
+              formControlName="unit"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="is-flex justify-flex-end">
+        <a class="button danger" (confirm)="removeForm(i)" appConfirm>Delete</a>
       </div>
     </div>
   </div>
 
-  <div class="field is-grouped">
-    <div class="control">
+  <section class="is-flex justify-space-between align-center margin-y-10">
+    <button class="button primary" type="button" (click)="addForm()">
+      <span class="icon"><i class="fas fa-plus"></i></span>
+      <span>Add Ingredient</span>
+    </button>
+    <div>
       <button
-        class="button is-primary"
-        type="submit"
-        [class.is-loading]="isLoading"
-        [disabled]="!ingredientForm.valid"
-      >
-        Save
-      </button>
-    </div>
-    <div class="control">
-      <button class="button is-outlined" type="button" (click)="addForm()">
-        <span class="icon"><i class="fas fa-plus"></i></span>
-        <span>Add Ingredient</span>
-      </button>
-    </div>
-    <div class="control">
-      <button
-        class="button is-outlined"
+        class="button primary outline margin-right-5"
         type="button"
         (click)="expandCollapseAll()"
       >
@@ -111,6 +83,14 @@
           ></i
         ></span>
       </button>
+      <button
+        class="button primary"
+        type="submit"
+        [class.is-loading]="isLoading"
+        [disabled]="!ingredientForm.valid"
+      >
+        Save
+      </button>
     </div>
-  </div>
+  </section>
 </form>

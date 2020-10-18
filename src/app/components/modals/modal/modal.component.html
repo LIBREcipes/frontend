@@ -1,33 +1,30 @@
 <div class="modal is-active">
-  <div class="modal-background"></div>
   <div class="modal-card">
     <header class="modal-card-head">
       <p class="modal-card-title">{{ modal ? modal.data.title : 'title' }}</p>
-      <button
-        class="delete"
-        aria-label="close"
-        (click)="onModalClose()"
-      ></button>
+      <span class="close" aria-label="close" (click)="onModalClose()"
+        ><i class="fas fa-times"></i
+      ></span>
     </header>
     <section class="modal-card-body">
       <div class="container" appModal></div>
     </section>
     <footer class="modal-card-foot">
       <button
+        *ngIf="!modal.data.hideCancel"
+        class="button primary outline margin-right-5"
+        (click)="onModalClose()"
+      >
+        Cancel
+      </button>
+      <button
         *ngIf="!modal.data.hideConfirm"
-        class="button is-success"
+        class="button primary"
         [disabled]="disabled"
         (click)="onSave()"
         [class.is-loading]="isLoading"
       >
         {{ modal.data.confirmButtonText }}
-      </button>
-      <button
-        *ngIf="!modal.data.hideCancel"
-        class="button"
-        (click)="onModalClose()"
-      >
-        Cancel
       </button>
     </footer>
   </div>

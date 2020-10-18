@@ -1,16 +1,44 @@
-<div class="container">
-  <header class="hero">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">{{ title }}</h1>
-        <div class="subtitle">
-          <app-autocomplete-search></app-autocomplete-search>
-        </div>
-      </div>
-    </div>
-  </header>
+<main>
+  <app-hero [title]="title" [search]="title"></app-hero>
 
   <section
+    class="margin-15 no-margin-small is-grid"
+    (scrolled)="onScrolledDown()"
+    [infiniteScrollDistance]="1"
+    *ngIf="recipePage && recipePage.hasContent(); else errorBlock"
+    infiniteScroll
+  >
+    <article
+      *ngFor="let recipe of recipePage.objects"
+      [routerLink]="['/recipes', recipe.uuid]"
+      class="card clickable"
+    >
+      <figure class="is-16by9">
+        <img
+          [src]="
+            recipe.image
+              ? recipe.image.file
+              : 'https://via.placeholder.com/1280x720.png?text=No+Image+available'
+          "
+          alt="recipe image"
+        />
+      </figure>
+      <div class="content">
+        <h3 class="title">
+          {{ recipe.name }}
+        </h3>
+        <p>
+          {{
+            recipe.description
+              ? (recipe.description | ellipsis: 100)
+              : 'No Description.'
+          }}
+        </p>
+      </div>
+    </article>
+  </section>
+
+  <!-- <section
     class="columns is-multiline"
     infiniteScroll
     (scrolled)="onScrolledDown()"
@@ -42,11 +70,13 @@
         }}</small>
       </section>
     </article>
-  </section>
-  <div style="display: flex; justify-content: center;" *ngIf="isLoadingPage">
+  </section> -->
+
+  <!-- <div style="display: flex; justify-content: center;" *ngIf="isLoadingPage">
     <app-spinner></app-spinner>
-  </div>
+  </div> -->
+
   <ng-template #errorBlock>
     <app-error type="empty" [showError]="showEmptyStateError"></app-error>
   </ng-template>
-</div>
+</main>

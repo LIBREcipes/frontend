@@ -1,0 +1,22 @@
+@function get-color($type)
+  @return map-get($color-palette, $type)
+
+@function get-fg-color($color)
+  @if (lightness($color) > 60)
+    @return black
+  @else 
+    @return white
+
+@mixin set-bg-color($color)
+  @if (type-of($color) != 'color')
+    $color: get-color($color)
+
+  background-color: $color
+  color: get-fg-color($color)
+
+  
+@each $color in map-keys($color-palette)
+  .bg-#{$color}
+    @include set-bg-color($color)
+  .text-#{$color}
+    color: get-color($color) !important

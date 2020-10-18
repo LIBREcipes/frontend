@@ -1,10 +1,7 @@
 <app-hero [title]="title"></app-hero>
 
 <section class="container">
-  <div class="box">
-    <h2 class="title">Recipe</h2>
-    <app-recipe-create-form
-      (recipeCreated)="onRecipeCreated($event)"
-    ></app-recipe-create-form>
-  </div>
+  <app-recipe-create-form
+    (recipeCreated)="onRecipeCreated($event)"
+  ></app-recipe-create-form>
 </section>

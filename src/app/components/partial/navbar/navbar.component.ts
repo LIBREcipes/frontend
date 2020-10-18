@@ -93,12 +93,7 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
   }
 
   onDropdownSelected(item) {
-    if ('link' in item) {
-      this.router.navigateByUrl(item['link'])
-      return
-    }
-
-    switch (item['key']) {
+    switch (item) {
       case 'myRecipes':
         this.router.navigate(['/chefs', 'me', 'recipes'])
         break
@@ -109,6 +104,8 @@ export class NavbarComponent extends WithDestroy() implements OnInit {
         this.store.dispatch(LogoutAction())
         location.reload()
         break
+      default:
+        this.router.navigateByUrl(item)
     }
   }
 }

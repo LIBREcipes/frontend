@@ -1,0 +1,19 @@
+.card
+  overflow: hidden
+  box-shadow: 0 1px 4px get-color('shadow')
+
+  @include breakpoint(medium)
+    border-radius: $card-border-radius
+
+  .content
+    padding: 10px
+
+    .title
+      font-weight: 600
+      line-height: 1.5
+      height: 3em
+      margin-bottom: 0.2rem
+      overflow: hidden
+
+    p
+      word-spacing: 2px

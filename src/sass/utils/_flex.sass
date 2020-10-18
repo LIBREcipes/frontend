@@ -1,0 +1,28 @@
+.is-flex
+  display: flex
+
+  @each $type in space-between, space-around, space-evenly, flex-start, flex-end, center
+    &.justify-#{$type}
+      justify-content: $type
+    &.align-#{$type}
+      align-items: $type
+
+    @include breakpoint(small, down)
+      &.justify-#{$type}-small
+        justify-content: $type
+      &.align-#{$type}-small
+        align-items: $type
+
+  &.is-vertical
+    flex-direction: column
+  
+  @include breakpoint(small, down)
+    &.is-vertical-small
+      flex-direction: column
+
+  &.flex-wrap
+    flex-wrap: wrap
+
+  @include breakpoint(small, down)
+    &.flex-wrap-small
+      flex-wrap: wrap

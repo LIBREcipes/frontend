@@ -1,101 +1,24 @@
-@import "../node_modules/bulma/sass/utilities/initial-variables"
-@import "../node_modules/bulma/sass/utilities/functions"
+@import 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss'
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
 
-@import './_variables'
-
-@import "../node_modules/bulma/sass/utilities/derived-variables"
-@import '../node_modules/bulma/bulma'
-@import 'src/_animations'
+@import 'sass/madebit'
 
 body
-  height: 100vh
+  margin: 0
+  padding: 0
+  font-size: 16px
+  height: 100%
+  width: 100%
+  font-family: "Montserrat", Arial, sans-serif
+  font-weight: normal
+  background-color: get-color('bg')
 
-form .message
-    margin-bottom: 1rem
-    margin-top: 1rem
+*
+  box-sizing: border-box
+  text-decoration: none
+  color: inherit
+  margin: 0
 
-.clickable
-    cursor: pointer
-
-.is-title
-    font-family: serif
-    font-size: 1.1em
-    display: block
-
-.has-margin
-    margin: 1rem
-
-.spinner
-  width: 50px
-  height: 40px
-  text-align: center
-  font-size: 10px
-    
-  >.rect
-    background-color: #333333
-    height: 100%
-    width: 6px
-    margin-right: 1px
-    display: inline-block
-    @include stretchdelay
-
-    @for $i from 1 through 5
-      &:nth-child(#{$i})
-        @include delay(-1.1 + $i*0.1)
-
-img
-  image-orientation: none
-
-  &.is-cover
-    object-fit: cover
-    -webkit-object-fit: cover
-
-  &.is-contain
-    object-fit: contain
-    -webkit-object-fit: contain
-
-// CHECKBOXES
-input[type="checkbox"]
-  appearance: none
-  -webkit-appearance: none
-
-  background-color: #fafafa
-  border: 1px solid #cacece
-  padding: 9px
-  display: inline-block
-  position: relative
-
-  &:hover
-    background-color: darken(#fafafa, 1%)
-
-  &:checked
-    background-color: rgb(41, 64, 80)
-    border: 1px solid #adb8c0
-    color: #99a1a7
-
-    &:after
-      font-family: 'Font Awesome 5 Free'
-      content: '\f00c'
-      font-weight: 900
-      top: 2px
-      left: 3px
-      font-size: 0.9em
-      position: absolute
-      color: hsl(0, 0, 90%)
-
-.checkbox-margin
-  padding-left: 2rem
-  display: block
-  margin-bottom: 0.6rem
-
-  input
-    margin-left: -2rem
-    display: block
-    float: left
-
-// /CHECKBOXES
-
-// FONTAWESOME
-.fa-1\.5x
-  font-size: 1.5em
-// /FONTAWESOME
+@include breakpoint(small, down)
+  footer
+    margin-bottom: 3rem

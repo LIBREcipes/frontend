@@ -1,22 +1,93 @@
-<nav class="navbar is-white topNav">
-  <div class="container">
-    <div class="navbar-brand">
-      <a class="navbar-item" routerLink="/">
-        <img src="/assets/img/favicon/ms-icon-310x310.png" />
-        <span>&nbsp;{{ title }}</span>
+<header class="padding-3 is-flex justify-space-between bg-white">
+  <nav class="mobile-nav" [class.mobile-open]="isDropdownActive">
+    <a class="button" routerLink="/recipes/create"
+      ><i class="fas fa-plus fw"></i> Add Recipes</a
+    >
+    <a class="button" (click)="onDropdownSelected('myRecipes')"
+      ><i class="fas fa-book fw"></i> My Recipes</a
+    >
+    <a class="button" (click)="onDropdownSelected('profile')"
+      ><i class="fas fa-user fw"></i> Profile</a
+    >
+    <a class="button" (click)="onDropdownSelected('signout')"
+      ><i class="fas fa-sign-out-alt fw"></i> Sign Out</a
+    >
+  </nav>
+
+  <a routerLink="/">
+    <img class="logo" src="assets/img/favicon/ms-icon-310x310.png" alt="logo" />
+    <span class="show-medium">{{ title }}</span>
+  </a>
+
+  <section class="is-flex align-center">
+    <div *ngIf="user; then recipeBlock; else loginBlock"></div>
+    <ng-template #loginBlock>
+      <a class="button primary margin-x-2" (click)="showLoginModal()">
+        Login
       </a>
-      <div
-        class="navbar-burger burger"
-        data-target="topNav"
-        aria-label="menu"
-        aria-expanded="false"
-        [class.is-active]="isDropdownActive"
-        (click)="isDropdownActive = !isDropdownActive"
+      <a
+        class="button primary outline margin-x-2"
+        (click)="showRegistrationModal()"
       >
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+        Register
+      </a></ng-template
+    >
+    <ng-template #recipeBlock>
+      <span class="show-xsmall">
+        <a
+          class="button primary margin-x-2 show-small"
+          routerLink="/recipes/create"
+        >
+          Add Recipe
+        </a></span
+      >
+      <a
+        class="button primary outline margin-x-2"
+        (click)="onDropdownSelected('myRecipes')"
+      >
+        My Recipes
+      </a>
+      <span class="show-small">
+        <a class="button black outline margin-x-2 dropdown">
+          <i class="fas fa-user fa-fw margin-right-2"></i> mattydebie
+          <nav class="dropdown-items">
+            <a class="dropdown-item" (click)="onDropdownSelected('profile')"
+              ><i class="fas fa-user fa-fw"></i>My Profile</a
+            >
+            <a class="dropdown-item" (click)="onDropdownSelected('signout')"
+              ><i class="fas fa-sign-out-alt fa-fw"></i>Sign out</a
+            >
+          </nav>
+        </a></span
+      >
+    </ng-template>
+    <span
+      *ngIf="user"
+      (click)="isDropdownActive = !isDropdownActive"
+      class="button show-small-down"
+    >
+      <i class="fas fa-bars"></i>
+    </span>
+  </section>
+</header>
+<!--
+<header>
+  <nav>
+    <a routerLink="/">
+      <img src="/assets/img/favicon/ms-icon-310x310.png" />
+      <span>&nbsp;{{ title }}</span>
+    </a>
+    <div
+      class="navbar-burger burger"
+      data-target="topNav"
+      aria-label="menu"
+      aria-expanded="false"
+      [class.is-active]="isDropdownActive"
+      (click)="isDropdownActive = !isDropdownActive"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
     <div id="topNav" class="navbar-menu" [class.is-active]="isDropdownActive">
       <div class="navbar-start">
@@ -80,3 +151,4 @@
     </div>
   </div>
 </nav>
+-->

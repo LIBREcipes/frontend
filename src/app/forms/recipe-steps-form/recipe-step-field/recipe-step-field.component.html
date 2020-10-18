@@ -8,7 +8,9 @@
   <!-- /DRAG AND DROP TEMPLATES -->
   <div class="message-header" (click)="toggleCollapsed()">
     <p>
-      <span class="icon" cdkDragHandle><i class="fas fa-bars"></i></span>
+      <span class="icon margin-right-2" cdkDragHandle
+        ><i class="fas fa-bars"></i
+      ></span>
       <span *ngIf="stepValue">{{ stepValue | ellipsis: 50 }}</span>
     </p>
     <span class="icon">
@@ -25,28 +27,18 @@
     [formGroup]="controlContainer.control"
   >
     <input type="hidden" formControlName="id" />
-    <div class="field is-horizontal">
-      <div class="field-label">
-        <label class="label">Description</label>
-      </div>
-      <div class="field-body">
-        <div class="field">
-          <div class="control">
-            <textarea
-              class="textarea"
-              rows="1"
-              formControlName="description"
-            ></textarea>
-          </div>
-        </div>
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">
+        <textarea
+          class="textarea"
+          rows="1"
+          formControlName="description"
+        ></textarea>
       </div>
     </div>
-    <div class="field is-grouped is-grouped-right">
-      <div class="control">
-        <a class="button is-danger" (confirm)="remove.emit()" appConfirm
-          >Delete</a
-        >
-      </div>
+    <div class="is-flex justify-flex-end">
+      <a class="button danger" (confirm)="remove.emit()" appConfirm>Delete</a>
     </div>
   </div>
 </div>

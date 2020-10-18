@@ -54,7 +54,8 @@ import { AuthEffects } from './store/effects/auth.effects'
 import { ChefEffects } from './store/effects/chef.effects'
 import { RecipeEffects } from './store/effects/recipe.effects'
 import { reducers } from './store/reducers/app.reducer';
-import { ShortlinkToRecipeComponent } from './components/recipes/shortlink-to-recipe/shortlink-to-recipe.component'
+import { ShortlinkToRecipeComponent } from './components/recipes/shortlink-to-recipe/shortlink-to-recipe.component';
+import { RatingComponent } from './components/partial/rating/rating.component'
 
 export function init_app(loadService: AppInitService) {
   return () => loadService.init()
@@ -101,6 +102,7 @@ export function init_app(loadService: AppInitService) {
     HighlightPipe,
     ShareModalComponent,
     ShortlinkToRecipeComponent,
+    RatingComponent,
   ],
   imports: [
     BrowserModule,

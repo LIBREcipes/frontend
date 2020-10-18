@@ -104,7 +104,7 @@ export class RecipeDetailComponent extends WithDestroy() implements OnInit {
   showEditModal() {
     this.modalService.showEditRecipeForm(this.recipe).subscribe(recipe => {
       this.notificationService.showNotification(
-        `Successfully update <b>${recipe.name}</b>.`,
+        `Successfully updated <b>${recipe.name}</b>.`,
       )
     })
   }

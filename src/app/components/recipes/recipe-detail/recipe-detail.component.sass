@@ -1,24 +1,46 @@
-@import 'src/_variables'
-
-$recipe-info-margin: 1rem
-
-.dropdown-menu
-    width: 20rem
-
-.recipe-info-container
+@import 'src/sass/madebit'
+.grid
     display: flex
-    justify-content: center
 
-.recipe-info
-    margin: $recipe-info-margin 1rem
+    section
+        margin: 0 1rem
 
-.recipe-info-hr
-    margin-top: 0
-    margin-bottom: 1rem
+        &:first-child
+            flex: 1
 
-section.without-hr
-    margin-top: 3rem
+        &:last-child
+            flex: 2
 
-@media screen and ( min-width:1024px )
-    .has-border-left-desktop
-        border-left: 1px solid $hr-background-color
+
+    @include breakpoint(medium, down)
+        flex-direction: column
+
+        section
+            margin: 1rem
+
+
+.gray-box
+    background: radial-gradient(get-color('light-gray'), get-color('bg'))
+    border-radius: 2rem
+    padding: 2rem
+    @include box-shadow
+
+    .title
+        font-size: 2em
+        padding-bottom: 1rem
+        margin-bottom: 1rem
+        border-bottom: 1px solid black
+
+    input[type="checkbox"]
+        margin-right: 1em
+
+    .content
+
+        label
+            display: flex
+            align-items: center
+            margin-bottom: 1rem
+    
+    @include breakpoint(small, down)
+        border-radius: 1.5rem
+        padding: 1.5rem

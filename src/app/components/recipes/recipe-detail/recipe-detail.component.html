@@ -1,168 +1,104 @@
-<div
-  class="columns has-margin is-desktop is-centered is-multiline"
-  *ngIf="recipe; else emptyState"
->
-  <div class="column is-12-tablet is-10-desktop is-9-widescreen is-7-fullhd">
-    <h5 class="title is-5">{{ recipe.name }}</h5>
-    <figure class="image is-16by9" *ngIf="recipe.image">
+<div class="max-w-1200" *ngIf="recipe; else emptyState">
+  <div class="">
+    <figure class="is-4by2 with-caption" *ngIf="recipe.image">
       <img
-        class="is-cover"
+        class=""
         [src]="recipe.image.file"
         (click)="showImage(recipe.image.file)"
       />
+      <h5 class="caption">
+        {{ recipe.name }}
+      </h5>
     </figure>
 
-    <section class="recipe-info-container">
-      <article class="recipe-info has-text-centered is-block">
-        <span class="icon"><i class="fas fa-user"></i></span>
-        <span>{{ recipe.chef.username }}</span>
-      </article>
-      <article
-        class="recipe-info has-text-centered is-block clickable"
-        (click)="showPortionEdit = !showPortionEdit"
-      >
-        <span class="icon"><i class="fas fa-utensils"></i></span>
-        <span>{{ displayPortionSize }} {{ recipe.portion_type }}</span>
-        <span class="icon"
-          ><i
-            class="fas"
-            [class.fa-caret-down]="!showPortionEdit"
-            [class.fa-caret-up]="showPortionEdit"
-          ></i
-        ></span>
-        <div *ngIf="showPortionEdit">
-          <span class="icon" (click)="changePortionSize(-1, $event)">
-            <i class="fas fa-minus-square"></i> </span
-          ><span class="icon" (click)="changePortionSize(1, $event)">
-            <i class="fas fa-plus-square"></i>
-          </span>
-        </div>
-      </article>
-    </section>
-
-    <hr class="recipe-info-hr" />
-
-    <section *ngIf="recipe.description" class="has-text-centered is-italic">
-      {{ recipe.description }}
-      <hr />
-    </section>
-
-    <div class="columns is-multiline">
-      <section class="without-hr column is-12-tablet is-4-desktop">
-        <h5 class="title is-6">Ingredients</h5>
-        <label
-          *ngFor="let ri of recipe.ingredients"
-          class="checkbox is-block checkbox-margin"
-        >
-          <input type="checkbox" />
-          <span
-            ><b
-              >{{ ri.amount * (displayPortionSize / recipe.portion_size) }}
-              {{ ri.unit }}</b
-            >
-            {{ ri.ingredient.name }}</span
-          >
-        </label>
-        <article *ngIf="!recipe.ingredients || !recipe.ingredients.length">
-          <button
-            class="button"
-            *ngIf="isOwner(); else emptyIngredients"
-            [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']"
-          >
-            <span class="icon"><i class="fas fa-plus"></i></span>
-            <span>Add ingredients</span>
-          </button>
-          <ng-template #emptyIngredients>
-            <small>No ingredients.</small>
-          </ng-template>
-        </article>
-      </section>
-
-      <section class="without-hr column has-border-left-desktop steps">
-        <h5 class="title is-6">Steps</h5>
-        <label
-          *ngFor="let step of recipe.steps"
-          class="checkbox is-block checkbox-margin"
-        >
-          <input type="checkbox" />
-          <span>{{ step.description }}</span>
-        </label>
-        <article *ngIf="!recipe.steps || !recipe.steps.length">
-          <button
-            class="button"
-            *ngIf="isOwner(); else emptySteps"
-            [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']"
-          >
-            <span class="icon"><i class="fas fa-plus"></i></span>
-            <span>Add Steps</span>
-          </button>
-          <ng-template #emptySteps>
-            <small>No steps.</small>
-          </ng-template>
-        </article>
-      </section>
-    </div>
-
-    <!-- Bottom Buttons -->
-    <section class="without-hr has-text-centered">
-      <!-- Edit Button -->
-      <div
-        class="dropdown is-up"
-        [class.is-active]="recipeEditDropdown"
-        *ngIf="isOwner()"
-      >
-        <div
-          class="dropdown-trigger"
-          (click)="recipeEditDropdown = !recipeEditDropdown"
-        >
-          <span class="fa-stack fa-1.5x clickable">
-            <i class="fas fa-circle fa-stack-2x"></i>
-            <i class="fas fa-pencil-alt fa-stack-1x fa-inverse"></i>
-          </span>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-          <div class="dropdown-content">
-            <a (click)="showEditModal()" class="dropdown-item">
-              Edit Recipe
-            </a>
-            <a
-              class="dropdown-item"
-              [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']"
-            >
-              Edit Ingredients
-            </a>
-            <a
-              [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']"
-              class="dropdown-item"
-            >
-              Edit Steps
-            </a>
-            <hr class="dropdown-divider" />
-            <a
-              class="dropdown-item has-text-danger"
-              (confirm)="deleteRecipe()"
-              appConfirm
-            >
-              Remove Recipe
-            </a>
-          </div>
-        </div>
+    <section
+      class="is-flex padding-10 bg-primary justify-space-evenly justify-flex-start-small flex-wrap-small"
+    >
+      <div class="margin-x-3">
+        <i class="fas fa-user fa-fw"></i> {{ recipe.chef.username }}
       </div>
-      <!-- /Edit Button -->
-      <!-- Share Button -->
-      <span
-        class="icon is-large clickable"
-        (click)="showShareModal()"
-        *ngIf="recipe.is_public || isOwner()"
-      >
-        <span class="fa-stack fa-1.5x clickable">
-          <i class="fas fa-circle fa-stack-2x"></i>
-          <i class="fas fa-share fa-stack-1x fa-inverse"></i>
-        </span>
-      </span>
-      <!-- /Share Button -->
+      <div class="margin-x-3">
+        <app-rating [rating]="0" [amountOfRatings]="0"></app-rating>
+      </div>
+      <div class="margin-x-3">
+        <i class="fas fa-utensils fa-fw"></i> {{ recipe.portion_size }}
+        {{ recipe.portion_type }}
+      </div>
+      <div class="margin-x-3"><i class="fas fa-clock fa-fw"></i> -</div>
     </section>
-    <!-- /Bottom Buttons -->
+
+    <section *ngIf="recipe.description" class="quote">
+      <p class="quote-content">
+        {{ recipe.description }}
+      </p>
+    </section>
+
+    <section class="grid margin-top-10">
+      <section class="gray-box">
+        <h3 class="title">Ingredients</h3>
+        <div class="is-flex is-vertical content">
+          <label *ngFor="let ri of recipe.ingredients">
+            <input type="checkbox" />
+            <span
+              ><b
+                >{{
+                  ri.amount * (displayPortionSize / recipe.portion_size)
+                    | number: '1.0-2'
+                }}
+                {{ ri.unit }}</b
+              >
+              {{ ri.ingredient.name }}</span
+            >
+          </label>
+        </div>
+      </section>
+
+      <section class="gray-box">
+        <h3 class="title">Steps</h3>
+        <div class="is-flex is-vertical content">
+          <label *ngFor="let step of recipe.steps">
+            <input type="checkbox" />
+            <span> {{ step.description }}</span>
+          </label>
+        </div>
+      </section>
+    </section>
+
+    <section class="is-flex justify-center padding-10 is-vertical-small">
+      <a
+        class="button primary margin-right-5 margin-bottom-5"
+        *ngIf="recipe.is_public || isOwner()"
+        (click)="showShareModal()"
+      >
+        <i class="fas fa-share"></i>
+        Share this recipe
+      </a>
+
+      <a
+        class="button primary dropdown dropdown-up margin-right-5 margin-bottom-5"
+        *ngIf="isOwner()"
+        ><i class="fas fa-pencil-alt"></i> Edit recipe
+        <div class="dropdown-items">
+          <a class="dropdown-item" (click)="showEditModal()"
+            ><i class="fas fa-pencil-alt"></i> Details</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/recipes', recipe.uuid, 'edit', 'ingredients']"
+            ><i class="fas fa-pencil-alt"></i> Ingredients</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/recipes', recipe.uuid, 'edit', 'steps']"
+            ><i class="fas fa-pencil-alt"></i> Steps</a
+          >
+          <hr />
+          <a class="dropdown-item text-danger" appConfirm
+            ><i class="fas fa-trash-alt"></i> Delete Recipe</a
+          >
+        </div>
+      </a>
+    </section>
   </div>
 </div>
 

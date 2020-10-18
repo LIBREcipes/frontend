@@ -160,6 +160,7 @@ export class RecipeEffects {
       ofType(recipeActions.SearchIngredientAction),
       mergeMap(action =>
         this.apiService.searchIngredient(action.query).pipe(
+          map(page => page['results']),
           map((ingredients: Ingredient[]) =>
             recipeActions.SearchIngredientSuccessAction({
               ingredients: ingredients,

@@ -1,0 +1,77 @@
+$btn-padding-y: 2*$base-spacing
+$btn-padding-x: 3*$base-spacing
+$btn-font-size: 0.8em
+$btn-radius: 4px
+
+.button
+  padding: $btn-padding-y $btn-padding-x
+  border-radius: $btn-radius
+  font-size: $btn-font-size
+  cursor: pointer
+
+  .fa, .fas, .fab, .fal
+    margin-right: $btn-padding-x
+
+  @each $type in map-keys($color-palette)
+    $color: get-color($type)
+
+    &.#{$type}
+      color: get-fg-color($color)
+      background-color: $color
+      border: 1px solid $color
+
+      &.outline
+        background-color: transparent
+        color: $color
+  
+  &.dropdown
+    position: relative
+
+    &.dropdown-up
+      &:after
+        content: '\f106'
+      
+      .dropdown-items
+        bottom: 2*$btn-padding-y + $btn-font-size + 0.5em
+        top: auto
+
+    &:after
+      @include fa('f107')
+      margin-left: $btn-padding-x
+      float: right
+      transition: transform 0.1s ease-out
+
+    .dropdown-items
+      z-index: 10000
+      display: none
+      position: absolute
+      left: 0
+      top: 2*$btn-padding-y + $btn-font-size + 0.5em
+      width: max-content
+      min-width: 100%
+      border: 1px solid get-color('light-gray')
+      border-bottom: none
+      border-radius: 0 0 $btn-radius $btn-radius
+
+      @include breakpoint(small, down)
+        bottom: 2*$btn-padding-y + $btn-font-size + 0.5em
+        top: auto
+
+      .dropdown-item
+        display: block
+        border-bottom: 1px solid get-color('light-gray')
+        @include set-bg-color('bg')
+        padding: 2*$btn-padding-y $btn-padding-x
+
+
+        &:hover
+          background-color: darken(get-color('white'), 5%)
+
+    &:hover
+      .dropdown-items
+        display: block
+
+      &:after
+        // content: '\f106'
+        transform: rotateZ(180deg)
+    

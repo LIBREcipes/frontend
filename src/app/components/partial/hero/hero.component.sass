@@ -1,2 +1,73 @@
-.hero
-    margin-bottom: 1em
+@import src/sass/madebit
+
+header
+
+  display: flex
+  justify-content: space-between
+  align-items: center
+  height: 10rem
+
+  .container
+    @include set-bg-color('primary')
+    width: fit-content
+    padding: 0.7rem 2rem 0.7rem 4rem
+    margin: 0
+
+    @include breakpoint(small)
+      border-radius: 0 2rem 2rem 0
+
+    .title
+      font-weight: normal
+      font-size: 2rem
+
+
+  .search
+    +set-bg-color('primary')
+    width: 3rem
+    max-width: 500px
+    font-size: 1rem
+    cursor: pointer
+
+    display: flex
+    justify-content: space-between
+    align-items: center
+    border-radius: 2rem 0 0 2rem
+
+    transition: all 0.3s ease-in-out
+
+    i
+      padding: 1rem
+
+    &:hover, &.open
+      width: 50%
+
+    & > *:not(:last-child)
+      margin-right: 0.5rem
+
+  +breakpoint(small, down)
+    height: 8rem
+    border-left: 0.5rem solid darken(get-color('primary'), 15%)
+    +set-bg-color('primary')
+    box-shadow: 0 1px 4px get-color('shadow')
+
+    .container
+      width: 100%
+      margin: 0
+
+      .title
+        font-size: 1.5rem
+
+
+    .search
+      overflow: hidden
+      position: absolute
+      right: 0
+      left: auto
+      max-width: 100%
+
+      &:hover, &.open
+        overflow: visible
+        position: absolute
+        left: 1rem
+        width: 100%
+

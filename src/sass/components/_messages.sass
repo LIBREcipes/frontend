@@ -1,0 +1,18 @@
+.message
+  border-radius: 0.5rem 0
+  overflow: hidden
+  background: transparentize(get-color('primary'), 0.9)
+
+  margin-bottom: 0.5rem
+
+  .message-header
+    @include set-bg-color('primary')
+
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    padding: 0.5rem 1rem
+
+  .message-body
+    padding: 1rem

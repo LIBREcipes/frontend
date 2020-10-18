@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap')
+
+.text-center
+  text-align: center
+
+.quote
+  position: relative
+  padding: 3rem 2rem
+
+  &:before
+    @include fa('f10d') // quote-left
+    bottom: 2rem
+    left: 15%
+
+
+  &:after
+    @include fa('f10e') // quote-right
+    top: 2rem
+    right: 15%
+  
+  &:before, &:after
+    font-size: 3rem
+    color: get-color('shadow')
+    position: absolute
+
+
+  .quote-content
+    text-align: center
+    width: 60%
+    margin: auto
+    letter-spacing: 2px
+
+  .quote-header
+    font-family: 'Berkshire Swash', serif
+    font-size: 2em
+    display: inline-block
+    font-weight: 400
+
+  @include breakpoint(medium, down)
+    padding: 2rem
+
+    &:before
+      left: 0
+      opacity: 0.4
+    &:after
+      right: 0
+      opacity: 0.4
+    
+    .quote-content
+      width: 100%
+      text-align: justify

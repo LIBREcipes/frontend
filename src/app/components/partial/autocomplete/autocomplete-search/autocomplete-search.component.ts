@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
 import AppState from 'src/app/store/states/app.state'
 import { Store, select } from '@ngrx/store'
@@ -17,6 +17,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service'
 })
 export class AutocompleteSearchComponent extends WithDestroy()
   implements OnInit {
+  @Input() noBorders = false
+
   query = new FormControl('')
 
   activeRequestsRef = new Set()

@@ -1,19 +1,23 @@
-<div class="field has-addons">
+<div class="field">
   <div class="control">
-    <button
-      class="button"
-      [cdkCopyToClipboard]="link"
-      (cdkCopyToClipboardCopied)="showCopiedNotification()"
-    >
-      Copy
-    </button>
-  </div>
-  <div class="control is-expanded">
     <input class="input" type="text" placeholder="loading..." [value]="link" />
+    <span class="is-addon-right">
+      <a
+        class="button"
+        [cdkCopyToClipboard]="link"
+        (cdkCopyToClipboardCopied)="showCopiedNotification()"
+      >
+        Copy
+      </a></span
+    >
   </div>
+</div>
+<div class="field">
   <div class="control" *ngIf="data.isOwner">
-    <button class="button has-text-danger" appConfirm (confirm)="removeLink()">
-      <span class="icon"><i class="fas fa-trash-alt"></i></span>
+    <button class="button danger outline" appConfirm (confirm)="removeLink()">
+      <span class="icon"
+        ><i class="fas fa-trash-alt"></i> Remove public link</span
+      >
     </button>
   </div>
 </div>

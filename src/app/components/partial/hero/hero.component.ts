@@ -10,7 +10,15 @@ export class HeroComponent implements OnInit {
   @Input() subtitle = null
   @Input() subtitleAction = null
 
+  @Input() search = null
+
+  isOpen = false
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  toggle() {
+    this.isOpen = !this.isOpen
+  }
 }

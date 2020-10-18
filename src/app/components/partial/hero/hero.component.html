@@ -1,13 +1,13 @@
-<div class="hero">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">{{ title }}</h1>
-      <h2 *ngIf="subtitle && !subtitleAction" class="subtitle">
-        {{ subtitle }}
-      </h2>
-      <h2 *ngIf="subtitle && subtitleAction" class="subtitle">
-        <a [routerLink]="subtitleAction">{{ subtitle }}</a>
-      </h2>
-    </div>
+<header>
+  <section class="container">
+    <h1 class="title">{{ title }}</h1>
+  </section>
+
+  <div class="search" [class.open]="isOpen" *ngIf="search">
+    <i class="fas fa-search" (click)="toggle()"></i>
+    <app-autocomplete-search
+      class="full-width"
+      [noBorders]="true"
+    ></app-autocomplete-search>
   </div>
-</div>
+</header>

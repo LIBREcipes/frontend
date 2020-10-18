@@ -1,0 +1,54 @@
+@for $i from 0 through 50
+  // margin
+  .margin-#{$i}
+    margin: $i * $base-spacing
+  .margin-x-#{$i}
+    margin-left: $i * $base-spacing
+    margin-right: $i * $base-spacing
+  .margin-y-#{$i}
+    margin-top: $i * $base-spacing
+    margin-bottom: $i * $base-spacing
+  .margin-left-#{$i}
+    margin-left: $i * $base-spacing
+  .margin-right-#{$i}
+    margin-right: $i * $base-spacing
+  .margin-top-#{$i}
+    margin-top: $i * $base-spacing
+  .margin-bottom-#{$i}
+    margin-bottom: $i * $base-spacing
+
+  // padding
+  .padding-#{$i}
+    padding: $i * $base-spacing
+  .padding-x-#{$i}
+    padding-left: $i * $base-spacing
+    padding-right: $i * $base-spacing
+  .padding-y-#{$i}
+    padding-top: $i * $base-spacing
+    padding-bottom: $i * $base-spacing
+  .padding-left-#{$i}
+    padding-left: $i * $base-spacing
+  .padding-right-#{$i}
+    padding-right: $i * $base-spacing
+  .padding-top-#{$i}
+    padding-bottom: $i * $base-spacing
+  .padding-bottom-#{$i}
+    padding-bottom: $i * $base-spacing
+
+
+@include breakpoint(small, down)
+  .no-margin-small
+    margin: 0
+
+
+@for $i from 1 to 15
+  .max-w-#{$i}00
+    max-width: #{$i}00px
+    margin-left: auto
+    margin-right: auto
+
+@for $i from 1 to 20 // get a 5, 10, 15, 20, .. loop
+  $val: $i*5
+  
+  .w-#{$val}
+    width: $val * 1%

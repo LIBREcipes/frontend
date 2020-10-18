@@ -1,14 +1,10 @@
-<div class="main-container">
-  <div class="content-container">
-    <router-outlet></router-outlet>
+<router-outlet></router-outlet>
+<footer class="footer">
+  <div class="is-flex justify-center padding-y-10 padding-x-5">
+    <p class="text-center">
+      Powered by
+      <a href="https://github.com/librecipes">LIBREcipes</a>
+      &copy;2020 (v{{ version }}), an opensource recipe manager.
+    </p>
   </div>
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        Powered by
-        <a href="https://github.com/librecipes">LIBREcipes</a>
-        &copy;2020 (v{{ version }}), an opensource recipe manager.
-      </p>
-    </div>
-  </footer>
-</div>
+</footer>

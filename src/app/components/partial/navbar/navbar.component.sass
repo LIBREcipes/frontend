@@ -1,2 +1,52 @@
-nav
-    z-index: 20
+@import ../../../../sass/madebit
+
+header 
+  width: 100%
+  height: 5rem
+  box-sizing: border-box
+  z-index: 10
+  box-shadow: 0 1px 4px get-color('shadow')
+
+  @include breakpoint(small, down)
+    position: fixed
+    bottom: 0
+    box-shadow: 0 -1px 4px get-color('shadow')
+    height: 3rem
+
+  a .logo
+    width: 30px
+
+  a
+    display: flex
+    align-items: center
+
+    span
+      margin-left: 0.3em
+
+.mobile-nav
+  background-color: white
+  height: 0
+  overflow: hidden
+  width: 100vw
+  position: fixed
+  bottom: 3rem
+  left: 0
+  transition: height 0.4s linear
+  z-index: -1
+
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+
+  @include breakpoint(small, down)
+    &.mobile-open
+      height: calc(100vh - 3rem)
+
+  a
+    $space: 1rem
+    width: 100%
+    padding: $space
+    border-top: 1px solid get-color('light-gray')
+
+    i
+      margin-right: $space

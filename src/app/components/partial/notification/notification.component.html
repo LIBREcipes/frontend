@@ -1,8 +1,8 @@
 <div
   class="notification"
-  [class.is-primary]="notification.success"
-  [class.is-danger]="!notification.success"
+  [class.bg-primary]="notification.success"
+  [class.bg-danger]="!notification.success"
 >
-  <button class="delete" (click)="remove()"></button>
+  <span class="delete" (click)="remove()"></span>
   <span [innerHtml]="notification.message"></span>
 </div>

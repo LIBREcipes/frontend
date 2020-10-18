@@ -14,10 +14,14 @@
     <div class="dropdown-content">
       <ng-template [ngIf]="showAddOption">
         <a class="dropdown-item" (click)="createIngredient(query.value)">
-          <span class="icon"><i class="fas fa-plus"></i></span>
-          <span>Create {{ query.value }}</span>
+          <span class="icon"
+            ><i class="fas fa-plus fa-fw margin-right-2"></i
+          ></span>
+          <span
+            >Create
+            <span class="text-medium-gray">{{ query.value }}</span></span
+          >
         </a>
-        <hr class="dropdown-divider" *ngIf="results && results.length" />
       </ng-template>
       <a
         class="dropdown-item"
